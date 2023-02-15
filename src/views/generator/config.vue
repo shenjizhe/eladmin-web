@@ -72,6 +72,10 @@
                       value="Radio"
                     />
                     <el-option
+                      label="开关"
+                      value="Switch"
+                    />
+                    <el-option
                       label="下拉框"
                       value="Select"
                     />

@@ -1,0 +1,14 @@
+services:
+  eladmin-web:
+    image: eladmin-web
+    restart: always
+    container_name: docker_eladmin_web
+    ports:
+      - 8090:80
+    volumes:      # 目录映射（宿主机:容器内）
+      - ./conf/nginx.conf:/etc/nginx/nginx.conf
+      - ./log:/var/log/nginx  ###这里面放置日志
+      - ./html:/html         ###这里面放置项目目录
+      - ./conf.d:/etc/nginx/conf.d
+    environment:
+      - "TZ=Asia/Shanghai"
