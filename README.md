@@ -1,69 +1,75 @@
-# ELADMIN-WEB
+# 前端代码工厂
 
-ELADMIN 前端源码
+## 核心组件
+### 1. CRUD/crud.js
 
-#### 项目源码
+ 负责添删改查
 
-|     |   后端源码  |   前端源码  |
-|---  |--- | --- |
-|  github   |  https://github.com/elunez/eladmin   |  https://github.com/elunez/eladmin-web   |
-|  码云   |  https://gitee.com/elunez/eladmin   |  https://gitee.com/elunez/eladmin-web   |
+#### crud配置
+- // 标签
 
-#### 开发文档
-[https://eladmin.vip](https://eladmin.vip)
+tag: 'default',
+- // id字段名
 
-#### 体验地址
-[https://eladmin.vip/demo](https://eladmin.vip/demo)
+idField: 'id',
+- // 标题
 
-#### 前端模板
+title: '',
+- // 请求数据的url
 
-初始模板基于： [https://github.com/PanJiaChen/vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
+url: '',
+- // 表格数据
 
-模板文档： [https://panjiachen.github.io/vue-element-admin-site/zh/guide/](https://panjiachen.github.io/vue-element-admin-site/zh/guide/)
+data: [],
+- // 选择项
 
-#### Build Setup
-``` bash
-# 配置镜像加速
-https://www.ydyno.com/archives/1219.html
+selections: [],
+- // 待查询的对象
 
-# 安装依赖
-npm install
+query: {},
+- // 查询数据的参数
 
-# 启动服务 localhost:8013
-npm run dev
+params: {},
+- // Form 表单
 
-# 构建生产环境
-npm run build:prod
+form: {},
+- // 重置表单
+
+defaultForm: () => {},
+- // 排序规则 
+
+默认 id 降序， 支持多字段排序 ['id,desc', 'createTime,asc']
+sort: ['id,desc'],
+- // 等待时间
+
+time: 50,
+- // CRUD Method
+```
+crudMethod: {
+add: (form) => {},
+del: (id) => {},
+edit: (form) => {},
+get: (id) => {}
+},
+```
+- // 主页操作栏显示哪些按钮
+
+```
+optShow: {
+add: true,
+edit: true,
+del: true,
+download: true,
+reset: true
+},
 ```
 
-#### 常见问题
+- // 自定义一些扩展属性
 
-1、linux 系统在安装依赖的时候会出现 node-sass 无法安装的问题
+props: {},
+- // 在主页准备
 
-解决方案：
-```
-1. 单独安装：npm install --unsafe-perm node-sass 
-2. 直接使用：npm install --unsafe-perm
-```
+queryOnPresenterCreated: true,
+- // 调试开关
 
-2、加速node-sass安装
-
-https://www.ydyno.com/archives/1219.html
-
-#### 特别鸣谢
-
-- 感谢 [JetBrains](https://www.jetbrains.com/) 提供的非商业开源软件开发授权
-
-- 感谢 [PanJiaChen](https://github.com/PanJiaChen/vue-element-admin) 大佬提供的前端模板
-
-- 感谢 [Moxun](https://github.com/moxun1639) 大佬提供的前端 Crud 通用组件
-
-- 感谢 [zhy6599](https://gitee.com/zhy6599) 大佬提供的后端运维管理相关功能
-
-- 感谢 [j.yao.SUSE](https://github.com/everhopingandwaiting) 大佬提供的匿名接口与Redis限流等功能
-
-- 感谢 [d15801543974](https://github.com/d15801543974) 大佬提供的基于注解的通用查询方式
-
-#### 反馈交流
-
-- QQ交流群：一群：891137268、二群：947578238、三群：659622532
+debug: false

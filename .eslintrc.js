@@ -21,6 +21,8 @@ module.exports = {
         "allowFirstLine": false
       }
     }],
+    "vue/no-unused-components": "off", // 当存在定义而未使用的组件时，关闭报错
+    "no-unused-vars":"off" ,// 当存在定义而未使用的变量时，关闭报错
     "vue/singleline-html-element-content-newline": "off",
     "vue/multiline-html-element-content-newline":"off",
     "vue/name-property-casing": ["error", "PascalCase"],
