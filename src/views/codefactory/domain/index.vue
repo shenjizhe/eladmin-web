@@ -6,15 +6,36 @@
         <!-- 搜索 -->
         <!--表格渲染-->
         <label class="el-form-item-label">名称</label>
-        <el-input v-model="query.name" clearable placeholder="名称" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
+        <el-input
+          v-model="query.name"
+          clearable
+          placeholder="名称"
+          style="width: 185px;"
+          class="filter-item"
+          @keyup.enter.native="crud.toQuery"
+        />
 
         <!--表格渲染-->
         <label class="el-form-item-label">描述</label>
-        <el-input v-model="query.comment" clearable placeholder="描述" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
+        <el-input
+          v-model="query.comment"
+          clearable
+          placeholder="描述"
+          style="width: 185px;"
+          class="filter-item"
+          @keyup.enter.native="crud.toQuery"
+        />
 
         <!--表格渲染-->
         <label class="el-form-item-label">启用</label>
-        <el-select v-model="query.show" clearable placeholder="请选择" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery">
+        <el-select
+          v-model="query.show"
+          clearable
+          placeholder="请选择"
+          style="width: 185px;"
+          class="filter-item"
+          @keyup.enter.native="crud.toQuery"
+        >
           <el-option
             v-for="item in dict.show_status"
             :key="item.id"
@@ -28,7 +49,13 @@
       <!--如果想在工具栏加入更多按钮，可以使用插槽方式， slot = 'left' or 'right'-->
       <crudOperation :permission="permission" />
       <!--表单组件-->
-      <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="500px">
+      <el-dialog
+        :close-on-click-modal="false"
+        :before-close="crud.cancelCU"
+        :visible.sync="crud.status.cu > 0"
+        :title="crud.status.title"
+        width="500px"
+      >
         <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
           <el-form-item label="名称" prop="name">
             <el-input v-model="form.name" style="width: 370px;" />
@@ -46,7 +73,14 @@
         </div>
       </el-dialog>
       <!--表格渲染-->
-      <el-table ref="table" v-loading="crud.loading" :data="crud.data" size="small" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
+      <el-table
+        ref="table"
+        v-loading="crud.loading"
+        :data="crud.data"
+        size="small"
+        style="width: 100%;"
+        @selection-change="crud.selectionChangeHandler"
+      >
         <el-table-column type="selection" width="55" />
         <el-table-column prop="id" label="主键" />
         <el-table-column prop="name" label="名称" />
@@ -56,14 +90,19 @@
             {{ dict.label.show_status[scope.row.show] }}
           </template>
         </el-table-column>
-        <el-table-column v-if="checkPer(['admin','domain:edit','domain:del'])" label="操作" width="150px" align="center">
+        <el-table-column v-if="checkPer(['admin','domain:edit','domain:del'])" label="操作" width="180px" align="center">
           <template slot-scope="scope">
             <udOperation
               :data="scope.row"
               :permission="permission"
-            />
+            >
+              <template slot="right">
+                <el-button size="mini" type="success" icon="el-icon-setting" />
+              </template>
+            </udOperation>
           </template>
         </el-table-column>
+
       </el-table>
       <!--分页组件-->
       <pagination />
@@ -73,7 +112,7 @@
 
 <script>
 import crudDomain from '@/api/domain'
-import CRUD, { presenter, header, form, crud } from '@crud/crud'
+import CRUD, { crud, form, header, presenter } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
