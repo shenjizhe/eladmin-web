@@ -97,7 +97,7 @@
               :permission="permission"
             >
               <template slot="right">
-                <el-button size="mini" type="success" icon="el-icon-setting" />
+                <el-button size="mini" type="success" icon="el-icon-setting" @click="editDomain(scope.row)" />
               </template>
             </udOperation>
           </template>
@@ -156,6 +156,10 @@ export default {
     // 钩子：在获取表格数据之前执行，false 则代表不获取数据
     [CRUD.HOOK.beforeRefresh]() {
       return true
+    },
+
+    editDomain(e) {
+      console.log(e)
     }
   }
 }
