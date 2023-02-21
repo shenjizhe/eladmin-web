@@ -15,18 +15,10 @@
   background-color: #1f2d3d;
 }
 
-.el-collapse {
-
-}
-
-.el-collapse-item {
-  /*padding: 5px;*/
-}
-
 #entity-tools .el-button {
   width: 100px;
   height: 100px;
-  margin: 10px;
+  margin: 10px 10px 10px 10px;
 }
 
 .el-table{
@@ -41,7 +33,7 @@
   padding-right: 5px;
 }
 .blackStyle .el-collapse-item__content{
-  padding: 10px 10px 0px 0px;
+  padding: 10px 10px 0px 10px;
 }
 
 
