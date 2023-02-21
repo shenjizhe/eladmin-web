@@ -162,7 +162,7 @@ export default {
       this.$router.push({
         path: '/studio/er-editor',
         query: {
-          domain: e
+          domain_id: e
         }
       })
       // console.log(e)

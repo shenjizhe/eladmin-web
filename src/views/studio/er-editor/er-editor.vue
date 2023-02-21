@@ -1,7 +1,7 @@
 <template>
   <el-container class="blackStyle">
     <el-aside>
-      <el-collapse accordion @change="handleChange">
+      <el-collapse accordion>
         <el-collapse-item title="领域信息" name="domain-info">
           <template slot="title">
             <i class="header-icon el-icon-info">领域信息</i>
@@ -17,7 +17,7 @@
               <el-input type="textarea" />
             </el-form-item>
             <el-form-item label="">
-              <el-button type="primary" @click="onSubmit">保存</el-button>
+              <el-button type="primary">保存</el-button>
               <el-button>还原</el-button>
             </el-form-item>
           </el-form>
@@ -57,7 +57,6 @@
             <el-button slot="append" icon="el-icon-search" />
           </el-input>
           <el-table
-            :data="tableData"
             style="width: 100%"
             stripe
           >
@@ -90,7 +89,7 @@
       <!--      </el-tabs>-->
     </el-main>
     <el-aside>
-      <el-collapse v-model="activeNames" accordion @change="handleChange">
+      <el-collapse accordion>
         <el-collapse-item title="实体信息" name="1">
           <el-form label-width="50px" size="small">
             <el-form-item label="名称">
@@ -116,7 +115,6 @@
         </el-collapse-item>
         <el-collapse-item title="属性列表" name="2">
           <el-table
-            :data="fieldColumns"
             style="width: 100%"
             stripe
           >
@@ -134,7 +132,7 @@
               <el-input />
             </el-form-item>
             <el-form-item label="类型">
-              <el-select filterable placeholder="请选择">
+              <el-select v-model="value" filterable placeholder="请选择">
                 <el-option
                   v-for="item in dict.db_types"
                   :key="item.id"
@@ -177,6 +175,12 @@ export default {
 
   data() {
     return {
+      domain: {
+        id: 0,
+        name: '',
+        comment: '',
+        description: ''
+      },
       value: ''
     }
   },
@@ -189,7 +193,8 @@ export default {
   },
 
   mounted() {
-    console.log(this.$route.query.domain.id)
+    // data.domain.id = this.$route.query.domain_id;
+    console.log(this.$route.query)
   },
 
   methods: {
