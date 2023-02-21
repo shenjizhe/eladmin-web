@@ -159,7 +159,13 @@ export default {
     },
 
     editDomain(e) {
-      console.log(e)
+      this.$router.push({
+        path: '/studio/er-editor',
+        query: {
+          domain: e
+        }
+      })
+      // console.log(e)
     }
   }
 }

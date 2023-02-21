@@ -99,7 +99,7 @@
             <el-form-item label="类型">
               <el-select v-model="value" placeholder="请选择">
                 <el-option
-                  v-for="item in entityTypes"
+                  v-for="item in dict.entity_types"
                   :key="item.value"
                   :label="item.label"
                   :value="item.value"
@@ -134,10 +134,10 @@
               <el-input />
             </el-form-item>
             <el-form-item label="类型">
-              <el-select v-model="value" placeholder="请选择">
+              <el-select filterable placeholder="请选择">
                 <el-option
-                  v-for="item in fieldTypes"
-                  :key="item.value"
+                  v-for="item in dict.db_types"
+                  :key="item.id"
                   :label="item.label"
                   :value="item.value"
                 />
@@ -169,38 +169,14 @@ export default {
 
   components: { pagination, crudOperation, rrOperation, udOperation },
 
+  dicts: ['entity_types', 'db_types'],
+
   mixins: [],
 
   props: {},
 
   data() {
     return {
-      entityTypes: [{
-        value: 'bus',
-        label: '业务'
-      }, {
-        value: 'dic',
-        label: '字典'
-      }, {
-        value: 'log',
-        label: '日志'
-      }, {
-        value: 'rel',
-        label: '关系'
-      }],
-      fieldTypes: [{
-        value: 'bit',
-        label: '布尔'
-      }, {
-        value: 'string',
-        label: '文本'
-      }, {
-        value: 'int',
-        label: '整数'
-      }, {
-        value: 'float',
-        label: '单精度小数'
-      }],
       value: ''
     }
   },
@@ -210,6 +186,10 @@ export default {
   watch: {},
 
   created() {
+  },
+
+  mounted() {
+    console.log(this.$route.query.domain.id)
   },
 
   methods: {
