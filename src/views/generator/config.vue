@@ -76,6 +76,10 @@
                       value="Switch"
                     />
                     <el-option
+                      label="数字"
+                      value="Number"
+                    />
+                    <el-option
                       label="下拉框"
                       value="Select"
                     />
@@ -149,14 +153,29 @@
         <el-card class="box-card" shadow="never">
           <div slot="header" class="clearfix">
             <span class="role-span">生成配置</span>
-            <el-button
-              :loading="configLoading"
-              icon="el-icon-check"
-              size="mini"
-              style="float: right; padding: 6px 9px"
-              type="primary"
-              @click="doSubmit"
-            >保存</el-button>
+            <el-button-group style="float: right; padding: 6px 9px">
+              <el-button
+                :loading="configLoading"
+                icon="el-icon-check"
+                size="mini"
+                type="primary"
+                @click="doSubmit"
+              >保存配置</el-button>
+              <el-button
+                :loading="configLoading"
+                icon="el-icon-check"
+                size="mini"
+                type="warning"
+                @click="doCopy"
+              >复制</el-button>
+              <el-button
+                :loading="configLoading"
+                icon="el-icon-check"
+                size="mini"
+                type="info"
+                @click="doPause"
+              >粘贴</el-button>
+            </el-button-group>
           </div>
           <el-form ref="form" :model="form" :rules="rules" size="small" label-width="78px">
             <el-form-item label="作者名称" prop="author">
@@ -282,6 +301,24 @@ export default {
           })
         }
       })
+    },
+    doCopy() {
+      sessionStorage.setItem('gen-config', JSON.stringify(this.form))
+    },
+    doPause() {
+      const id = this.form.id
+      const tableName = this.form.tableName
+      this.form = JSON.parse(sessionStorage.getItem('gen-config'))
+      this.form.id = id
+      this.form.tableName = tableName
+      // this.form.apiAlias = config.apiAlias
+      // this.form.apiPath = config.apiPath
+      // this.form.author = config.author
+      // this.form.path = config.path
+      // this.form.cover = config.cover
+      // this.form.moduleName = config.moduleName
+      // this.form.pack = config.pack
+      // this.form.prefix = config.prefix
     },
     sync() {
       this.syncLoading = true

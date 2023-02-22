@@ -23,7 +23,9 @@ import router from './router/routers'
 
 import './assets/icons' // icon
 import './router/index' // permission control
+import VueClipBoard from 'vue-clipboard2'
 
+Vue.use(VueClipBoard)
 Vue.use(checkPer)
 Vue.use(permission)
 Vue.use(dict)
