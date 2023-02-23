@@ -1,9 +1,6 @@
 import Vue from 'vue'
-
 import Cookies from 'js-cookie'
-
 import 'normalize.css/normalize.css'
-
 import Element from 'element-ui'
 
 // 数据字典

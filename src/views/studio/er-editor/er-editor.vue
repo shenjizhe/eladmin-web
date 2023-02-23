@@ -18,35 +18,13 @@
             </el-form-item>
           </el-form>
         </el-collapse-item>
-        <el-collapse-item id="entity-tools" title="工具控件" name="domain-tool">
-          <el-row>
-            <el-col :span="12">
-              <el-button type="primary" @mousedown.native="mousedown">
-                <svg-icon icon-class="business" />
-                业务
-              </el-button>
-            </el-col>
-            <el-col :span="12">
-              <el-button type="success">
-                <svg-icon icon-class="er" />
-                关系
-              </el-button>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="12">
-              <el-button type="info">
-                <svg-icon icon-class="log" />
-                日志
-              </el-button>
-            </el-col>
-            <el-col :span="12">
-              <el-button type="warning">
-                <svg-icon icon-class="dict" />
-                字典
-              </el-button>
-            </el-col>
-          </el-row>
+        <el-collapse-item title="工具控件" name="domain-tool">
+          <draggable class="entity-tool" group="entity-tools" chosen-class="chosen" @start="drag=true" @end="drag=false">
+            <EREntity type="primary" title="业务" />
+            <EREntity type="success" title="关系" />
+            <EREntity type="warning" title="字典" />
+            <EREntity type="info" title="日志" />
+          </draggable>
         </el-collapse-item>
         <el-collapse-item title="市场领域" name="domain-market">
           <el-input placeholder="请输入关键字">
@@ -80,9 +58,7 @@
       </el-collapse>
     </el-aside>
     <el-main>
-      <!--      <el-tabs type="border-card">-->
-      <!--        <el-tab-pane label="模型"/>-->
-      <!--      </el-tabs>-->
+      <draggable display="flex" group="entity-tools" chosen-class="chosen" @start="drag=true" @end="onEnd" />
     </el-main>
     <el-aside>
       <el-collapse accordion>
@@ -150,57 +126,7 @@
   </el-container>
 </template>
 
-<script>
-// @vue/component
-// import "../../../theme/index.css"
-import rrOperation from '@crud/RR.operation'
-import crudOperation from '@crud/CRUD.operation'
-import udOperation from '@crud/UD.operation'
-import pagination from '@crud/Pagination'
-
-export default {
-  name: 'ErEditor',
-
-  components: { pagination, crudOperation, rrOperation, udOperation },
-
-  dicts: ['entity_types', 'db_types'],
-
-  mixins: [],
-
-  props: {},
-
-  data() {
-    return {
-      domain: {
-        id: 0,
-        name: '',
-        comment: ''
-      },
-      value: ''
-    }
-  },
-
-  computed: {},
-
-  watch: {},
-
-  created() {
-  },
-
-  mounted() {
-    this.domain.id = this.$route.query.domain.id
-    this.domain.name = this.$route.query.domain.name
-    this.domain.comment = this.$route.query.domain.comment
-    this.domain.show = this.$route.query.domain.show
-  },
-
-  methods: {
-    mousedown(e) {
-      console.log(e)
-      // alert(JSON.stringify(e))
-    }
-  }
-}
+<script lang="js" src="./_er-editor.js">
 </script>
 
 <style scoped>

@@ -15,11 +15,20 @@
   background-color: #1f2d3d;
 }
 
-#entity-tools .el-button {
-  width: 100px;
-  height: 100px;
-  margin: 10px 10px 10px 10px;
+.chosen {
+  border: solid 2px #3089dc !important;
 }
+
+/*.el-card {*/
+/*  width: 100px;*/
+/*  height: 100px;*/
+/*}*/
+
+/*#entity-tools .el-button {*/
+/*  width: 100px;*/
+/*  height: 100px;*/
+/*  margin: 10px 10px 10px 10px;*/
+/*}*/
 
 .el-table{
   height: 200px;
@@ -34,6 +43,20 @@
 }
 .blackStyle .el-collapse-item__content{
   padding: 10px 10px 0px 10px;
+}
+
+.entity-tool {
+  display: grid;
+  width: 240px;
+  height: 240px;
+  /* 横向等比分割 */
+  justify-content: space-evenly;
+  /* 纵向等比分割 */
+  align-content: space-evenly;
+  /* 两行两列的表格，行、列的宽高尽量等于单个box的的宽高，且总宽高尽量不要大于父元素及 parent 的宽高，不然同样会显示异常*/
+  grid-template-columns: repeat(2, 110px);
+  grid-template-rows: repeat(2, 110px);
+  /*border: 1px solid red;*/
 }
 
 
