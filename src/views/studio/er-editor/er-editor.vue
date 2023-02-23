@@ -8,17 +8,13 @@
           </template>
           <el-form label-width="50px" size="small">
             <el-form-item label="名称">
-              <el-input />
+              <el-input v-model="domain.name" />
             </el-form-item>
             <el-form-item label="描述">
-              <el-input />
+              <el-input v-model="domain.comment" type="textarea" />
             </el-form-item>
-            <el-form-item label="用途">
-              <el-input type="textarea" />
-            </el-form-item>
-            <el-form-item label="">
-              <el-button type="primary">保存</el-button>
-              <el-button>还原</el-button>
+            <el-form-item label="启用">
+              <el-switch v-model="domain.show" />
             </el-form-item>
           </el-form>
         </el-collapse-item>
@@ -178,8 +174,7 @@ export default {
       domain: {
         id: 0,
         name: '',
-        comment: '',
-        description: ''
+        comment: ''
       },
       value: ''
     }
@@ -193,8 +188,10 @@ export default {
   },
 
   mounted() {
-    // data.domain.id = this.$route.query.domain_id;
-    console.log(this.$route.query)
+    this.domain.id = this.$route.query.domain.id
+    this.domain.name = this.$route.query.domain.name
+    this.domain.comment = this.$route.query.domain.comment
+    this.domain.show = this.$route.query.domain.show
   },
 
   methods: {
