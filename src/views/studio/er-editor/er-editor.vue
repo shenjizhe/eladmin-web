@@ -19,11 +19,8 @@
           </el-form>
         </el-collapse-item>
         <el-collapse-item title="工具控件" name="domain-tool">
-          <draggable class="entity-tool" group="entity-tools" chosen-class="chosen" @start="drag=true" @end="drag=false">
-            <EREntity type="primary" title="业务" />
-            <EREntity type="success" title="关系" />
-            <EREntity type="warning" title="字典" />
-            <EREntity type="info" title="日志" />
+          <draggable v-model="toolEntity" class="entity-tool" chosen-class="chosen" :group="{name: 'entity-area-group', pull:'clone', put: false}" sort="false" animation="300" @start="drag=true" @end="drag=false">
+            <EREntity v-for="item in toolEntity" :key="item.id" :type="item.type" :title="item.title" />
           </draggable>
         </el-collapse-item>
         <el-collapse-item title="市场领域" name="domain-market">
@@ -58,7 +55,35 @@
       </el-collapse>
     </el-aside>
     <el-main>
-      <draggable display="flex" group="entity-tools" chosen-class="chosen" @start="drag=true" @end="onEnd" />
+      <draggable display="flex" class="entity-area" group="entity-area-group" chosen-class="chosen" animation="300" @add="onAdd">
+        <!--        <EREntity v-for="item in areaEntity" :key="item.id" :type="item.type" :title="item.title" :comment="item.comment"></EREntity>-->
+      </draggable>
+      <!--      <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="500px">-->
+      <!--        <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">-->
+      <!--          <el-form-item label="领域id">-->
+      <!--            <el-input v-model="form.domainId" style="width: 370px;" />-->
+      <!--          </el-form-item>-->
+      <!--          <el-form-item label="名称" prop="name">-->
+      <!--            <el-input v-model="form.name" style="width: 370px;" />-->
+      <!--          </el-form-item>-->
+      <!--          <el-form-item label="标题" prop="title">-->
+      <!--            <el-input v-model="form.title" style="width: 370px;" />-->
+      <!--          </el-form-item>-->
+      <!--          <el-form-item label="描述" prop="comment">-->
+      <!--            <el-input v-model="form.comment" :rows="3" type="textarea" style="width: 370px;" />-->
+      <!--          </el-form-item>-->
+      <!--          <el-form-item label="是否显示" prop="show">-->
+      <!--            <el-switch v-model="form.show" />-->
+      <!--          </el-form-item>-->
+      <!--          <el-form-item label="组id">-->
+      <!--            <el-input v-model="form.groupId" style="width: 370px;" />-->
+      <!--          </el-form-item>-->
+      <!--        </el-form>-->
+      <!--        <div slot="footer" class="dialog-footer">-->
+      <!--          <el-button type="text" @click="crud.cancelCU">取消</el-button>-->
+      <!--          <el-button :loading="crud.status.cu === 2" type="primary" @click="crud.submitCU">确认</el-button>-->
+      <!--        </div>-->
+      <!--      </el-dialog>-->
     </el-main>
     <el-aside>
       <el-collapse accordion>

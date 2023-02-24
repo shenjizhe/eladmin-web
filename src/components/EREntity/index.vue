@@ -1,5 +1,5 @@
 <template>
-  <div :class="[EREntity, type]" :style="{width:width?width:'100px',height:height?height:'100px'}">
+  <div :class="['EREntity', type]" :style="{width:width?width:'100px',height:height?height:'100px'}">
     <div>{{ title }}</div>
     <el-divider />
     <div>{{ comment }}</div>
