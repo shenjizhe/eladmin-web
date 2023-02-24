@@ -76,4 +76,9 @@
   /*border: 1px solid red;*/
 }
 
+.el-dialog {
+  width: 500px;
+  height: 300px;
+}
+
 
