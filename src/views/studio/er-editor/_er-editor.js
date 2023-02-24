@@ -62,13 +62,7 @@ export default {
   },
 
   mounted() {
-    // if (this.$route != null) {
-    //   this.domain = this.$route.query.domain
-    // }
-    // this.domain.id = this.$route.query.domain.id
-    // this.domain.name = this.$route.query.domain.name
-    // this.domain.comment = this.$route.query.domain.comment
-    // this.domain.show = this.$route.query.domain.show
+    this.domain = this.$route.query.domain
   },
 
   methods: {
