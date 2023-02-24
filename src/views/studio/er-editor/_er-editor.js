@@ -118,7 +118,10 @@ export default {
   // },
 
   mounted() {
-    this.domain = JSON.parse(this.$route.query.domain)
+    const param = this.$route.query.domain
+    if (param != null) {
+      this.domain = JSON.parse(param)
+    }
   },
 
   methods: {
@@ -141,14 +144,6 @@ export default {
     },
     onChange(e) {
       console.log(e)
-    },
-    allowDrop(ev) {
-      console.log(ev)
-    },
-
-    drop(ev, item) {
-      console.log(item)
-      console.log(ev)
     },
     handleClose(done) {
       this.$confirm('确认关闭？')

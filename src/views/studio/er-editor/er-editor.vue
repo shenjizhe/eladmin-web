@@ -55,8 +55,12 @@
       </el-collapse>
     </el-aside>
     <el-main>
-      <el-dialog :visible.sync="dialogVisible" title="新建" width="500px">
-        <MyForm v-model="currentEntity" :columns="formColumns" />
+      <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="dialogVisible" :title="crud.status.title" width="500px">
+        <MyForm v-model="form" :columns="formColumns" />
+        <div slot="footer" class="dialog-footer">
+          <el-button type="text" @click="crud.cancelCU">取消</el-button>
+          <el-button :loading="crud.status.cu === 2" type="primary" @click="crud.submitCU">确认</el-button>
+        </div>
       </el-dialog>
       <draggable display="flex" class="entity-area" :group="{name: 'entity-area-group', pull: false, put: true}" chosen-class="chosen" animation="300" @add="onAdd">
         <EREntity v-for="item in areaEntity" :key="item.id" :type="item.type" :title="item.title" :comment="item.comment" />
