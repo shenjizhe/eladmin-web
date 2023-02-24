@@ -1,5 +1,5 @@
 <template>
-  <el-form v-model="value" size="small" label-width="80px">
+  <el-form size="small" label-width="80px">
     <el-form-item v-for="col in columns" :key="col.name" :label="col.title">
       <el-switch v-if="col.type=='switch'" />
       <el-input v-if="col.type=='text'" />

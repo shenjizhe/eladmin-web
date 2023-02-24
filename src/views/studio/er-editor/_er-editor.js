@@ -20,6 +20,25 @@ export default {
 
   data() {
     return {
+      permission: {
+        add: ['admin', 'entity:add'],
+        edit: ['admin', 'entity:edit'],
+        del: ['admin', 'entity:del']
+      },
+      rules: {
+        name: [
+          { required: true, message: '名称不能为空', trigger: 'blur' }
+        ],
+        title: [
+          { required: true, message: '标题不能为空', trigger: 'blur' }
+        ],
+        comment: [
+          { required: true, message: '描述不能为空', trigger: 'blur' }
+        ],
+        show: [
+          { required: true, message: '是否显示不能为空', trigger: 'blur' }
+        ]
+      },
       domain: {
         id: 0,
         name: '',
@@ -29,22 +48,22 @@ export default {
       toolEntity: [
         {
           id: 'bus',
-          type: 'primary',
+          type: 'bus',
           title: '业务'
         },
         {
           id: 'rel',
-          type: 'success',
+          type: 'rel',
           title: '关系'
         },
         {
           id: 'dic',
-          type: 'warning',
+          type: 'dic',
           title: '字典'
         },
         {
           id: 'log',
-          type: 'info',
+          type: 'log',
           title: '记录'
         }
       ],
@@ -114,14 +133,28 @@ export default {
       console.log(e)
     },
     onAdd(e) {
-      console.log(e)
-      this.dialogVisible = true
+      console.log(e.clone.id)
     },
     onClone(e) {
       console.log(e)
     },
     onChange(e) {
       console.log(e)
+    },
+    allowDrop(ev) {
+      console.log(ev)
+    },
+
+    drop(ev, item) {
+      console.log(item)
+      console.log(ev)
+    },
+    handleClose(done) {
+      this.$confirm('确认关闭？')
+        .then(_ => {
+          done()
+        })
+        .catch(_ => {})
     }
   }
 }

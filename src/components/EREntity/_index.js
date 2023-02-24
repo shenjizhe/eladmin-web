@@ -46,8 +46,10 @@ export default {
   computed: {},
 
   watch: {},
-
-  // created: {},
+  mounted() {
+  },
+  // created() {
+  // },
 
   methods: {
 

@@ -38,3 +38,9 @@ new Vue({
   store,
   render: h => h(App)
 })
+
+document.body.ondrop = function(event) {
+  event.preventDefault()
+  event.stopPropagation()
+}
+
