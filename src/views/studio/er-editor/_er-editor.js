@@ -118,7 +118,7 @@ export default {
   // },
 
   mounted() {
-    this.domain = this.$route.query.domain
+    this.domain = JSON.parse(this.$route.query.domain)
   },
 
   methods: {
@@ -134,6 +134,7 @@ export default {
     },
     onAdd(e) {
       console.log(e.clone.id)
+      this.dialogVisible = true
     },
     onClone(e) {
       console.log(e)
