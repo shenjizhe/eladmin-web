@@ -20,12 +20,12 @@ export default {
 
   data() {
     return {
-      permission: {
+      permissionEntity: {
         add: ['admin', 'entity:add'],
         edit: ['admin', 'entity:edit'],
         del: ['admin', 'entity:del']
       },
-      rules: {
+      rulesEntity: {
         name: [
           { required: true, message: '名称不能为空', trigger: 'blur' }
         ],
@@ -107,7 +107,7 @@ export default {
   },
 
   cruds() {
-    return CRUD({ title: '实体', url: 'api/entity', idField: 'id', sort: 'id,desc', crudMethod: { ...crudEntity }})
+    return CRUD({ title: '实体', url: 'api/entity', idField: 'id', sort: 'id,desc', debug: true, crudMethod: { ...crudEntity }})
   },
 
   computed: {},
@@ -119,7 +119,7 @@ export default {
 
   mounted() {
     const param = this.$route.query.domain
-    if (param != null) {
+    if (param != null && param !== '') {
       this.domain = JSON.parse(param)
     }
   },
@@ -137,7 +137,7 @@ export default {
     },
     onAdd(e) {
       console.log(e.clone.id)
-      this.dialogVisible = true
+      this.crud.toAdd()
     },
     onClone(e) {
       console.log(e)

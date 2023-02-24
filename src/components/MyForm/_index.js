@@ -11,12 +11,13 @@ export default {
       default() {
         return []
       }
-    }
+    },
+    rules: {}
   },
 
   data() {
     return {
-      value: null
+      value: {}
     }
   },
 
