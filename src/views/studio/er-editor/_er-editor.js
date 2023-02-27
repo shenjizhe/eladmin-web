@@ -21,9 +21,9 @@ export default {
   data() {
     return {
       permissionEntity: {
-        add: ['admin', 'entity:add'],
-        edit: ['admin', 'entity:edit'],
-        del: ['admin', 'entity:del']
+        add: ['admin', 'entityModel:add'],
+        edit: ['admin', 'entityModel:edit'],
+        del: ['admin', 'entityModel:del']
       },
       rulesEntity: {
         name: [
@@ -119,13 +119,13 @@ export default {
 
   watch: {},
 
-  created() {
-
-  },
-
-  updated() {
-    console.log(this.crud.data)
-  },
+  // created() {
+  //
+  // },
+  //
+  // updated() {
+  //   console.log(this.crud.data)
+  // },
 
   mounted() {
     const param = this.$route.query.domain
@@ -139,23 +139,23 @@ export default {
     [CRUD.HOOK.beforeRefresh]() {
       return true
     },
-    onStart(e) {
-      console.log(e)
-    },
-    onEnd(e) {
-      console.log(e)
-    },
+    // onStart(e) {
+    //   console.log(e)
+    // },
+    // onEnd(e) {
+    //   console.log(e)
+    // },
+    // onClone(e) {
+    //   console.log(e)
+    // },
+    // onChange(e) {
+    //   console.log(e)
+    // },
     onAdd(e) {
       // 暂时用 clone.id 代表 type.value ,因为定义的顺序一致，而且没有别的办法可以传递
       this.crud.form.domainId = this.domain.id
       this.crud.form.type = e.clone.id
       this.crud.toAddNoReset()
-    },
-    onClone(e) {
-      console.log(e)
-    },
-    onChange(e) {
-      console.log(e)
     },
     handleClose(done) {
       this.$confirm('确认关闭？')
