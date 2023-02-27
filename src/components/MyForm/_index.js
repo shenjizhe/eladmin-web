@@ -19,7 +19,7 @@ export default {
         return {}
       }
     },
-    rules: {},
+    rule: {},
     name: null,
     data: {}
   },

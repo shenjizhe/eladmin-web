@@ -143,9 +143,9 @@ export default {
     },
     onAdd(e) {
       // 暂时用 clone.id 代表 type.value ,因为定义的顺序一致，而且没有别的办法可以传递
-      this.crud.toAdd()
-      // this.crud.form.domainId = this.domain.id
-      // this.crud.form.type = e.clone.id
+      this.crud.form.domainId = this.domain.id
+      this.crud.form.type = e.clone.id
+      this.crud.toAddNoReset()
     },
     onClone(e) {
       console.log(e)
