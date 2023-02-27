@@ -98,6 +98,17 @@ export default {
           name: 'groupId',
           title: '组id',
           type: 'text'
+        },
+        {
+          name: 'type',
+          title: '实体类型',
+          type: 'select',
+          dict: [
+            { id: 'bus', label: '业务', value: 1 },
+            { id: 'rel', label: '关系', value: 2 },
+            { id: 'dict', label: '字典', value: 3 },
+            { id: 'info', label: '日志', value: 4 }
+          ]
         }
       ],
       dialogVisible: false,
@@ -107,7 +118,7 @@ export default {
   },
 
   cruds() {
-    return CRUD({ title: '实体', url: 'api/entity', idField: 'id', sort: 'id,desc', debug: true, crudMethod: { ...crudEntity }})
+    return CRUD({ title: '实体', url: 'api/entityModel', idField: 'id', sort: 'id,desc', debug: true, crudMethod: { ...crudEntity }})
   },
 
   computed: {},
@@ -136,7 +147,6 @@ export default {
       console.log(e)
     },
     onAdd(e) {
-      console.log(e.clone.id)
       this.crud.toAdd()
     },
     onClone(e) {
