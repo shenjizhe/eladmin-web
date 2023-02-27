@@ -19,7 +19,9 @@ export default {
         return {}
       }
     },
-    rules: {}
+    rules: {},
+    name: null,
+    data: {}
   },
 
   data() {
@@ -34,5 +36,12 @@ export default {
 
   // created () {},
 
-  methods: {}
+  methods: {
+    validate(e) {
+      return this.$refs.form.validate(e)
+    },
+    clearValidate(e) {
+      return this.$refs.form.clearValidate(e)
+    }
+  }
 }

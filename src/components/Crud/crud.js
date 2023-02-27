@@ -164,6 +164,14 @@ function CRUD(options) {
       callVmHook(crud, CRUD.HOOK.afterToAdd, crud.form)
       callVmHook(crud, CRUD.HOOK.afterToCU, crud.form)
     },
+    toAddNoReset() {
+      if (!(callVmHook(crud, CRUD.HOOK.beforeToAdd, crud.form) && callVmHook(crud, CRUD.HOOK.beforeToCU, crud.form))) {
+        return
+      }
+      crud.status.add = CRUD.STATUS.PREPARED
+      callVmHook(crud, CRUD.HOOK.afterToAdd, crud.form)
+      callVmHook(crud, CRUD.HOOK.afterToCU, crud.form)
+    },
     /**
      * 启动编辑
      * @param {*} data 数据项

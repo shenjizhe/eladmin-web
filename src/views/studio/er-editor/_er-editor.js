@@ -1,15 +1,15 @@
-import draggable from 'vuedraggable'
-import crudEntity from '@/api/entityModel'
-import EREntity from '@/components/EREntity'
-import MyForm from '@/components/MyForm'
-
+import crudEntityModel from '@/api/entityModel'
 import CRUD, { presenter, header, form, crud } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 
-const defaultForm = { id: null, domainId: null, name: null, title: null, comment: null, show: null, groupId: null }
+import draggable from 'vuedraggable'
+import EREntity from '@/components/EREntity'
+import MyForm from '@/components/MyForm'
+
+const defaultForm = { id: null, domainId: null, name: null, title: null, comment: null, show: null, groupId: null, type: null }
 
 export default {
   name: 'ErEditor',
@@ -85,7 +85,7 @@ export default {
           type: 'text'
         },
         {
-          name: 'description',
+          name: 'comment',
           title: '描述',
           type: 'textarea'
         },
@@ -113,7 +113,7 @@ export default {
   },
 
   cruds() {
-    return CRUD({ title: '实体', url: 'api/entityModel', idField: 'id', sort: 'id,desc', debug: true, crudMethod: { ...crudEntity }})
+    return CRUD({ title: '实体', url: 'api/entityModel', idField: 'id', sort: 'id,desc', debug: true, crudMethod: { ...crudEntityModel }})
   },
 
   computed: {},
@@ -142,7 +142,10 @@ export default {
       console.log(e)
     },
     onAdd(e) {
+      // 暂时用 clone.id 代表 type.value ,因为定义的顺序一致，而且没有别的办法可以传递
       this.crud.toAdd()
+      // this.crud.form.domainId = this.domain.id
+      // this.crud.form.type = e.clone.id
     },
     onClone(e) {
       console.log(e)
