@@ -25,6 +25,16 @@
           <el-form-item label="组id">
             <el-input v-model="form.groupId" style="width: 370px;" />
           </el-form-item>
+          <el-form-item label="实体类型" prop="type">
+            <el-select v-model="form.type" filterable placeholder="请选择">
+              <el-option
+                v-for="item in dict.entity_types"
+                :key="item.id"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button type="text" @click="crud.cancelCU">取消</el-button>
@@ -39,13 +49,14 @@
         <el-table-column prop="name" label="名称" />
         <el-table-column prop="title" label="标题" />
         <el-table-column prop="comment" label="描述" />
-        <el-table-column prop="show" label="是否显示">
+        <el-table-column prop="show" label="是否显示" />
+        <el-table-column prop="groupId" label="组id" />
+        <el-table-column prop="type" label="实体类型">
           <template slot-scope="scope">
-            {{ dict.label.show_status[scope.row.show] }}
+            {{ dict.label.entity_types[scope.row.type] }}
           </template>
         </el-table-column>
-        <el-table-column prop="groupId" label="组id" />
-        <el-table-column v-if="checkPer(['admin','entity:edit','entity:del'])" label="操作" width="150px" align="center">
+        <el-table-column v-if="checkPer(['admin','entityModel:edit','entityModel:del'])" label="操作" width="150px" align="center">
           <template slot-scope="scope">
             <udOperation
               :data="scope.row"
@@ -61,28 +72,28 @@
 </template>
 
 <script>
-import crudEntity from '@/api/entity'
+import crudEntityModel from '@/api/entityModel'
 import CRUD, { presenter, header, form, crud } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 
-const defaultForm = { id: null, domainId: null, name: null, title: null, comment: null, show: null, groupId: null }
+const defaultForm = { id: null, domainId: null, name: null, title: null, comment: null, show: null, groupId: null, type: null }
 export default {
-  name: 'Entity',
+  name: 'EntityModel',
   components: { pagination, crudOperation, rrOperation, udOperation },
   mixins: [presenter(), header(), form(defaultForm), crud()],
-  dicts: ['show_status'],
+  dicts: ['entity_types'],
   cruds() {
-    return CRUD({ title: '实体', url: 'api/entity', idField: 'id', sort: 'id,desc', crudMethod: { ...crudEntity }})
+    return CRUD({ title: '实体', url: 'api/entityModel', idField: 'id', sort: 'id,desc', crudMethod: { ...crudEntityModel }})
   },
   data() {
     return {
       permission: {
-        add: ['admin', 'entity:add'],
-        edit: ['admin', 'entity:edit'],
-        del: ['admin', 'entity:del']
+        add: ['admin', 'entityModel:add'],
+        edit: ['admin', 'entityModel:edit'],
+        del: ['admin', 'entityModel:del']
       },
       rules: {
         name: [
@@ -96,8 +107,12 @@ export default {
         ],
         show: [
           { required: true, message: '是否显示不能为空', trigger: 'blur' }
+        ],
+        type: [
+          { required: true, message: '实体类型不能为空', trigger: 'blur' }
         ]
-      }}
+      }
+    }
   },
   methods: {
     // 钩子：在获取表格数据之前执行，false 则代表不获取数据

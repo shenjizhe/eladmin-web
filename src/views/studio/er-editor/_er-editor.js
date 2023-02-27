@@ -1,5 +1,5 @@
 import draggable from 'vuedraggable'
-import crudEntity from '@/api/entity'
+import crudEntity from '@/api/entityModel'
 import EREntity from '@/components/EREntity'
 import MyForm from '@/components/MyForm'
 
@@ -47,22 +47,22 @@ export default {
       },
       toolEntity: [
         {
-          id: 'bus',
+          id: '1',
           type: 'bus',
           title: '业务'
         },
         {
-          id: 'rel',
+          id: '2',
           type: 'rel',
           title: '关系'
         },
         {
-          id: 'dic',
+          id: '3',
           type: 'dic',
           title: '字典'
         },
         {
-          id: 'log',
+          id: '4',
           type: 'log',
           title: '记录'
         }
