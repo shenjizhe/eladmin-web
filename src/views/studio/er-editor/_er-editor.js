@@ -67,7 +67,6 @@ export default {
           title: '记录'
         }
       ],
-      areaEntity: [],
       formColumns: [
         {
           name: 'domainId',
@@ -120,8 +119,13 @@ export default {
 
   watch: {},
 
-  // created() {
-  // },
+  created() {
+
+  },
+
+  updated() {
+    console.log(this.crud.data)
+  },
 
   mounted() {
     const param = this.$route.query.domain

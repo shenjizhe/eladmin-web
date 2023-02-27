@@ -63,7 +63,7 @@
         </div>
       </el-dialog>
       <draggable :model="crud.data" display="flex" class="entity-area" :group="{name: 'entity-area-group', pull: false, put: true}" chosen-class="chosen" animation="300" @add="onAdd">
-        <EREntity v-for="item in areaEntity" :key="item.id" :type="item.type" :title="item.title" :comment="item.comment" />
+        <EREntity v-for="item in crud.data" :key="item.id" :type="toolEntity[item.type-1].type" :title="item.title" :comment="item.comment" />
       </draggable>
     </el-main>
     <el-aside>
