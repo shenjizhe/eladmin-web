@@ -6,7 +6,7 @@
       <el-input v-if="col.type=='textarea'" v-model="value[col.name]" type="textarea" />
       <el-select v-if="col.type=='select'" v-model="value[col.name]" filterable placeholder="请选择">
         <el-option
-          v-for="item in col.dict"
+          v-for="item in dicts[col.dict]"
           :key="item.id"
           :label="item.label"
           :value="item.value"

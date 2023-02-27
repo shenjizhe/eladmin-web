@@ -103,12 +103,7 @@ export default {
           name: 'type',
           title: '实体类型',
           type: 'select',
-          dict: [
-            { id: 'bus', label: '业务', value: 1 },
-            { id: 'rel', label: '关系', value: 2 },
-            { id: 'dict', label: '字典', value: 3 },
-            { id: 'info', label: '日志', value: 4 }
-          ]
+          dict: 'entity_types'
         }
       ],
       dialogVisible: false,

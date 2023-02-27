@@ -12,6 +12,13 @@ export default {
         return []
       }
     },
+    dicts: {
+      type: Object,
+      required: false,
+      default() {
+        return {}
+      }
+    },
     rules: {}
   },
 
