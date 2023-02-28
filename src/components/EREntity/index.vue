@@ -1,8 +1,8 @@
 <template>
-  <div :class="['EREntity', type]" :style="{width:width?width:'100px',height:height?height:'100px'}">
-    <div>{{ title }}</div>
+  <div :class="['EREntity', type]" :style="{width:width?width+'px':'100px',height:height?height+'px':'100px'}">
+    <div class="text">{{ title }}</div>
     <el-divider />
-    <div>{{ comment }}</div>
+    <div class="text-area">{{ comment }}</div>
   </div>
 </template>
 

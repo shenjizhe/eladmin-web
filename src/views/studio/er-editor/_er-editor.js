@@ -4,7 +4,6 @@ import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
-
 import draggable from 'vuedraggable'
 import EREntity from '@/components/EREntity'
 import MyForm from '@/components/MyForm'
@@ -137,6 +136,10 @@ export default {
 
   created() {
     console.log('vue: created')
+    const param = this.$route.query.domain
+    if (param != null && param !== '') {
+      this.domain = JSON.parse(param)
+    }
   },
   //
   // updated() {
@@ -145,6 +148,15 @@ export default {
 
   mounted() {
     console.log('vue: mounted')
+  },
+
+  beforeDestroy() {
+    console.log('vue: beforeDestroy')
+  },
+
+  destroyed() {
+    console.log('vue: destroyed')
+    this.domain = {}
   },
 
   methods: {
