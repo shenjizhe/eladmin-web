@@ -190,6 +190,7 @@ export default {
         .catch(_ => {})
     },
     onSelected(e) {
+      console.log(e)
       this.currentEntity = e
     }
   }

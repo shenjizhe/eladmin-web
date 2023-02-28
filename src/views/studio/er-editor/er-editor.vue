@@ -72,23 +72,23 @@
         <el-collapse-item title="实体信息" name="1">
           <el-form label-width="50px" size="small">
             <el-form-item label="名称">
-              <el-input />
+              <el-input v-model="currentEntity.name" />
             </el-form-item>
             <el-form-item label="类型">
-              <el-select v-model="value" placeholder="请选择">
+              <el-select v-model="currentEntity.type" placeholder="请选择">
                 <el-option
                   v-for="item in dict.entity_types"
                   :key="item.value"
                   :label="item.label"
-                  :value="item.value"
+                  :value="parseInt(item.value)"
                 />
               </el-select>
             </el-form-item>
             <el-form-item label="标题">
-              <el-input />
+              <el-input v-model="currentEntity.title" />
             </el-form-item>
             <el-form-item label="描述">
-              <el-input type="textarea" />
+              <el-input v-model="currentEntity.comment" type="textarea" />
             </el-form-item>
           </el-form>
         </el-collapse-item>
