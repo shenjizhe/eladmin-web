@@ -1,10 +1,14 @@
 import crudEntityModel from '@/api/entityModel'
+import crudEntityField from '@/api/entityField'
+
 import CRUD, { presenter, header, form, crud } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
+
 import draggable from 'vuedraggable'
+
 import EREntity from '@/components/EREntity'
 import MyForm from '@/components/MyForm'
 
@@ -119,8 +123,10 @@ export default {
   },
 
   cruds() {
-    console.log('crud: cruds()')
-    return CRUD({ title: '实体', url: 'api/entityModel', idField: 'id', sort: 'id,desc', debug: true, crudMethod: { ...crudEntityModel }})
+    return [
+      CRUD({ title: '实体', url: 'api/entityModel', idField: 'id', sort: 'id,desc', debug: true, crudMethod: { ...crudEntityModel }}),
+      CRUD({ tag: 'field', title: '属性', url: 'api/entityField', idField: 'id', sort: 'id,desc', debug: true, crudMethod: { ...crudEntityField }})
+    ]
   },
 
   computed: {},
@@ -131,9 +137,10 @@ export default {
     console.log('vue: beforeCreate')
     const param = this.$route.query.domain
     if (param != null && param !== '') {
+      console.log(1)
       this.domain = JSON.parse(param)
+      this.crud.query.domainId = this.domain.id
     }
-    this.crud.query.domainId = this.domain.id
     this.crud.page.size = 40
     this.crud.page.page = 0
   },
@@ -156,6 +163,7 @@ export default {
 
   mounted() {
     console.log('vue: mounted')
+    console.log(this.crud)
   },
 
   beforeDestroy() {

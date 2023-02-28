@@ -102,8 +102,13 @@
         </el-collapse-item>
         <el-collapse-item title="属性列表" name="2">
           <el-table
+            v-loading="crud.loading"
+            crud-tag="field"
+            :data="crud.data"
+            size="small"
             style="width: 100%"
             stripe
+            @selection-change="crud.selectionChangeHandler"
           >
             <el-table-column
               label="名称"

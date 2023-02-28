@@ -2,6 +2,12 @@
   <div class="app-container">
     <!--工具栏-->
     <div class="head-container">
+      <div v-if="crud.props.searchToggle">
+        <!-- 搜索 -->
+        <label class="el-form-item-label">实体ID</label>
+        <el-input v-model="query.entityId" clearable placeholder="实体ID" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
+        <rrOperation :crud="crud" />
+      </div>
       <!--如果想在工具栏加入更多按钮，可以使用插槽方式， slot = 'left' or 'right'-->
       <crudOperation :permission="permission" />
       <!--表单组件-->
@@ -118,7 +124,12 @@ export default {
         type: [
           { required: true, message: '数据类型不能为空', trigger: 'blur' }
         ]
-      }}
+      },
+      queryTypeOptions: [
+        { key: 'entityId', display_name: '实体ID' }
+      ]
+
+    }
   },
   methods: {
     // 钩子：在获取表格数据之前执行，false 则代表不获取数据
