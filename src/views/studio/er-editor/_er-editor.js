@@ -112,6 +112,7 @@ export default {
   },
 
   cruds() {
+    console.log('crud: cruds()')
     return CRUD({ title: '实体', url: 'api/entityModel', idField: 'id', sort: 'id,desc', debug: true, crudMethod: { ...crudEntityModel }})
   },
 
@@ -119,19 +120,31 @@ export default {
 
   watch: {},
 
-  // created() {
-  //
-  // },
+  beforeCreate() {
+    console.log('vue: beforeCreate')
+    const param = this.$route.query.domain
+    if (param != null && param !== '') {
+      this.domain = JSON.parse(param)
+    }
+    this.crud.query.domainId = this.domain.id
+    this.crud.page.size = 50
+    this.crud.page.page = 0
+  },
+
+  beforeMount() {
+    console.log('vue: beforeMount')
+  },
+
+  created() {
+    console.log('vue: created')
+  },
   //
   // updated() {
   //   console.log(this.crud.data)
   // },
 
   mounted() {
-    const param = this.$route.query.domain
-    if (param != null && param !== '') {
-      this.domain = JSON.parse(param)
-    }
+    console.log('vue: mounted')
   },
 
   methods: {
