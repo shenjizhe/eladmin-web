@@ -1,7 +1,7 @@
 <template>
   <el-container class="blackStyle">
     <el-aside>
-      <el-tabs v-model="active.tabs" type="card" @tab-click="handleClick">
+      <el-tabs v-model="active.tabs" type="card">
         <el-tab-pane label="领域管理" name="first">
           <el-collapse v-model="active.domain">
             <el-collapse-item title="领域信息" name="1">

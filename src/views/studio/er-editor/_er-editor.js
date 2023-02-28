@@ -134,7 +134,7 @@ export default {
       this.domain = JSON.parse(param)
     }
     this.crud.query.domainId = this.domain.id
-    this.crud.page.size = 50
+    this.crud.page.size = 40
     this.crud.page.page = 0
   },
 
@@ -198,7 +198,6 @@ export default {
         .catch(_ => {})
     },
     onSelected(e) {
-      console.log(e)
       this.currentEntity = e
     }
   }
