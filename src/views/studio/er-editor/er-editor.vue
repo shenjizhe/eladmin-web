@@ -1,10 +1,10 @@
 <template>
   <el-container class="blackStyle">
     <el-aside>
-      <el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+      <el-tabs v-model="active.tabs" type="card" @tab-click="handleClick">
         <el-tab-pane label="领域管理" name="first">
-          <el-collapse>
-            <el-collapse-item title="领域信息" name="domain-info">
+          <el-collapse v-model="active.domain">
+            <el-collapse-item title="领域信息" name="1">
               <template slot="title">
                 <i class="header-icon el-icon-info">领域信息</i>
               </template>
@@ -20,7 +20,7 @@
                 </el-form-item>
               </el-form>
             </el-collapse-item>
-            <el-collapse-item title="工具控件" name="domain-tool">
+            <el-collapse-item title="工具控件" name="2">
               <draggable v-model="toolEntity" class="entity-tool" chosen-class="chosen" :group="{name: 'entity-area-group', pull: 'clone', put: false}" sort="false" animation="300">
                 <EREntity v-for="item in toolEntity" :id="item.id" :key="item.id" :model="item" :type="item.type" :title="item.title" />
               </draggable>
@@ -28,8 +28,8 @@
           </el-collapse>
         </el-tab-pane>
         <el-tab-pane label="实体市场" name="second">
-          <el-collapse>
-            <el-collapse-item title="市场领域" name="domain-market">
+          <el-collapse v-model="active.market">
+            <el-collapse-item title="市场领域" name="1">
               <el-input placeholder="请输入关键字">
                 <el-button slot="append" icon="el-icon-search" />
               </el-input>
@@ -76,7 +76,7 @@
       <pagination />
     </el-main>
     <el-aside>
-      <el-collapse>
+      <el-collapse v-model="active.entity">
         <el-collapse-item title="实体信息" name="1">
           <el-form label-width="50px" size="small">
             <el-form-item label="名称">

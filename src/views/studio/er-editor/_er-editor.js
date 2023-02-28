@@ -106,6 +106,14 @@ export default {
       ],
       dialogVisible: false,
       currentEntity: {},
+      // 激活用配置
+      active: {
+        domain: ['1', '2'],
+        market: ['1'],
+        entity: ['1', '2'],
+        tabs: 'first'
+      },
+
       value: ''
     }
   },
