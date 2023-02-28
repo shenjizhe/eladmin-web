@@ -188,6 +188,9 @@ export default {
           done()
         })
         .catch(_ => {})
+    },
+    onSelected(e) {
+      this.currentEntity = e
     }
   }
 }

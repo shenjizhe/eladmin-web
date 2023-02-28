@@ -20,7 +20,7 @@
         </el-collapse-item>
         <el-collapse-item title="工具控件" name="domain-tool">
           <draggable v-model="toolEntity" class="entity-tool" chosen-class="chosen" :group="{name: 'entity-area-group', pull: 'clone', put: false}" sort="false" animation="300">
-            <EREntity v-for="item in toolEntity" :id="item.id" :key="item.id" :type="item.type" :title="item.title" />
+            <EREntity v-for="item in toolEntity" :id="item.id" :key="item.id" :model="item" :type="item.type" :title="item.title" />
           </draggable>
         </el-collapse-item>
         <el-collapse-item title="市场领域" name="domain-market">
@@ -63,7 +63,7 @@
         </div>
       </el-dialog>
       <draggable :model="crud.data" display="flex" class="entity-area" :group="{name: 'entity-area-group', pull: false, put: true}" chosen-class="chosen" animation="300" @add="onAdd">
-        <EREntity v-for="item in crud.data" :key="item.id" :type="toolEntity[item.type-1].type" :title="item.title" :comment="item.comment" :width="120" :height="120" />
+        <EREntity v-for="item in crud.data" :key="item.id" :data="item" :type="toolEntity[item.type-1].type" :title="item.name" :comment="item.title" :width="120" :height="120" @selected="onSelected" />
       </draggable>
       <pagination />
     </el-main>
