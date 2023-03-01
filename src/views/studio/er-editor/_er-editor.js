@@ -14,11 +14,6 @@ import MyForm from '@/components/MyForm'
 
 const defaultForm = { id: null, domainId: null, name: null, title: null, comment: null, show: null, groupId: null, type: null }
 
-const test = {
-  method1: 'testMethod',
-  method2: 'testMethod2'
-}
-
 export default {
   name: 'ErEditor',
   components: { EREntity, MyForm, draggable, pagination, crudOperation, rrOperation, udOperation },
@@ -180,9 +175,6 @@ export default {
     this.domain = {}
   },
   methods: {
-    [test.method1]() {
-      console.log(11111)
-    },
     // 钩子：在获取表格数据之前执行，false 则代表不获取数据
     [CRUD.HOOK.beforeRefresh]() {
       return true
@@ -228,7 +220,7 @@ export default {
     onFieldDelete(e) {
       console.log(e)
       // let currentField = e
-      this.$curd['field']
+      crud.lookup
     }
   }
 }
