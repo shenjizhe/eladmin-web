@@ -21,6 +21,8 @@ function CRUD(options) {
     url: '',
     // 表格数据
     data: [],
+    // 当前实例
+    current: {},
     // 选择项
     selections: [],
     // 待查询的对象
@@ -132,6 +134,8 @@ function CRUD(options) {
         crud.loading = true
         // 请求数据
         // console.log(crud.getQueryParams())
+        console.log(1)
+        console.log(crud.getQueryParams())
         initData(crud.url, crud.getQueryParams()).then(data => {
           const table = crud.getTable()
           if (table && table.lazy) { // 懒加载子节点数据，清掉已加载的数据
@@ -384,6 +388,10 @@ function CRUD(options) {
     // 选择改变
     selectionChangeHandler(val) {
       crud.selections = val
+    },
+    // 当前改变
+    currentChangeHandler(cur) {
+      crud.current = cur
     },
     /**
      * 重置查询参数

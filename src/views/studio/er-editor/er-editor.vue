@@ -63,6 +63,7 @@
       </el-tabs>
     </el-aside>
     <el-main>
+      <crudOperation :permission="permissionEntity" />
       <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="500px">
         <MyForm ref="form" :data="form" :rule="rulesEntity" :columns="formColumns" :dicts="dict" />
         <div slot="footer" class="dialog-footer">
