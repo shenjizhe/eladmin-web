@@ -48,6 +48,7 @@ export default {
         comment: '',
         show: false
       },
+      fields: [],
       toolEntity: [
         {
           id: '1',
@@ -110,6 +111,7 @@ export default {
       ],
       dialogVisible: false,
       currentEntity: {},
+      currentField: {},
       // 激活用配置
       active: {
         domain: ['1', '2'],
@@ -124,8 +126,8 @@ export default {
 
   cruds() {
     return [
-      CRUD({ title: '实体', url: 'api/entityModel', idField: 'id', sort: 'id,desc', debug: true, crudMethod: { ...crudEntityModel }}),
-      CRUD({ tag: 'field', title: '属性', url: 'api/entityField', idField: 'id', sort: 'id,desc', debug: true, crudMethod: { ...crudEntityField }})
+      CRUD({ title: '实体', url: 'api/entityModel', idField: 'id', sort: 'id,asc', debug: true, crudMethod: { ...crudEntityModel }}),
+      CRUD({ tag: 'field', title: '属性', url: 'api/entityField', idField: 'id', sort: 'id,asc', debug: true, crudMethod: { ...crudEntityField }})
     ]
   },
 
@@ -207,6 +209,14 @@ export default {
     },
     onSelected(e) {
       this.currentEntity = e
+      const curCrud = this.$crud['field']
+      curCrud.query.entityId = e.id
+      curCrud.toQuery()
+      this.fields = curCrud.data
+    },
+    onSelectField(e) {
+      this.currentField = e
+      console.log(e)
     }
   }
 }

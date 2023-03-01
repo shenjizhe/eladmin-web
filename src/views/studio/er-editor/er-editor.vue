@@ -104,28 +104,42 @@
         <el-collapse-item title="属性列表" name="2">
           <el-table
             v-loading="crud.loading"
-            crud-tag="field"
-            :data="crud.data"
+            :data="fields"
             size="small"
             style="width: 100%"
             stripe
-            @selection-change="crud.selectionChangeHandler"
+            border
+            highlight-current-row
+            max-height="300px"
+            crud-tag="field"
+            @current-change="onSelectField"
           >
             <el-table-column
+              prop="name"
               label="名称"
               width="80px"
             />
             <el-table-column
-              prop="name"
+              prop="comment"
               label="描述"
             />
           </el-table>
-          <el-form label-width="50px" size="small">
-            <el-form-item label="名称">
-              <el-input />
+          <el-form :model="currentField" label-width="50px" size="small">
+            <el-col :span="12">
+              <el-form-item prop="pk" label="主键">
+                <el-switch v-model="currentField.pk" />
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item prop="show" label="显示">
+                <el-switch v-model="currentField.show" />
+              </el-form-item>
+            </el-col>
+            <el-form-item prop="name" label="名称">
+              <el-input v-model="currentField.name" />
             </el-form-item>
-            <el-form-item label="类型">
-              <el-select v-model="value" filterable placeholder="请选择">
+            <el-form-item prop="type" label="类型">
+              <el-select v-model="currentField.type" filterable placeholder="请选择">
                 <el-option
                   v-for="item in dict.db_types"
                   :key="item.id"
@@ -134,11 +148,8 @@
                 />
               </el-select>
             </el-form-item>
-            <el-form-item label="主键">
-              <el-switch />
-            </el-form-item>
-            <el-form-item label="描述">
-              <el-input type="textarea" />
+            <el-form-item prop="comment" label="描述">
+              <el-input v-model="currentField.comment" type="textarea" />
             </el-form-item>
           </el-form>
         </el-collapse-item>
