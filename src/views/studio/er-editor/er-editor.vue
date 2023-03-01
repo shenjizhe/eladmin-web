@@ -133,7 +133,7 @@
               width="50px"
             >
               <template slot-scope="scope">
-                <el-button icon="el-icon-delete" type="danger" size="small" circle @click="handleClick(scope.row)" />
+                <el-button icon="el-icon-delete" type="danger" size="small" circle @click="onFieldDelete(scope.row)" />
               </template>
             </el-table-column>
           </el-table>

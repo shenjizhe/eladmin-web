@@ -14,6 +14,11 @@ import MyForm from '@/components/MyForm'
 
 const defaultForm = { id: null, domainId: null, name: null, title: null, comment: null, show: null, groupId: null, type: null }
 
+const test = {
+  method1: 'testMethod',
+  method2: 'testMethod2'
+}
+
 export default {
   name: 'ErEditor',
   components: { EREntity, MyForm, draggable, pagination, crudOperation, rrOperation, udOperation },
@@ -139,7 +144,6 @@ export default {
     console.log('vue: beforeCreate')
     const param = this.$route.query.domain
     if (param != null && param !== '') {
-      console.log(1)
       this.domain = JSON.parse(param)
       this.crud.query.domainId = this.domain.id
     }
@@ -165,7 +169,6 @@ export default {
 
   mounted() {
     console.log('vue: mounted')
-    console.log(this.crud)
   },
 
   beforeDestroy() {
@@ -176,8 +179,10 @@ export default {
     console.log('vue: destroyed')
     this.domain = {}
   },
-
   methods: {
+    [test.method1]() {
+      console.log(11111)
+    },
     // 钩子：在获取表格数据之前执行，false 则代表不获取数据
     [CRUD.HOOK.beforeRefresh]() {
       return true
@@ -219,6 +224,11 @@ export default {
         e = {}
       }
       this.currentField = e
+    },
+    onFieldDelete(e) {
+      console.log(e)
+      // let currentField = e
+      this.$curd['field']
     }
   }
 }
