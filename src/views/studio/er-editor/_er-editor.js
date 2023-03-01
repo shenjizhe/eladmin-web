@@ -220,7 +220,6 @@ export default {
     onFieldDelete(e) {
       console.log(e)
       // let currentField = e
-      crud.lookup
     }
   }
 }
