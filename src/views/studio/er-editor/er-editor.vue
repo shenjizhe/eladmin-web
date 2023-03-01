@@ -102,6 +102,9 @@
           </el-form>
         </el-collapse-item>
         <el-collapse-item title="属性列表" name="2">
+          <div slot="title">
+            属性列表<el-button icon="el-icon-plus" type="success" circle size="mini" style="margin-left: 20px" />
+          </div>
           <el-table
             v-loading="crud.loading"
             :data="fields"
@@ -110,8 +113,9 @@
             stripe
             border
             highlight-current-row
-            max-height="300px"
+            max-height="250px"
             crud-tag="field"
+            :header-cell-style="{background:'#409eff',color:'#fff'}"
             @current-change="onSelectField"
           >
             <el-table-column
@@ -123,18 +127,17 @@
               prop="comment"
               label="描述"
             />
+            <el-table-column
+              fixed="right"
+              label="操作"
+              width="50px"
+            >
+              <template slot-scope="scope">
+                <el-button icon="el-icon-delete" type="danger" size="small" circle @click="handleClick(scope.row)" />
+              </template>
+            </el-table-column>
           </el-table>
           <el-form :model="currentField" label-width="50px" size="small">
-            <el-col :span="12">
-              <el-form-item prop="pk" label="主键">
-                <el-switch v-model="currentField.pk" />
-              </el-form-item>
-            </el-col>
-            <el-col :span="12">
-              <el-form-item prop="show" label="显示">
-                <el-switch v-model="currentField.show" />
-              </el-form-item>
-            </el-col>
             <el-form-item prop="name" label="名称">
               <el-input v-model="currentField.name" />
             </el-form-item>
@@ -150,6 +153,12 @@
             </el-form-item>
             <el-form-item prop="comment" label="描述">
               <el-input v-model="currentField.comment" type="textarea" />
+            </el-form-item>
+            <el-form-item prop="pk" label="主键">
+              <el-switch v-model="currentField.pk" />
+            </el-form-item>
+            <el-form-item prop="show" label="显示">
+              <el-switch v-model="currentField.show" />
             </el-form-item>
           </el-form>
         </el-collapse-item>

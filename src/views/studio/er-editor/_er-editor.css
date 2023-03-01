@@ -31,7 +31,7 @@
 /*}*/
 
 .el-table{
-  height: 200px;
+
 }
 
 .el-tabs{
@@ -43,6 +43,10 @@
 }
 .is-top {
   color:#409eff;
+}
+
+.el-form {
+  margin: 10px 10px 0px 5px
 }
 
 /*.el-tabs__item.is-top{*/
@@ -58,8 +62,9 @@
 
 }
 .blackStyle .el-collapse-item__content{
-  padding: 10px 10px 0px 10px;
+  padding: 0px 0px 0px 0px;
 }
+
 
 /*实体拖动区域*/
 .entity-area {

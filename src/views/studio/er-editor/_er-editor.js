@@ -215,8 +215,10 @@ export default {
       this.fields = curCrud.data
     },
     onSelectField(e) {
+      if (e == null) {
+        e = {}
+      }
       this.currentField = e
-      console.log(e)
     }
   }
 }
