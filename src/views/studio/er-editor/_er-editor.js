@@ -12,12 +12,15 @@ import draggable from 'vuedraggable'
 import EREntity from '@/components/EREntity'
 import MyForm from '@/components/MyForm'
 
-const defaultForm = { id: null, domainId: null, name: null, title: null, comment: null, show: null, groupId: null, type: null }
+const defaultForm = {
+  entity: { id: null, domainId: null, name: null, title: null, comment: null, show: null, groupId: null, type: null },
+  field: { id: null, entityId: null, name: null, comment: null, pk: false, show: null, type: null }
+}
 
 export default {
   name: 'ErEditor',
   components: { EREntity, MyForm, draggable, pagination, crudOperation, rrOperation, udOperation },
-  mixins: [presenter(), header(), form(defaultForm), crud()],
+  mixins: [presenter(), header(), form(defaultForm.entity), crud()],
   dicts: ['entity_types', 'db_types'],
   props: {},
 
@@ -194,8 +197,13 @@ export default {
 
   cruds() {
     return [
-      CRUD({ title: '实体', url: 'api/entityModel', idField: 'id', sort: 'id,asc', debug: true, crudMethod: { ...crudEntityModel }}),
-      CRUD({ tag: 'field', title: '属性', url: 'api/entityField', idField: 'id', sort: 'id,asc', debug: true, crudMethod: { ...crudEntityField }})
+      CRUD({ tag: 'default', title: '实体', url: 'api/entityModel',
+        idField: 'id', sort: 'id,asc', debug: true,
+        crudMethod: { ...crudEntityModel }}),
+      CRUD({ tag: 'field', title: '属性', url: 'api/entityField',
+        idField: 'id', sort: 'id,asc', debug: true,
+        defaultForm: defaultForm.field,
+        crudMethod: { ...crudEntityField }})
     ]
   },
 
@@ -227,6 +235,8 @@ export default {
     }
     this.Crud.entity = this.$crud['default']
     this.Crud.field = this.$crud['field']
+
+    this.Crud.field.registerVM('form', this, 3)
   },
 
   mounted() {
@@ -235,6 +245,7 @@ export default {
 
   beforeDestroy() {
     console.log('vue: beforeDestroy')
+    this.Crud.field.unregisterVM('form', this)
   },
 
   destroyed() {
@@ -285,14 +296,15 @@ export default {
 
     // 属性
     onSelectField(e) {
+      console.log('select field')
       if (e == null) {
         e = {}
       }
       this.currentField = e
     },
     onFieldAdd() {
+      console.log('field id:' + this.Crud.field.form.entityId)
       this.Crud.field.form.entityId = this.currentEntity.id
-      console.log(this.Crud.field.form)
       this.Crud.field.toAddNoReset()
     },
     onFieldDelete(e) {
