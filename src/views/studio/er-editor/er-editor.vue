@@ -63,9 +63,9 @@
       </el-tabs>
     </el-aside>
     <el-main>
-      <crudOperation :permission="permissionEntity" />
+      <crudOperation :permission="permission.entity" />
       <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="500px">
-        <MyForm ref="form" :data="form" :rule="rulesEntity" :columns="formColumns" :dicts="dict" />
+        <MyForm ref="form" :data="form" :rule="rules.entity" :columns="columns.entity" :dicts="dict" />
         <div slot="footer" class="dialog-footer">
           <el-button type="text" @click="crud.cancelCU">取消</el-button>
           <el-button :loading="crud.status.cu === 2" type="primary" @click="crud.submitCU">确认</el-button>
@@ -103,7 +103,15 @@
         </el-collapse-item>
         <el-collapse-item title="属性列表" name="2">
           <div slot="title">
-            属性列表<el-button icon="el-icon-plus" type="success" circle size="mini" style="margin-left: 20px" />
+            属性列表<el-button
+              v-permission="permission.field.add"
+              icon="el-icon-plus"
+              type="success"
+              circle
+              size="mini"
+              style="margin-left: 20px"
+              @click="Crud.fieldCrud.toAdd"
+            />
           </div>
           <el-table
             v-loading="crud.loading"

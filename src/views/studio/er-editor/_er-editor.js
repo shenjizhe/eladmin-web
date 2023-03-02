@@ -23,24 +23,33 @@ export default {
 
   data() {
     return {
-      permissionEntity: {
-        add: ['admin', 'entityModel:add'],
-        edit: ['admin', 'entityModel:edit'],
-        del: ['admin', 'entityModel:del']
+      permission: {
+        entity: {
+          add: ['admin', 'entityModel:add'],
+          edit: ['admin', 'entityModel:edit'],
+          del: ['admin', 'entityModel:del']
+        },
+        field: {
+          add: ['admin', 'entityField:add'],
+          edit: ['admin', 'entityField:edit'],
+          del: ['admin', 'entityField:del']
+        }
       },
-      rulesEntity: {
-        name: [
-          { required: true, message: '名称不能为空', trigger: 'blur' }
-        ],
-        title: [
-          { required: true, message: '标题不能为空', trigger: 'blur' }
-        ],
-        comment: [
-          { required: true, message: '描述不能为空', trigger: 'blur' }
-        ],
-        show: [
-          { required: true, message: '是否显示不能为空', trigger: 'blur' }
-        ]
+      rules: {
+        entity: {
+          name: [
+            { required: true, message: '名称不能为空', trigger: 'blur' }
+          ],
+          title: [
+            { required: true, message: '标题不能为空', trigger: 'blur' }
+          ],
+          comment: [
+            { required: true, message: '描述不能为空', trigger: 'blur' }
+          ],
+          show: [
+            { required: true, message: '是否显示不能为空', trigger: 'blur' }
+          ]
+        }
       },
       Crud: {
         entityCrud: null,
@@ -75,44 +84,46 @@ export default {
           title: '记录'
         }
       ],
-      formColumns: [
-        {
-          name: 'domainId',
-          title: '领域id',
-          type: 'text'
-        },
-        {
-          name: 'name',
-          title: '名称',
-          type: 'text'
-        },
-        {
-          name: 'title',
-          title: '标题',
-          type: 'text'
-        },
-        {
-          name: 'comment',
-          title: '描述',
-          type: 'textarea'
-        },
-        {
-          name: 'show',
-          title: '启用',
-          type: 'switch'
-        },
-        {
-          name: 'groupId',
-          title: '组id',
-          type: 'text'
-        },
-        {
-          name: 'type',
-          title: '实体类型',
-          type: 'select',
-          dict: 'entity_types'
-        }
-      ],
+      columns: {
+        entity: [
+          {
+            name: 'domainId',
+            title: '领域id',
+            type: 'text'
+          },
+          {
+            name: 'name',
+            title: '名称',
+            type: 'text'
+          },
+          {
+            name: 'title',
+            title: '标题',
+            type: 'text'
+          },
+          {
+            name: 'comment',
+            title: '描述',
+            type: 'textarea'
+          },
+          {
+            name: 'show',
+            title: '启用',
+            type: 'switch'
+          },
+          {
+            name: 'groupId',
+            title: '组id',
+            type: 'text'
+          },
+          {
+            name: 'type',
+            title: '实体类型',
+            type: 'select',
+            dict: 'entity_types'
+          }
+        ]
+      },
       dialogVisible: false,
       currentEntity: {},
       currentField: {},
@@ -139,6 +150,7 @@ export default {
 
   watch: {},
 
+  // vue 声明周期
   beforeCreate() {
     console.log('vue: beforeCreate')
     const param = this.$route.query.domain
@@ -163,10 +175,6 @@ export default {
     this.Crud.entityCrud = this.$crud['default']
     this.Crud.fieldCrud = this.$crud['field']
   },
-  //
-  // updated() {
-  //   console.log(this.crud.data)
-  // },
 
   mounted() {
     console.log('vue: mounted')
@@ -188,6 +196,7 @@ export default {
     [CRUD.HOOK.afterRefresh]() {
       return true
     },
+    // 实体工具栏
     // onStart(e) {
     //   console.log(e)
     // },
@@ -213,11 +222,15 @@ export default {
         })
         .catch(_ => {})
     },
+
+    // 实体面板
     onSelected(e) {
       this.currentEntity = e
       this.Crud.fieldCrud.query.entityId = e.id
       this.Crud.fieldCrud.toQuery()
     },
+
+    // 属性
     onSelectField(e) {
       if (e == null) {
         e = {}
