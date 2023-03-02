@@ -24,11 +24,9 @@
 /*  height: 100px;*/
 /*}*/
 
-/*#entity-tools .el-button {*/
-/*  width: 100px;*/
-/*  height: 100px;*/
-/*  margin: 10px 10px 10px 10px;*/
-/*}*/
+.entity-tool {
+  padding: 10px 0px 0px 20px;
+}
 
 .el-table{
   height: 250px;
