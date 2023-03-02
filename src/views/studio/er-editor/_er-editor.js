@@ -49,11 +49,31 @@ export default {
           show: [
             { required: true, message: '是否显示不能为空', trigger: 'blur' }
           ]
+        },
+        field: {
+          entityId: [
+            { required: true, message: '实体ID不能为空', trigger: 'blur' }
+          ],
+          name: [
+            { required: true, message: '名称不能为空', trigger: 'blur' }
+          ],
+          comment: [
+            { required: true, message: '描述不能为空', trigger: 'blur' }
+          ],
+          show: [
+            { required: true, message: '是否显示不能为空', trigger: 'blur' }
+          ],
+          pk: [
+            { required: true, message: '是否主键不能为空', trigger: 'blur' }
+          ],
+          type: [
+            { required: true, message: '数据类型不能为空', trigger: 'blur' }
+          ]
         }
       },
       Crud: {
-        entityCrud: null,
-        fieldCrud: null
+        entity: null,
+        field: null
       },
       domain: {
         id: 0,
@@ -122,6 +142,39 @@ export default {
             type: 'select',
             dict: 'entity_types'
           }
+        ],
+        field: [
+          {
+            name: 'entityId',
+            title: '实体id',
+            type: 'text'
+          },
+          {
+            name: 'name',
+            title: '名称',
+            type: 'text'
+          },
+          {
+            name: 'comment',
+            title: '描述',
+            type: 'textarea'
+          },
+          {
+            name: 'pk',
+            title: '主键',
+            type: 'switch'
+          },
+          {
+            name: 'show',
+            title: '显示',
+            type: 'switch'
+          },
+          {
+            name: 'type',
+            title: '数据类型',
+            type: 'select',
+            dict: 'db_types'
+          }
         ]
       },
       dialogVisible: false,
@@ -172,8 +225,8 @@ export default {
     if (param != null && param !== '') {
       this.domain = JSON.parse(param)
     }
-    this.Crud.entityCrud = this.$crud['default']
-    this.Crud.fieldCrud = this.$crud['field']
+    this.Crud.entity = this.$crud['default']
+    this.Crud.field = this.$crud['field']
   },
 
   mounted() {
@@ -226,8 +279,8 @@ export default {
     // 实体面板
     onSelected(e) {
       this.currentEntity = e
-      this.Crud.fieldCrud.query.entityId = e.id
-      this.Crud.fieldCrud.toQuery()
+      this.Crud.field.query.entityId = e.id
+      this.Crud.field.toQuery()
     },
 
     // 属性
@@ -236,6 +289,11 @@ export default {
         e = {}
       }
       this.currentField = e
+    },
+    onFieldAdd() {
+      this.Crud.field.form.entityId = this.currentEntity.id
+      console.log(this.Crud.field.form)
+      this.Crud.field.toAddNoReset()
     },
     onFieldDelete(e) {
       console.log(e)

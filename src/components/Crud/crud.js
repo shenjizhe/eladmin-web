@@ -243,6 +243,8 @@ function CRUD(options) {
       if (!callVmHook(crud, CRUD.HOOK.beforeValidateCU)) {
         return
       }
+      const findVM1 = crud.findVM('form').$refs['form']
+      console.log(findVM1)
       crud.findVM('form').$refs['form'].validate(valid => {
         if (!valid) {
           return

@@ -64,11 +64,18 @@
     </el-aside>
     <el-main>
       <crudOperation :permission="permission.entity" />
-      <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="500px">
-        <MyForm ref="form" :data="form" :rule="rules.entity" :columns="columns.entity" :dicts="dict" />
+      <el-dialog :close-on-click-modal="false" :before-close="Crud.entity.cancelCU" :visible.sync="Crud.entity.status.cu > 0" :title="Crud.entity.status.title" width="500px">
+        <MyForm ref="form" :data="Crud.entity.form" :rule="rules.entity" :columns="columns.entity" :dicts="dict" />
         <div slot="footer" class="dialog-footer">
           <el-button type="text" @click="crud.cancelCU">取消</el-button>
           <el-button :loading="crud.status.cu === 2" type="primary" @click="crud.submitCU">确认</el-button>
+        </div>
+      </el-dialog>
+      <el-dialog :close-on-click-modal="false" :before-close="Crud.field.cancelCU" :visible.sync="Crud.field.status.cu > 0" :title="Crud.field.status.title" width="500px">
+        <MyForm ref="form" :data="Crud.field.form" :rule="rules.field" :columns="columns.field" :dicts="dict" />
+        <div slot="footer" class="dialog-footer">
+          <el-button type="text" @click="Crud.field.cancelCU">取消</el-button>
+          <el-button :loading="Crud.field.status.cu === 2" type="primary" @click="Crud.field.submitCU">确认</el-button>
         </div>
       </el-dialog>
       <draggable :model="crud.data" display="flex" class="entity-area" :group="{name: 'entity-area-group', pull: false, put: true}" chosen-class="chosen" animation="300" @add="onAdd">
@@ -110,12 +117,12 @@
               circle
               size="mini"
               style="margin-left: 20px"
-              @click="Crud.fieldCrud.toAdd"
+              @click="onFieldAdd"
             />
           </div>
           <el-table
             v-loading="crud.loading"
-            :data="Crud.fieldCrud.data"
+            :data="Crud.field.data"
             size="small"
             style="width: 100%"
             stripe
