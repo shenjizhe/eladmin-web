@@ -42,6 +42,10 @@ export default {
           { required: true, message: '是否显示不能为空', trigger: 'blur' }
         ]
       },
+      Crud: {
+        entityCrud: null,
+        fieldCrud: null
+      },
       domain: {
         id: 0,
         name: '',
@@ -156,6 +160,8 @@ export default {
     if (param != null && param !== '') {
       this.domain = JSON.parse(param)
     }
+    this.Crud.entityCrud = this.$crud['default']
+    this.Crud.fieldCrud = this.$crud['field']
   },
   //
   // updated() {
@@ -177,6 +183,9 @@ export default {
   methods: {
     // 钩子：在获取表格数据之前执行，false 则代表不获取数据
     [CRUD.HOOK.beforeRefresh]() {
+      return true
+    },
+    [CRUD.HOOK.afterRefresh]() {
       return true
     },
     // onStart(e) {
@@ -206,10 +215,8 @@ export default {
     },
     onSelected(e) {
       this.currentEntity = e
-      const curCrud = this.$crud['field']
-      curCrud.query.entityId = e.id
-      curCrud.toQuery()
-      this.fields = curCrud.data
+      this.Crud.fieldCrud.query.entityId = e.id
+      this.Crud.fieldCrud.toQuery()
     },
     onSelectField(e) {
       if (e == null) {

@@ -107,7 +107,7 @@
           </div>
           <el-table
             v-loading="crud.loading"
-            :data="fields"
+            :data="Crud.fieldCrud.data"
             size="small"
             style="width: 100%"
             stripe
