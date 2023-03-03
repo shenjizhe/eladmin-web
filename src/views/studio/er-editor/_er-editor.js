@@ -331,7 +331,7 @@ export default {
     onSelected(e) {
       this.currentEntity = e
       this.Crud.field.query.entityId = e.id
-      defaultForm.entity.id = e.id
+      defaultForm.field.entityId = e.id
       this.Crud.field.toQuery()
     },
 
