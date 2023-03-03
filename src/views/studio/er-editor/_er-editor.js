@@ -39,6 +39,17 @@ export default {
         }
       },
       rules: {
+        domain: {
+          name: [
+            { required: true, message: '名称不能为空', trigger: 'blur' }
+          ],
+          comment: [
+            { required: true, message: '描述不能为空', trigger: 'blur' }
+          ],
+          show: [
+            { required: true, message: '启用不能为空', trigger: 'blur' }
+          ]
+        },
         entity: {
           name: [
             { required: true, message: '名称不能为空', trigger: 'blur' }
@@ -108,6 +119,30 @@ export default {
         }
       ],
       columns: {
+        domain: [
+          {
+            name: 'id',
+            title: '域ID',
+            type: 'text',
+            disabled: true
+          },
+          {
+            name: 'name',
+            title: '名称',
+            type: 'text',
+            focused: true
+          },
+          {
+            name: 'comment',
+            title: '描述',
+            type: 'textarea'
+          },
+          {
+            name: 'show',
+            title: '启用',
+            type: 'switch'
+          }
+        ],
         entity: [
           {
             name: 'domainId',
@@ -118,7 +153,8 @@ export default {
           {
             name: 'name',
             title: '名称',
-            type: 'text'
+            type: 'text',
+            focused: true
           },
           {
             name: 'title',
@@ -157,7 +193,8 @@ export default {
           {
             name: 'name',
             title: '名称',
-            type: 'text'
+            type: 'text',
+            focused: true
           },
           {
             name: 'comment',
@@ -220,6 +257,7 @@ export default {
     if (param != null && param !== '') {
       this.domain = JSON.parse(param)
       this.crud.query.domainId = this.domain.id
+      defaultForm.entity.domainId = this.domain.id
     }
     this.crud.page.size = 40
     this.crud.page.page = 0
@@ -293,6 +331,7 @@ export default {
     onSelected(e) {
       this.currentEntity = e
       this.Crud.field.query.entityId = e.id
+      defaultForm.entity.id = e.id
       this.Crud.field.toQuery()
     },
 
@@ -303,6 +342,7 @@ export default {
         e = {}
       }
       this.currentField = e
+      defaultForm.field.id = e.id
     },
     onFieldAdd() {
       console.log('field id:' + this.Crud.field.form.entityId)

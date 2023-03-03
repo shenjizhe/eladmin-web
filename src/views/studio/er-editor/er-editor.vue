@@ -8,17 +8,7 @@
               <template slot="title">
                 <i class="header-icon el-icon-info">领域信息</i>
               </template>
-              <el-form v-model="domain" label-width="50px" size="small">
-                <el-form-item label="名称">
-                  <el-input v-model="domain.name" />
-                </el-form-item>
-                <el-form-item label="描述">
-                  <el-input v-model="domain.comment" type="textarea" />
-                </el-form-item>
-                <el-form-item label="启用">
-                  <el-switch v-model="domain.show" />
-                </el-form-item>
-              </el-form>
+              <MyForm label-width="50px" size="small" :data="domain" :rule="rules.domain" :columns="columns.domain" :dicts="dict" />
             </el-collapse-item>
             <el-collapse-item title="工具控件" name="2">
               <draggable v-model="toolEntity" class="entity-tool" chosen-class="chosen" :group="{name: 'entity-area-group', pull: 'clone', put: false}" sort="false" animation="300">
@@ -86,27 +76,7 @@
     <el-aside>
       <el-collapse v-model="active.entity">
         <el-collapse-item title="实体信息" name="1">
-          <el-form label-width="50px" size="small">
-            <el-form-item label="名称">
-              <el-input v-model="currentEntity.name" />
-            </el-form-item>
-            <el-form-item label="类型">
-              <el-select v-model="currentEntity.type" placeholder="请选择">
-                <el-option
-                  v-for="item in dict.entity_types"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="parseInt(item.value)"
-                />
-              </el-select>
-            </el-form-item>
-            <el-form-item label="标题">
-              <el-input v-model="currentEntity.title" />
-            </el-form-item>
-            <el-form-item label="描述">
-              <el-input v-model="currentEntity.comment" type="textarea" />
-            </el-form-item>
-          </el-form>
+          <MyForm label-width="50px" size="small" :data="currentEntity" :rule="rules.entity" :columns="columns.entity.slice(0, 4)" :dicts="dict" />
         </el-collapse-item>
         <el-collapse-item title="属性列表" name="2">
           <div slot="title">
@@ -152,30 +122,7 @@
               </template>
             </el-table-column>
           </el-table>
-          <el-form :model="currentField" label-width="50px" size="small">
-            <el-form-item prop="name" label="名称">
-              <el-input v-model="currentField.name" />
-            </el-form-item>
-            <el-form-item prop="type" label="类型">
-              <el-select v-model="currentField.type" filterable placeholder="请选择">
-                <el-option
-                  v-for="item in dict.db_types"
-                  :key="item.id"
-                  :label="item.label"
-                  :value="item.value"
-                />
-              </el-select>
-            </el-form-item>
-            <el-form-item prop="comment" label="描述">
-              <el-input v-model="currentField.comment" type="textarea" />
-            </el-form-item>
-            <el-form-item prop="pk" label="主键">
-              <el-switch v-model="currentField.pk" />
-            </el-form-item>
-            <el-form-item prop="show" label="显示">
-              <el-switch v-model="currentField.show" />
-            </el-form-item>
-          </el-form>
+          <MyForm label-width="50px" size="small" :data="currentField" :rule="rules.field" :columns="columns.field" :dicts="dict" />
         </el-collapse-item>
       </el-collapse>
     </el-aside>

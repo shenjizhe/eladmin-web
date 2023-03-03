@@ -34,7 +34,14 @@ export default {
 
   watch: {},
 
-  // created () {},
+  created() {
+  },
+  mounted() {
+    console.log(this.$refs.mark)
+    if (this.$refs.mark) {
+      this.$refs.mark[0].focus()
+    }
+  },
 
   methods: {
     validate(e) {
