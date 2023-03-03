@@ -12,6 +12,7 @@ import draggable from 'vuedraggable'
 import EREntity from '@/components/EREntity'
 import MyForm from '@/components/MyForm'
 
+// 实际上是 reset form 而不是 default form.因为一个界面多CRUD的情况下，这个 form是可以修改的,但框架 CRUD命名是 defaultForm，保持一致性
 const defaultForm = {
   entity: { id: null, domainId: null, name: null, title: null, comment: null, show: null, groupId: null, type: null },
   field: { id: null, entityId: null, name: null, comment: null, pk: false, show: null, type: null }
@@ -345,11 +346,8 @@ export default {
       defaultForm.field.id = e.id
     },
     onFieldAdd() {
-      console.log('field id:' + this.Crud.field.form.entityId)
       this.Crud.field.form.entityId = this.currentEntity.id
-      console.log('field id:' + this.Crud.field.form.entityId)
       this.Crud.field.toAddNoReset()
-      console.log('field id:' + this.Crud.field.form.entityId)
     },
     onFieldDelete(e) {
       console.log(e)
