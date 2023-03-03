@@ -1,10 +1,10 @@
 <template>
   <el-form ref="form" :model="data" size="small" label-width="80px" :rules="rule">
-    <el-form-item v-for="col in columns" :key="col.name" :label="col.title">
-      <el-switch v-if="col.type=='switch'" v-model="data[col.name]" />
-      <el-input v-if="col.type=='text'" v-model="data[col.name]" />
-      <el-input v-if="col.type=='textarea'" v-model="data[col.name]" type="textarea" />
-      <el-select v-if="col.type=='select'" v-model="data[col.name]" filterable placeholder="请选择">
+    <el-form-item v-for="col in columns" :key="col.name" :prop="col.name" :label="col.title">
+      <el-switch v-if="col.type=='switch'" v-model="data[col.name]" :disabled="col.disabled" />
+      <el-input v-if="col.type=='text'" v-model="data[col.name]" :disabled="col.disabled" />
+      <el-input v-if="col.type=='textarea'" v-model="data[col.name]" type="textarea" :disabled="col.disabled" />
+      <el-select v-if="col.type=='select'" v-model="data[col.name]" filterable placeholder="请选择" :disabled="col.disabled">
         <el-option
           v-for="item in dicts[col.dict]"
           :key="item.id"

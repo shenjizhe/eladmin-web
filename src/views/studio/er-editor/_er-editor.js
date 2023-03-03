@@ -112,7 +112,8 @@ export default {
           {
             name: 'domainId',
             title: '领域id',
-            type: 'text'
+            type: 'text',
+            disabled: true
           },
           {
             name: 'name',
@@ -150,7 +151,8 @@ export default {
           {
             name: 'entityId',
             title: '实体id',
-            type: 'text'
+            type: 'text',
+            disabled: true
           },
           {
             name: 'name',
@@ -305,7 +307,9 @@ export default {
     onFieldAdd() {
       console.log('field id:' + this.Crud.field.form.entityId)
       this.Crud.field.form.entityId = this.currentEntity.id
+      console.log('field id:' + this.Crud.field.form.entityId)
       this.Crud.field.toAddNoReset()
+      console.log('field id:' + this.Crud.field.form.entityId)
     },
     onFieldDelete(e) {
       console.log(e)
