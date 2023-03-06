@@ -37,7 +37,6 @@ export default {
   created() {
   },
   mounted() {
-    console.log(this.$refs.mark)
     if (this.$refs.mark) {
       this.$refs.mark[0].focus()
     }

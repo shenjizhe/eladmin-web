@@ -22,6 +22,18 @@ const defaultValue = {
   entityId: null,
   field: {}
 }
+const debugMode = {
+  crudEntity: false,
+  crudField: false,
+  vue: false
+}
+
+function printVueLog(msg) {
+  if (debugMode.vue) {
+    console.log(msg)
+  }
+}
+
 export default {
   name: 'ErEditor',
   components: { EREntity, MyForm, draggable, pagination, crudOperation, rrOperation, udOperation },
@@ -251,10 +263,10 @@ export default {
   cruds() {
     return [
       CRUD({ tag: 'default', title: '实体', url: 'api/entityModel',
-        idField: 'id', sort: 'id,asc', debug: true,
+        idField: 'id', sort: 'id,asc', debug: debugMode.crudEntity,
         crudMethod: { ...crudEntityModel }}),
       CRUD({ tag: 'field', title: '属性', url: 'api/entityField',
-        idField: 'id', sort: 'id,asc', debug: true,
+        idField: 'id', sort: 'id,asc', debug: debugMode.crudField,
         defaultForm: defaultForm.field,
         crudMethod: { ...crudEntityField }})
     ]
@@ -266,7 +278,7 @@ export default {
 
   // vue 声明周期
   beforeCreate() {
-    console.log('vue: beforeCreate')
+    printVueLog('vue: beforeCreate')
     const param = this.$route.query.domain
     if (param != null && param !== '') {
       this.domain = JSON.parse(param)
@@ -278,11 +290,11 @@ export default {
   },
 
   beforeMount() {
-    console.log('vue: beforeMount')
+    printVueLog('vue: beforeMount')
   },
 
   created() {
-    console.log('vue: created')
+    printVueLog('vue: created')
     const param = this.$route.query.domain
     if (param != null && param !== '') {
       this.domain = JSON.parse(param)
@@ -294,16 +306,16 @@ export default {
   },
 
   mounted() {
-    console.log('vue: mounted')
+    printVueLog('vue: mounted')
   },
 
   beforeDestroy() {
-    console.log('vue: beforeDestroy')
+    printVueLog('vue: beforeDestroy')
     this.Crud.field.unregisterVM('form', this)
   },
 
   destroyed() {
-    console.log('vue: destroyed')
+    printVueLog('vue: destroyed')
     this.domain = {}
   },
   methods: {
