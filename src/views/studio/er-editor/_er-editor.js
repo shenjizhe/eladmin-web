@@ -25,7 +25,8 @@ const defaultValue = {
 const debugMode = {
   crudEntity: false,
   crudField: false,
-  vue: false
+  vue: false,
+  action: false
 }
 
 function printVueLog(msg) {
@@ -371,7 +372,6 @@ export default {
 
     onKeyUp(event) {
       if (event.key === 'Delete') {
-        console.log('del')
         this.pop.delEntity = true
       }
     },
@@ -403,6 +403,7 @@ export default {
         this.Crud.entity.doDelete(this.current.entity)
       }
       this.pop.delEntity = false
+      this.currentEntity = defaultValue.entity
     }
   }
 }
