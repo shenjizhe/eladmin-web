@@ -118,7 +118,20 @@
               width="50px"
             >
               <template slot-scope="scope">
-                <el-button icon="el-icon-delete" type="danger" size="small" circle @click="onFieldDelete(scope.row)" />
+                <!-- TODO: 删除按钮集成 crud。operation 组件               -->
+                <el-button
+                  v-if="crud.optShow.del"
+                  slot="reference"
+                  v-permission="permission.field.del"
+                  icon="el-icon-delete"
+                  type="danger"
+                  size="mini"
+                  circle
+                  crud-tag="field"
+                  :disabled="scope.row === null"
+                  @click="Crud.field.doDelete(scope.row)"
+                />
+                <!--                  :loading="crud.dataStatus[crud.getDataId(scope.row)].delete === 2"-->
               </template>
             </el-table-column>
           </el-table>
