@@ -3,7 +3,7 @@ export default {
   name: 'MyForm',
   components: {},
   mixins: [],
-
+  emits: ['enterkey'],
   props: {
     columns: {
       type: Array,
@@ -48,6 +48,9 @@ export default {
     },
     clearValidate(e) {
       return this.$refs.form.clearValidate(e)
+    },
+    onKeyPress(event, colName, value) {
+      this.$emit('enterkey', colName, value)
     }
   }
 }

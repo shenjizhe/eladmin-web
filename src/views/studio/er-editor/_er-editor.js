@@ -28,6 +28,119 @@ const debugMode = {
   vue: false,
   action: false
 }
+// 快捷字段
+const fieldShortcuts = [
+  {
+    key: 'id',
+    comment: '主键',
+    pk: true,
+    type: 'bigint'
+  },
+  {
+    key: '/sid',
+    comment: 'ID',
+    pk: true,
+    type: 'bigint',
+    regex: true
+  },
+  {
+    key: '/sname',
+    comment: '名称',
+    pk: false,
+    type: 'varchar',
+    regex: true
+  },
+  {
+    key: 'password',
+    comment: '密码',
+    pk: false,
+    type: 'varchar'
+  },
+  {
+    key: 'comment',
+    comment: '描述',
+    pk: false,
+    type: 'varchar'
+  },
+  {
+    key: 'description',
+    comment: '描述',
+    pk: false,
+    type: 'varchar'
+  },
+  {
+    key: 'title',
+    comment: '标题',
+    pk: false,
+    type: 'varchar'
+  },
+  {
+    key: 'enabled',
+    comment: '启用',
+    pk: false,
+    type: 'bit'
+  },
+  {
+    key: 'show',
+    comment: '显示',
+    pk: false,
+    type: 'bit'
+  },
+  {
+    key: 'deleted',
+    comment: '删除标记',
+    pk: false,
+    type: 'bit'
+  },
+  {
+    key: '/stime',
+    comment: '时间',
+    pk: false,
+    type: 'datetime',
+    regex: true
+  },
+  {
+    key: 'type',
+    comment: '类型',
+    pk: false,
+    type: 'int'
+  },
+  {
+    key: '/spath',
+    comment: '路径',
+    pk: false,
+    type: 'varchar',
+    regex: true
+  },
+  {
+    key: '/surl',
+    comment: '地址',
+    pk: false,
+    type: 'varchar',
+    regex: true
+  },
+  {
+    key: '/sport',
+    comment: '端口',
+    pk: false,
+    type: 'int',
+    regex: true
+  },
+  {
+    key: '/ssort',
+    comment: '排序',
+    pk: false,
+    type: 'int',
+    regex: true
+  },
+  {
+    key: '/scount',
+    comment: '数量',
+    pk: false,
+    type: 'int',
+    regex: true
+  }
+]
 
 function printVueLog(msg) {
   if (debugMode.vue) {
@@ -404,6 +517,41 @@ export default {
       }
       this.pop.delEntity = false
       this.currentEntity = defaultValue.entity
+    },
+    // TODO: 匹配正则
+    shortcutsField(word) {
+      console.log(word)
+      for (let i = 0; i < fieldShortcuts.length; i++) {
+        const shortcut = fieldShortcuts[i]
+        console.log('id=' + i + ',word=' + word)
+        console.log(shortcut)
+        if (shortcut.regex) {
+          console.log(1)
+          if (new RegExp(shortcut.key, word)) {
+            console.log(2)
+            return shortcut
+          }
+        } else {
+          console.log(3)
+          if (word === shortcut.key) {
+            console.log(4)
+            return shortcut
+          }
+        }
+      }
+      console.log(5)
+      return null
+    },
+    onEnterKey(name, value) {
+      if (name === 'name') {
+        const shortcuts = this.shortcutsField(value)
+        console.log(shortcuts)
+        if (shortcuts) {
+          this.current.field.comment = shortcuts.comment
+          this.current.field.pk = shortcuts.pk
+          this.current.field.type = shortcuts.type
+        }
+      }
     }
   }
 }

@@ -1,6 +1,12 @@
 <template>
   <el-form ref="form" :model="data" size="small" label-width="80px" :rules="rule">
-    <el-form-item v-for="col in columns" :key="col.name" :prop="col.name" :label="col.title">
+    <el-form-item
+      v-for="col in columns"
+      :key="col.name"
+      :prop="col.name"
+      :label="col.title"
+      @keypress.enter.native.stop="onKeyPress($event, col.name, data[col.name])"
+    >
       <el-switch v-if="col.type=='switch'" :ref="col.focused" v-model="data[col.name]" :disabled="col.disabled" />
       <el-input v-if="col.type=='text'" :ref="col.focused?'mark':''" v-model="data[col.name]" :disabled="col.disabled" />
       <el-input v-if="col.type=='textarea'" :ref="col.focused" v-model="data[col.name]" type="textarea" :disabled="col.disabled" />

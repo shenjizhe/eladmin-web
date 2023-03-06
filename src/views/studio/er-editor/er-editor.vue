@@ -161,7 +161,15 @@
               </template>
             </el-table-column>
           </el-table>
-          <MyForm label-width="50px" size="small" :data="current.field" :rule="rules.field" :columns="columns.field" :dicts="dict" />
+          <MyForm
+            label-width="50px"
+            size="small"
+            :data="current.field"
+            :rule="rules.field"
+            :columns="columns.field"
+            :dicts="dict"
+            @enterkey="onEnterKey"
+          />
         </el-collapse-item>
       </el-collapse>
     </el-aside>
