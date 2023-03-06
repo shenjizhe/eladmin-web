@@ -392,20 +392,16 @@ export default {
     onFieldDelete(e) {
       console.log(e)
     },
-    onPopoverShow() {
-      setTimeout(() => {
-        document.addEventListener('click', this.handleDocumentClick)
-      }, 0)
-    },
-    onPopoverHide() {
-      document.removeEventListener('click', this.handleDocumentClick)
-    },
     doCancel() {
+      if (this.current.entity) {
+        this.Crud.entity.cancelDelete(this.current.entity)
+      }
       this.pop.delEntity = false
-      this.crud.cancelDelete(this.current.entity)
     },
-    toDelete(data) {
-      this.Crud.entity.doDelete(data)
+    toDelete() {
+      if (this.current.entity) {
+        this.Crud.entity.doDelete(this.current.entity)
+      }
       this.pop.delEntity = false
     }
   }
