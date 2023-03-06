@@ -3,7 +3,7 @@ export default {
   name: 'EREntity',
   components: {},
   mixins: [],
-  emits: ['selected'],
+  emits: ['selected', 'keyup'],
   props: {
     title: {
       type: String,
@@ -67,6 +67,9 @@ export default {
   methods: {
     onClick() {
       this.$emit('selected', this.data)
+    },
+    onKeyUp(event) {
+      this.$emit('keyup', event)
     }
   }
 }

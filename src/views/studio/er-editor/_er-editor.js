@@ -43,6 +43,12 @@ export default {
           del: ['admin', 'entityField:del']
         }
       },
+      msg: {
+        delEntity: '确认删除这个实体吗？'
+      },
+      pop: {
+        delEntity: false
+      },
       rules: {
         domain: {
           name: [
@@ -344,12 +350,18 @@ export default {
       this.Crud.field.toQuery()
     },
 
-    onArenClick() {
-      console.log('click')
+    onArenClick(e) {
       this.current.entity = defaultValue.entity
       this.current.entityId = defaultValue.entityId
       this.Crud.field.query = {}
       defaultForm.field.entityId = ''
+    },
+
+    onKeyUp(event) {
+      if (event.key === 'Delete') {
+        console.log('del')
+        this.pop.delEntity = true
+      }
     },
 
     // 属性
@@ -367,6 +379,22 @@ export default {
     },
     onFieldDelete(e) {
       console.log(e)
+    },
+    onPopoverShow() {
+      setTimeout(() => {
+        document.addEventListener('click', this.handleDocumentClick)
+      }, 0)
+    },
+    onPopoverHide() {
+      document.removeEventListener('click', this.handleDocumentClick)
+    },
+    doCancel() {
+      this.pop.delEntity = false
+      this.crud.cancelDelete(this.current.entity)
+    },
+    toDelete(data) {
+      this.Crud.entity.doDelete(data)
+      this.pop.delEntity = false
     }
   }
 }

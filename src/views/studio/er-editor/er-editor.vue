@@ -67,6 +67,22 @@
           <el-button :loading="Crud.field.status.cu === 2" type="primary" @click="Crud.field.submitCU">确认</el-button>
         </div>
       </el-dialog>
+      <el-popover
+        v-model="pop.delEntity"
+        v-permission="permission.entity.del"
+        placement="top"
+        width="180"
+        visible-arrow
+        trigger="manual"
+        @show="onPopoverShow"
+        @hide="onPopoverHide"
+      >
+        <p>{{ msg.delEntity }}</p>
+        <div style="text-align: right; margin: 0">
+          <el-button size="mini" type="text" @click="doCancel">取消</el-button>
+          <el-button type="primary" size="mini" @click="toDelete(current.entity)">确定</el-button>
+        </div>
+      </el-popover>
       <draggable
         :model="crud.data"
         display="flex"
@@ -88,6 +104,7 @@
           :width="120"
           :height="120"
           @selected="onSelected"
+          @keyup="onKeyUp"
         />
       </draggable>
       <pagination />

@@ -2,7 +2,9 @@
   <div
     :class="['EREntity', type , selected?'color-selected':'color-unselected']"
     :style="{width:width?width+'px':'100px',height:height?height+'px':'100px'}"
+    tabIndex="0"
     @click.stop="onClick"
+    @keyup="onKeyUp"
   >
     <div class="text">{{ title }}</div>
     <el-divider />
