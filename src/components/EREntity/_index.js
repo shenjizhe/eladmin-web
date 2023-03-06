@@ -39,6 +39,11 @@ export default {
       required: false,
       default: 'bus'
     },
+    selected: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     data: {
       type: Object,
       required: false,

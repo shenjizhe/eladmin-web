@@ -53,7 +53,6 @@
       </el-tabs>
     </el-aside>
     <el-main>
-      <crudOperation :permission="permission.entity" />
       <el-dialog :close-on-click-modal="false" :before-close="Crud.entity.cancelCU" :visible.sync="Crud.entity.status.cu > 0" :title="Crud.entity.status.title" width="500px">
         <MyForm ref="form" :data="Crud.entity.form" :rule="rules.entity" :columns="columns.entity" :dicts="dict" />
         <div slot="footer" class="dialog-footer">
@@ -69,14 +68,14 @@
         </div>
       </el-dialog>
       <draggable :model="crud.data" display="flex" class="entity-area" :group="{name: 'entity-area-group', pull: false, put: true}" chosen-class="chosen" animation="300" @add="onAdd">
-        <EREntity v-for="item in crud.data" :key="item.id" :data="item" :type="toolEntity[item.type-1].type" :title="item.name" :comment="item.title" :width="120" :height="120" @selected="onSelected" />
+        <EREntity v-for="item in crud.data" :key="item.id" :selected="false" :data="item" :type="toolEntity[item.type-1].type" :title="item.name" :comment="item.title" :width="120" :height="120" @selected="onSelected" />
       </draggable>
       <pagination />
     </el-main>
     <el-aside>
       <el-collapse v-model="active.entity">
         <el-collapse-item title="实体信息" name="1">
-          <MyForm label-width="50px" size="small" :data="currentEntity" :rule="rules.entity" :columns="columns.entity.slice(0, 4)" :dicts="dict" />
+          <MyForm label-width="50px" size="small" :data="current.entity" :rule="rules.entity" :columns="columns.entity.slice(0, 4)" :dicts="dict" />
         </el-collapse-item>
         <el-collapse-item title="属性列表" name="2">
           <div slot="title">
@@ -135,7 +134,7 @@
               </template>
             </el-table-column>
           </el-table>
-          <MyForm label-width="50px" size="small" :data="currentField" :rule="rules.field" :columns="columns.field" :dicts="dict" />
+          <MyForm label-width="50px" size="small" :data="current.field" :rule="rules.field" :columns="columns.field" :dicts="dict" />
         </el-collapse-item>
       </el-collapse>
     </el-aside>

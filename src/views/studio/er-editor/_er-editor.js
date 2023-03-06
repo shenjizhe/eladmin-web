@@ -17,7 +17,11 @@ const defaultForm = {
   entity: { id: null, domainId: null, name: null, title: null, comment: null, show: null, groupId: null, type: null },
   field: { id: null, entityId: null, name: null, comment: null, pk: false, show: null, type: null }
 }
-
+const defaultValue = {
+  entity: {},
+  entityId: null,
+  field: {}
+}
 export default {
   name: 'ErEditor',
   components: { EREntity, MyForm, draggable, pagination, crudOperation, rrOperation, udOperation },
@@ -221,8 +225,11 @@ export default {
         ]
       },
       dialogVisible: false,
-      currentEntity: {},
-      currentField: {},
+      current: {
+        entity: defaultValue.entity,
+        entityId: defaultValue.entityId,
+        field: defaultValue.field
+      },
       // 激活用配置
       active: {
         domain: ['1', '2'],
@@ -330,7 +337,8 @@ export default {
 
     // 实体面板
     onSelected(e) {
-      this.currentEntity = e
+      this.current.entity = e
+      this.current.entityId = e.id
       this.Crud.field.query.entityId = e.id
       defaultForm.field.entityId = e.id
       this.Crud.field.toQuery()
@@ -342,16 +350,15 @@ export default {
       if (e == null) {
         e = {}
       }
-      this.currentField = e
+      this.current.field = e
       defaultForm.field.id = e.id
     },
     onFieldAdd() {
-      this.Crud.field.form.entityId = this.currentEntity.id
+      this.Crud.field.form.entityId = this.current.entityId
       this.Crud.field.toAddNoReset()
     },
     onFieldDelete(e) {
       console.log(e)
-      // let currentField = e
     }
   }
 }
