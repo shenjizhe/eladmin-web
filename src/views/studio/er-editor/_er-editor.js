@@ -344,6 +344,14 @@ export default {
       this.Crud.field.toQuery()
     },
 
+    onArenClick() {
+      console.log('click')
+      this.current.entity = defaultValue.entity
+      this.current.entityId = defaultValue.entityId
+      this.Crud.field.query = {}
+      defaultForm.field.entityId = ''
+    },
+
     // 属性
     onSelectField(e) {
       console.log('select field')

@@ -67,8 +67,28 @@
           <el-button :loading="Crud.field.status.cu === 2" type="primary" @click="Crud.field.submitCU">确认</el-button>
         </div>
       </el-dialog>
-      <draggable :model="crud.data" display="flex" class="entity-area" :group="{name: 'entity-area-group', pull: false, put: true}" chosen-class="chosen" animation="300" @add="onAdd">
-        <EREntity v-for="item in crud.data" :key="item.id" :selected="item.id == current.entityId" :data="item" :type="toolEntity[item.type-1].type" :title="item.name" :comment="item.title" :width="120" :height="120" @selected="onSelected" />
+      <draggable
+        :model="crud.data"
+        display="flex"
+        class="entity-area"
+        :group="{name: 'entity-area-group', pull: false, put: true}"
+        chosen-class="chosen"
+        animation="300"
+        @add="onAdd"
+        @click.native="onArenClick"
+      >
+        <EREntity
+          v-for="item in crud.data"
+          :key="item.id"
+          :selected="item.id === current.entityId"
+          :data="item"
+          :type="toolEntity[item.type-1].type"
+          :title="item.name"
+          :comment="item.title"
+          :width="120"
+          :height="120"
+          @selected="onSelected"
+        />
       </draggable>
       <pagination />
     </el-main>
