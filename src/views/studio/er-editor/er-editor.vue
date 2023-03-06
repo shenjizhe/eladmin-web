@@ -113,7 +113,7 @@
               circle
               size="mini"
               style="margin-left: 20px"
-              @click="onFieldAdd"
+              @click.native.stop="onFieldAdd"
             />
           </div>
           <el-table
@@ -155,7 +155,7 @@
                   circle
                   crud-tag="field"
                   :disabled="scope.row === null"
-                  @click="Crud.field.doDelete(scope.row)"
+                  @click.native="Crud.field.doDelete(scope.row)"
                 />
                 <!--                  :loading="crud.dataStatus[crud.getDataId(scope.row)].delete === 2"-->
               </template>
