@@ -99,7 +99,7 @@ export default {
         const shortcut = this.getShortcut(this.datas[this.checkKey])
         if (shortcut) {
           for (const key in shortcut.data) {
-            this.datas[key] = shortcut.data[key]
+            this.$set(this.datas, key, shortcut.data[key])
           }
         }
       }
