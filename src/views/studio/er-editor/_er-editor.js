@@ -34,21 +34,15 @@ const fieldShortcuts = [
     key: 'id',
     comment: '主键',
     pk: true,
-    type: 'bigint'
-  },
-  {
-    key: '/sid',
-    comment: 'ID',
-    pk: true,
     type: 'bigint',
-    regex: true
+    regex: /id$/
   },
   {
-    key: '/sname',
+    key: 'name',
     comment: '名称',
     pk: false,
     type: 'varchar',
-    regex: true
+    regex: /name$/
   },
   {
     key: 'password',
@@ -60,13 +54,8 @@ const fieldShortcuts = [
     key: 'comment',
     comment: '描述',
     pk: false,
-    type: 'varchar'
-  },
-  {
-    key: 'description',
-    comment: '描述',
-    pk: false,
-    type: 'varchar'
+    type: 'varchar',
+    regex: /comment$|info$|description$/
   },
   {
     key: 'title',
@@ -93,11 +82,11 @@ const fieldShortcuts = [
     type: 'bit'
   },
   {
-    key: '/stime',
+    key: 'time',
     comment: '时间',
     pk: false,
     type: 'datetime',
-    regex: true
+    regex: /time$/
   },
   {
     key: 'type',
@@ -106,39 +95,39 @@ const fieldShortcuts = [
     type: 'int'
   },
   {
-    key: '/spath',
+    key: 'path',
     comment: '路径',
     pk: false,
     type: 'varchar',
-    regex: true
+    regex: /path$/
   },
   {
-    key: '/surl',
+    key: 'url',
     comment: '地址',
     pk: false,
     type: 'varchar',
-    regex: true
+    regex: /url$/
   },
   {
-    key: '/sport',
+    key: 'port',
     comment: '端口',
     pk: false,
     type: 'int',
-    regex: true
+    regex: /port$/
   },
   {
-    key: '/ssort',
+    key: 'sort',
     comment: '排序',
     pk: false,
     type: 'int',
-    regex: true
+    regex: /sort$/
   },
   {
-    key: '/scount',
+    key: 'count',
     comment: '数量',
     pk: false,
     type: 'int',
-    regex: true
+    regex: /count$/
   }
 ]
 
@@ -520,26 +509,19 @@ export default {
     },
     // TODO: 匹配正则
     shortcutsField(word) {
-      console.log(word)
       for (let i = 0; i < fieldShortcuts.length; i++) {
         const shortcut = fieldShortcuts[i]
         console.log('id=' + i + ',word=' + word)
-        console.log(shortcut)
         if (shortcut.regex) {
-          console.log(1)
-          if (new RegExp(shortcut.key, word)) {
-            console.log(2)
+          if (shortcut.regex.test(word)) {
             return shortcut
           }
         } else {
-          console.log(3)
           if (word === shortcut.key) {
-            console.log(4)
             return shortcut
           }
         }
       }
-      console.log(5)
       return null
     },
     onEnterKey(name, value) {
