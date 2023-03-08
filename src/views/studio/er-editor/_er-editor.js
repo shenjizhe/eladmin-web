@@ -14,12 +14,29 @@ import MyForm from '@/components/MyForm'
 
 // 实际上是 reset form 而不是 default form.因为一个界面多CRUD的情况下，这个 form是可以修改的,但框架 CRUD命名是 defaultForm，保持一致性
 const defaultForm = {
-  entity: { id: null, domainId: null, name: null, title: null, comment: null, show: null, groupId: null, type: null },
-  field: { id: null, entityId: null, name: null, comment: null, pk: false, show: null, type: null }
+  entity: {
+    id: null,
+    domainId: null,
+    name: null,
+    title: null,
+    comment: null,
+    show: null,
+    groupId: null,
+    type: null
+  },
+  field: {
+    id: null,
+    entityId: null,
+    name: null,
+    comment: null,
+    pk: false,
+    show: null,
+    type: null
+  }
 }
 const defaultValue = {
   entity: {},
-  entityId: null,
+  entityId: 0,
   field: {}
 }
 const debugMode = {
@@ -216,8 +233,8 @@ export default {
         }
       },
       Crud: {
-        entity: null,
-        field: null
+        entity: {},
+        field: {}
       },
       domain: {
         id: 0,
@@ -225,7 +242,6 @@ export default {
         comment: '',
         show: false
       },
-      fields: [],
       toolEntity: [
         {
           id: '1',
@@ -392,8 +408,8 @@ export default {
       this.crud.query.domainId = this.domain.id
       defaultForm.entity.domainId = this.domain.id
     }
-    this.crud.page.size = 40
     this.crud.page.page = 0
+    this.crud.page.size = 40
   },
 
   created() {

@@ -127,7 +127,7 @@
           </div>
           <el-table
             v-loading="crud.loading"
-            :data="Crud.field.data"
+            :data="disabled.entity?[]:Crud.field.data"
             size="small"
             style="width: 100%"
             stripe
