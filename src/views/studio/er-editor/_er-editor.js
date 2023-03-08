@@ -396,10 +396,6 @@ export default {
     this.crud.page.page = 0
   },
 
-  beforeMount() {
-    printVueLog('vue: beforeMount')
-  },
-
   created() {
     printVueLog('vue: created')
     const param = this.$route.query.domain
@@ -409,6 +405,10 @@ export default {
     this.Crud.entity = this.$crud['default']
     this.Crud.field = this.$crud['field']
     this.Crud.field.registerVM('form', this, 3)
+  },
+
+  beforeMount() {
+    printVueLog('vue: beforeMount')
   },
 
   mounted() {
@@ -448,7 +448,6 @@ export default {
 
     // 实体面板
     onSelected(e) {
-      console.log(123)
       this.disabled.entity = false
       this.current.entity = e
       this.current.entityId = e.id
@@ -457,7 +456,7 @@ export default {
       this.Crud.field.toQuery()
     },
 
-    onArenClick(e) {
+    onAreaClick(e) {
       this.disabled.entity = true
       this.current.entity = defaultValue.entity
       this.current.entityId = defaultValue.entityId
@@ -486,9 +485,6 @@ export default {
       this.Crud.field.form.entityId = this.current.entityId
       this.Crud.field.toAddNoReset()
     },
-    onFieldDelete(e) {
-      console.log(e)
-    },
     doCancel() {
       if (this.current.entity) {
         this.Crud.entity.cancelDelete(this.current.entity)
@@ -502,7 +498,6 @@ export default {
       this.pop.delEntity = false
       this.currentEntity = defaultValue.entity
     },
-    // TODO: 匹配正则
     shortcutsField(word) {
       for (let i = 0; i < fieldShortcuts.length; i++) {
         const shortcut = fieldShortcuts[i]

@@ -81,7 +81,7 @@
         chosen-class="chosen"
         animation="300"
         @add="onAdd"
-        @click.native="onArenClick"
+        @click.native="onAreaClick"
       >
         <EREntity
           v-for="item in crud.data"
