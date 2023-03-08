@@ -116,6 +116,7 @@
           <div slot="title">
             属性列表<el-button
               v-permission="permission.field.add"
+              :disabled="disabled.entity"
               icon="el-icon-plus"
               type="success"
               circle
