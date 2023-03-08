@@ -134,6 +134,20 @@
     <el-aside>
       <el-collapse v-model="active.entity">
         <el-collapse-item title="实体信息" name="1">
+          <div slot="title">
+            实体信息
+            <el-button
+              v-permission="permission.field.add"
+              :disabled="disabled.entity"
+              icon="el-icon-check"
+              type="primary"
+              circle
+              size="mini"
+              style="margin-left: 20px"
+              crud-tag="default"
+              @click.native.stop="crud.submitCU"
+            />
+          </div>
           <MyForm
             label-width="50px"
             size="small"
@@ -146,7 +160,8 @@
         </el-collapse-item>
         <el-collapse-item title="属性列表" name="2">
           <div slot="title">
-            属性列表<el-button
+            属性列表
+            <el-button
               v-permission="permission.field.add"
               :disabled="disabled.entity"
               icon="el-icon-plus"
@@ -155,6 +170,16 @@
               size="mini"
               style="margin-left: 20px"
               @click.native.stop="onFieldAdd"
+            />
+            <el-button
+              v-permission="permission.field.add"
+              :disabled="disabled.entity"
+              icon="el-icon-check"
+              type="primary"
+              circle
+              size="mini"
+              style="margin-left: 20px"
+              @click.native.stop="Crud.field.submitCU"
             />
           </div>
           <el-table

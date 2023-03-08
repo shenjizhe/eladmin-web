@@ -549,6 +549,10 @@ export default {
       this.Crud.field.form.entityId = this.current.entityId
       this.Crud.field.toAddNoReset()
     },
+    onFieldUpdate() {
+      console.log('save')
+      // TODO: entity 和 field 使用数组和索引的方式代替 current
+    },
     doCancel() {
       if (this.current.entity) {
         this.Crud.entity.cancelDelete(this.current.entity)
