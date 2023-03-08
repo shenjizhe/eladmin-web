@@ -3,7 +3,7 @@ export default {
   name: 'MyForm',
   components: {},
   mixins: [],
-  emits: ['enterkey'],
+  emits: [],
   props: {
     columns: {
       type: Array,
@@ -26,7 +26,14 @@ export default {
         return {}
       }
     },
-    data: {
+    datas: {
+      type: Object,
+      required: false,
+      default() {
+        return {}
+      }
+    },
+    shortcuts: {
       type: Object,
       required: false,
       default() {
@@ -44,11 +51,16 @@ export default {
 
   data() {
     return {
-      value: {}
     }
   },
 
-  computed: {},
+  computed: {
+    checkKey: {
+      get() {
+        return this.shortcuts.name
+      }
+    }
+  },
 
   watch: {},
 
@@ -67,8 +79,31 @@ export default {
     clearValidate(e) {
       return this.$refs.form.clearValidate(e)
     },
+    getShortcut(word) {
+      for (let i = 0; i < this.shortcuts.keys.length; i++) {
+        const shortcut = this.shortcuts.keys[i]
+        if (shortcut.regex) {
+          if (shortcut.regex.test(word)) {
+            return shortcut
+          }
+        } else {
+          if (word === shortcut.key) {
+            return shortcut
+          }
+        }
+      }
+      return null
+    },
     onKeyPress(event, colName, value) {
-      this.$emit('enterkey', colName, value)
+      if (colName === this.checkKey) {
+        const shortcut = this.getShortcut(value)
+        console.log(shortcut)
+        if (shortcut) {
+          for (const key in shortcut.data) {
+            this.datas[key] = shortcut.data[key]
+          }
+        }
+      }
     }
   }
 }

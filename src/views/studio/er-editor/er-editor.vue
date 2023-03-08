@@ -8,7 +8,14 @@
               <template slot="title">
                 <i class="header-icon el-icon-info">领域信息</i>
               </template>
-              <MyForm label-width="50px" size="small" :data="domain" :rule="rules.domain" :columns="columns.domain" :dicts="dict" />
+              <MyForm
+                label-width="50px"
+                size="small"
+                :datas="domain"
+                :rule="rules.domain"
+                :columns="columns.domain"
+                :dicts="dict"
+              />
             </el-collapse-item>
             <el-collapse-item title="工具控件" name="2">
               <draggable v-model="toolEntity" class="entity-tool" chosen-class="chosen" :group="{name: 'entity-area-group', pull: 'clone', put: false}" sort="false" animation="300">
@@ -53,15 +60,40 @@
       </el-tabs>
     </el-aside>
     <el-main>
-      <el-dialog :close-on-click-modal="false" :before-close="Crud.entity.cancelCU" :visible.sync="Crud.entity.status.cu > 0" :title="Crud.entity.status.title" width="500px">
-        <MyForm ref="form" :data="Crud.entity.form" :rule="rules.entity" :columns="columns.entity" :dicts="dict" />
+      <el-dialog
+        :close-on-click-modal="false"
+        :before-close="Crud.entity.cancelCU"
+        :visible.sync="Crud.entity.status.cu > 0"
+        :title="Crud.entity.status.title"
+        width="500px"
+      >
+        <MyForm
+          ref="form"
+          :datas="Crud.entity.form"
+          :rule="rules.entity"
+          :columns="columns.entity"
+          :dicts="dict"
+        />
         <div slot="footer" class="dialog-footer">
           <el-button type="text" @click="crud.cancelCU">取消</el-button>
           <el-button :loading="crud.status.cu === 2" type="primary" @click="crud.submitCU">确认</el-button>
         </div>
       </el-dialog>
-      <el-dialog :close-on-click-modal="false" :before-close="Crud.field.cancelCU" :visible.sync="Crud.field.status.cu > 0" :title="Crud.field.status.title" width="500px">
-        <MyForm ref="form" :data="Crud.field.form" :rule="rules.field" :columns="columns.field" :dicts="dict" />
+      <el-dialog
+        :close-on-click-modal="false"
+        :before-close="Crud.field.cancelCU"
+        :visible.sync="Crud.field.status.cu > 0"
+        :title="Crud.field.status.title"
+        width="500px"
+      >
+        <MyForm
+          ref="form"
+          :datas="Crud.field.form"
+          :rule="rules.field"
+          :columns="columns.field"
+          :dicts="dict"
+          :shortcuts="shortcuts.field"
+        />
         <div slot="footer" class="dialog-footer">
           <el-button type="text" @click="Crud.field.cancelCU">取消</el-button>
           <el-button :loading="Crud.field.status.cu === 2" type="primary" @click="Crud.field.submitCU">确认</el-button>
@@ -105,7 +137,7 @@
           <MyForm
             label-width="50px"
             size="small"
-            :data="current.entity"
+            :datas="current.entity"
             :disabled="disabled.entity"
             :rule="rules.entity"
             :columns="columns.entity.slice(0, 4)"
@@ -172,12 +204,12 @@
           <MyForm
             label-width="50px"
             size="small"
-            :data="current.field"
+            :datas="current.field"
             :disabled="disabled.field"
             :rule="rules.field"
             :columns="columns.field"
             :dicts="dict"
-            @enterkey="onEnterKey"
+            :shortcuts="shortcuts.field"
           />
         </el-collapse-item>
       </el-collapse>

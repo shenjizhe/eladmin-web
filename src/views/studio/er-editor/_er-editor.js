@@ -45,108 +45,6 @@ const debugMode = {
   vue: false,
   action: false
 }
-// 快捷字段
-const fieldShortcuts = [
-  {
-    key: 'id',
-    comment: '主键',
-    pk: true,
-    type: 'bigint',
-    regex: /id$/
-  },
-  {
-    key: 'name',
-    comment: '名称',
-    pk: false,
-    type: 'varchar',
-    regex: /name$/
-  },
-  {
-    key: 'password',
-    comment: '密码',
-    pk: false,
-    type: 'varchar'
-  },
-  {
-    key: 'comment',
-    comment: '描述',
-    pk: false,
-    type: 'varchar',
-    regex: /comment$|info$|description$/
-  },
-  {
-    key: 'title',
-    comment: '标题',
-    pk: false,
-    type: 'varchar'
-  },
-  {
-    key: 'enabled',
-    comment: '启用',
-    pk: false,
-    type: 'bit'
-  },
-  {
-    key: 'show',
-    comment: '显示',
-    pk: false,
-    type: 'bit'
-  },
-  {
-    key: 'deleted',
-    comment: '删除标记',
-    pk: false,
-    type: 'bit'
-  },
-  {
-    key: 'time',
-    comment: '时间',
-    pk: false,
-    type: 'datetime',
-    regex: /time$/
-  },
-  {
-    key: 'type',
-    comment: '类型',
-    pk: false,
-    type: 'int'
-  },
-  {
-    key: 'path',
-    comment: '路径',
-    pk: false,
-    type: 'varchar',
-    regex: /path$/
-  },
-  {
-    key: 'url',
-    comment: '地址',
-    pk: false,
-    type: 'varchar',
-    regex: /url$/
-  },
-  {
-    key: 'port',
-    comment: '端口',
-    pk: false,
-    type: 'int',
-    regex: /port$/
-  },
-  {
-    key: 'sort',
-    comment: '排序',
-    pk: false,
-    type: 'int',
-    regex: /sort$/
-  },
-  {
-    key: 'count',
-    comment: '数量',
-    pk: false,
-    type: 'int',
-    regex: /count$/
-  }
-]
 
 function printVueLog(msg) {
   if (debugMode.vue) {
@@ -365,6 +263,156 @@ export default {
           }
         ]
       },
+      shortcuts: {
+        field: {
+          name: 'name',
+          keys: [
+            {
+              key: 'id',
+              regex: /id$/,
+              data: {
+                comment: '主键',
+                show: true,
+                pk: true,
+                type: 'bigint'
+              }
+            },
+            {
+              key: 'name',
+              regex: /name$/,
+              data: {
+                comment: '名称',
+                show: true,
+                pk: false,
+                type: 'varchar'
+              }
+            },
+            {
+              key: 'password',
+              data: {
+                comment: '密码',
+                show: true,
+                pk: false,
+                type: 'varchar'
+              }
+            },
+            {
+              key: 'comment',
+              regex: /comment$|info$|description$/,
+              data: {
+                comment: '描述',
+                show: true,
+                pk: false,
+                type: 'varchar'
+              }
+            },
+            {
+              key: 'title',
+              data: {
+                comment: '标题',
+                show: true,
+                pk: false,
+                type: 'varchar'
+              }
+            },
+            {
+              key: 'enabled',
+              data: {
+                comment: '启用',
+                show: true,
+                pk: false,
+                type: 'bit'
+              }
+            },
+            {
+              key: 'show',
+              data: {
+                comment: '显示',
+                show: true,
+                pk: false,
+                type: 'bit'
+              }
+            },
+            {
+              key: 'deleted',
+              data: {
+                comment: '删除标记',
+                show: true,
+                pk: false,
+                type: 'bit'
+              }
+            },
+            {
+              key: 'time',
+              regex: /time$/,
+              data: {
+                comment: '时间',
+                show: true,
+                pk: false,
+                type: 'datetime'
+              }
+            },
+            {
+              key: 'type',
+              data: {
+                comment: '类型',
+                show: true,
+                pk: false,
+                type: 'int'
+              }
+            },
+            {
+              key: 'path',
+              regex: /path$/,
+              data: {
+                comment: '路径',
+                show: true,
+                pk: false,
+                type: 'varchar'
+              }
+            },
+            {
+              key: 'url',
+              regex: /url$/,
+              data: {
+                comment: '地址',
+                show: true,
+                pk: false,
+                type: 'varchar'
+              }
+            },
+            {
+              key: 'port',
+              regex: /port$/,
+              data: {
+                comment: '端口',
+                show: true,
+                pk: false,
+                type: 'int'
+              }
+            },
+            {
+              key: 'sort',
+              regex: /sort$/,
+              data: {
+                comment: '排序',
+                show: true,
+                pk: false,
+                type: 'int'
+              }
+            },
+            {
+              key: 'count',
+              regex: /count$/,
+              data: {
+                comment: '数量',
+                show: true,
+                pk: false,
+                type: 'int'
+              }
+            }]
+        }
+      },
       dialogVisible: false,
       current: {
         entity: defaultValue.entity,
@@ -472,7 +520,7 @@ export default {
       this.Crud.field.toQuery()
     },
 
-    onAreaClick(e) {
+    onAreaClick() {
       this.disabled.entity = true
       this.current.entity = defaultValue.entity
       this.current.entityId = defaultValue.entityId
@@ -513,33 +561,6 @@ export default {
       }
       this.pop.delEntity = false
       this.currentEntity = defaultValue.entity
-    },
-    shortcutsField(word) {
-      for (let i = 0; i < fieldShortcuts.length; i++) {
-        const shortcut = fieldShortcuts[i]
-        console.log('id=' + i + ',word=' + word)
-        if (shortcut.regex) {
-          if (shortcut.regex.test(word)) {
-            return shortcut
-          }
-        } else {
-          if (word === shortcut.key) {
-            return shortcut
-          }
-        }
-      }
-      return null
-    },
-    onEnterKey(name, value) {
-      if (name === 'name') {
-        const shortcuts = this.shortcutsField(value)
-        console.log(shortcuts)
-        if (shortcuts) {
-          this.current.field.comment = shortcuts.comment
-          this.current.field.pk = shortcuts.pk
-          this.current.field.type = shortcuts.type
-        }
-      }
     }
   }
 }
