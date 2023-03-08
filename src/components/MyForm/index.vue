@@ -1,5 +1,5 @@
 <template>
-  <el-form ref="form" :model="data" size="small" label-width="80px" :rules="rule">
+  <el-form ref="form" :model="data" size="small" label-width="80px" :rules="rule" :disabled="disabled">
     <el-form-item
       v-for="col in columns"
       :key="col.name"

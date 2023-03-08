@@ -102,7 +102,15 @@
     <el-aside>
       <el-collapse v-model="active.entity">
         <el-collapse-item title="实体信息" name="1">
-          <MyForm label-width="50px" size="small" :data="current.entity" :rule="rules.entity" :columns="columns.entity.slice(0, 4)" :dicts="dict" />
+          <MyForm
+            label-width="50px"
+            size="small"
+            :data="current.entity"
+            :disabled="disabled.entity"
+            :rule="rules.entity"
+            :columns="columns.entity.slice(0, 4)"
+            :dicts="dict"
+          />
         </el-collapse-item>
         <el-collapse-item title="属性列表" name="2">
           <div slot="title">
@@ -144,7 +152,6 @@
               width="50px"
             >
               <template slot-scope="scope">
-                <!-- TODO: 删除按钮集成 crud。operation 组件               -->
                 <el-button
                   v-if="crud.optShow.del"
                   slot="reference"
@@ -165,6 +172,7 @@
             label-width="50px"
             size="small"
             :data="current.field"
+            :disabled="disabled.field"
             :rule="rules.field"
             :columns="columns.field"
             :dicts="dict"

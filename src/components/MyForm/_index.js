@@ -19,9 +19,27 @@ export default {
         return {}
       }
     },
-    rule: {},
-    name: null,
-    data: {}
+    rule: {
+      type: Object,
+      required: false,
+      default() {
+        return {}
+      }
+    },
+    data: {
+      type: Object,
+      required: false,
+      default() {
+        return {}
+      }
+    },
+    disabled: {
+      type: Boolean,
+      required: false,
+      default() {
+        return false
+      }
+    }
   },
 
   data() {

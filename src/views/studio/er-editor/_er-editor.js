@@ -158,6 +158,10 @@ export default {
           del: ['admin', 'entityField:del']
         }
       },
+      disabled: {
+        entity: true,
+        field: true
+      },
       msg: {
         delEntity: '确认删除这个实体吗？'
       },
@@ -379,7 +383,7 @@ export default {
 
   watch: {},
 
-  // vue 声明周期
+  // vue 生命周期
   beforeCreate() {
     printVueLog('vue: beforeCreate')
     const param = this.$route.query.domain
@@ -404,7 +408,6 @@ export default {
     }
     this.Crud.entity = this.$crud['default']
     this.Crud.field = this.$crud['field']
-
     this.Crud.field.registerVM('form', this, 3)
   },
 
@@ -429,19 +432,6 @@ export default {
     [CRUD.HOOK.afterRefresh]() {
       return true
     },
-    // 实体工具栏
-    // onStart(e) {
-    //   console.log(e)
-    // },
-    // onEnd(e) {
-    //   console.log(e)
-    // },
-    // onClone(e) {
-    //   console.log(e)
-    // },
-    // onChange(e) {
-    //   console.log(e)
-    // },
     onAdd(e) {
       // 暂时用 clone.id 代表 type.value ,因为定义的顺序一致，而且没有别的办法可以传递
       this.crud.form.domainId = this.domain.id
@@ -458,6 +448,8 @@ export default {
 
     // 实体面板
     onSelected(e) {
+      console.log(123)
+      this.disabled.entity = false
       this.current.entity = e
       this.current.entityId = e.id
       this.Crud.field.query.entityId = e.id
@@ -466,9 +458,11 @@ export default {
     },
 
     onArenClick(e) {
+      this.disabled.entity = true
       this.current.entity = defaultValue.entity
       this.current.entityId = defaultValue.entityId
       this.Crud.field.query = {}
+      this.Crud.field.data = []
       defaultForm.field.entityId = ''
     },
 
@@ -480,10 +474,11 @@ export default {
 
     // 属性
     onSelectField(e) {
-      console.log('select field')
       if (e == null) {
         e = {}
+        this.disabled.field = true
       }
+      this.disabled.field = false
       this.current.field = e
       defaultForm.field.id = e.id
     },
