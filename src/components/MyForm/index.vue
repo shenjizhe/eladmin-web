@@ -5,7 +5,7 @@
       :key="col.name"
       :prop="col.name"
       :label="col.title"
-      @keypress.enter.native.stop="onKeyPress($event, col.name, datas[col.name])"
+      @keypress.enter.native.stop="onKeyPress($event, col.name)"
     >
       <el-switch v-if="col.type==='switch'" :ref="col.focused" v-model="datas[col.name]" :disabled="col.disabled" />
       <el-input v-if="col.type==='text'" :ref="col.focused?'mark':''" v-model="datas[col.name]" :disabled="col.disabled" />

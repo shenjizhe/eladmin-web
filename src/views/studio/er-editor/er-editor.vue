@@ -173,7 +173,7 @@
             <el-table-column
               prop="name"
               label="名称"
-              width="80px"
+              width="100px"
             />
             <el-table-column
               prop="comment"

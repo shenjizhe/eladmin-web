@@ -94,10 +94,9 @@ export default {
       }
       return null
     },
-    onKeyPress(event, colName, value) {
+    onKeyPress(event, colName) {
       if (colName === this.checkKey) {
-        const shortcut = this.getShortcut(value)
-        console.log(shortcut)
+        const shortcut = this.getShortcut(this.datas[this.checkKey])
         if (shortcut) {
           for (const key in shortcut.data) {
             this.datas[key] = shortcut.data[key]
