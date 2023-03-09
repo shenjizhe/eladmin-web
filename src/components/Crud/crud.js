@@ -131,7 +131,6 @@ function CRUD(options) {
         return
       }
       return new Promise((resolve, reject) => {
-        console.log(crud.tag + ':' + JSON.stringify(crud.getQueryParams()))
         crud.loading = true
         initData(crud.url, crud.getQueryParams()).then(data => {
           const table = crud.getTable()
@@ -278,7 +277,7 @@ function CRUD(options) {
         callVmHook(crud, CRUD.HOOK.afterAddError)
       })
     },
-    editAll(datas) {
+    editAll: function(datas) {
       if (!callVmHook(crud, CRUD.HOOK.beforeSubmit)) {
         return
       }
@@ -594,6 +593,7 @@ function CRUD(options) {
     },
     /**
      * 取消注册组件实例
+     * @param type 类型
      * @param {*} vm 组件实例
      */
     unregisterVM(type, vm) {

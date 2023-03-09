@@ -48,10 +48,10 @@ const defaultValue = {
   field: {}
 }
 const debugMode = {
-  crudDomain: true,
+  crudDomain: false,
   crudEntity: false,
-  crudField: true,
-  vue: true,
+  crudField: false,
+  vue: false,
   action: false
 }
 
@@ -83,6 +83,7 @@ export default {
         }
       },
       disabled: {
+        domain: true,
         entity: true,
         field: true
       },
@@ -464,6 +465,10 @@ export default {
       this.crud.query.domainId = domainId
       defaultForm.entity.domainId = domainId
       defaultForm.domain.id = domainId
+    } else {
+      this.crud.query.domainId = null
+      defaultForm.entity.domainId = null
+      defaultForm.domain.id = null
     }
     this.crud.page.page = 1
     this.crud.page.size = 40
@@ -484,17 +489,6 @@ export default {
 
   mounted() {
     printVueLog('vue: mounted')
-    const domainId = this.$route.query.domainId
-    if (domainId != null && domainId !== '') {
-      this.Crud.domain.query = {
-        id: domainId,
-        sort: 'id,asc'
-      }
-      console.log('start')
-      this.Crud.domain.toQuery()
-      this.current.domain = this.Crud.domain.data[0]
-      console.log('finished')
-    }
   },
 
   beforeDestroy() {
@@ -505,14 +499,40 @@ export default {
 
   destroyed() {
     printVueLog('vue: destroyed')
-    this.current.domain = {}
+    this.current.domain = defaultValue.domain
+    this.current.entity = defaultValue.entity
+    this.current.entityId = defaultValue.entityId
+    this.current.field = defaultValue.field
   },
   methods: {
     // 钩子：在获取表格数据之前执行，false 则代表不获取数据
-    [CRUD.HOOK.beforeRefresh]() {
+    [CRUD.HOOK.beforeRefresh](crud) {
+      // console.log('before crud hook')
+      // console.log(crud)
+      if (crud.tag === 'domain') {
+        crud.query = {
+          id: defaultForm.domain.id
+        }
+      }
       return true
     },
-    [CRUD.HOOK.afterRefresh]() {
+    [CRUD.HOOK.afterRefresh](crud) {
+      if (crud.tag === 'domain') {
+        if (defaultForm.domain.id) {
+          const data = this.Crud.domain.data
+          if (data && data.length > 0) {
+            this.current.domain = data[0]
+            this.disabled.domain = false
+          } else {
+            this.disabled.domain = true
+            this.current.domain = {}
+          }
+        } else {
+          this.disabled.domain = true
+          this.current.domain = {}
+        }
+      }
+
       return true
     },
     onAdd(e) {

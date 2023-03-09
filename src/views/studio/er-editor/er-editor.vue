@@ -15,6 +15,7 @@
                 :rule="rules.domain"
                 :columns="columns.domain"
                 :dicts="dict"
+                :disabled="disabled.domain"
               />
             </el-collapse-item>
             <el-collapse-item title="工具控件" name="2">
@@ -113,8 +114,17 @@
             type="primary"
             size="mini"
             style="margin-left: 20px"
-            @click.native.stop="Crud.entity.editAll(Crud.entity.data)"
+            @click.native.stop="onSaveAll"
           >保存</el-button>
+          <el-button
+            v-permission="permission.entity.del"
+            :disabled="disabled.entity"
+            icon="el-icon-delete"
+            type="danger"
+            size="mini"
+            style="margin-left: 20px"
+            @click.native.stop="pop.delEntity = true"
+          >删除</el-button>
         </div>
       </pagination>
       <draggable
@@ -222,7 +232,6 @@
                   :disabled="scope.row === null"
                   @click.native="Crud.field.doDelete(scope.row)"
                 />
-                <!--                  :loading="crud.dataStatus[crud.getDataId(scope.row)].delete === 2"-->
               </template>
             </el-table-column>
           </el-table>

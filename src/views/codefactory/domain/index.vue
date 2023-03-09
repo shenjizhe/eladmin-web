@@ -4,46 +4,14 @@
     <div class="head-container">
       <div v-if="crud.props.searchToggle">
         <!-- 搜索 -->
-        <!--表格渲染-->
+        <label class="el-form-item-label">主键</label>
+        <el-input v-model="query.id" clearable placeholder="主键" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
         <label class="el-form-item-label">名称</label>
-        <el-input
-          v-model="query.name"
-          clearable
-          placeholder="名称"
-          style="width: 185px;"
-          class="filter-item"
-          @keyup.enter.native="crud.toQuery"
-        />
-
-        <!--表格渲染-->
+        <el-input v-model="query.name" clearable placeholder="名称" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
         <label class="el-form-item-label">描述</label>
-        <el-input
-          v-model="query.comment"
-          clearable
-          placeholder="描述"
-          style="width: 185px;"
-          class="filter-item"
-          @keyup.enter.native="crud.toQuery"
-        />
-
-        <!--表格渲染-->
+        <el-input v-model="query.comment" clearable placeholder="描述" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
         <label class="el-form-item-label">启用</label>
-        <el-select
-          v-model="query.show"
-          clearable
-          placeholder="请选择"
-          style="width: 185px;"
-          class="filter-item"
-          @keyup.enter.native="crud.toQuery"
-        >
-          <el-option
-            v-for="item in dict.show_status"
-            :key="item.id"
-            :label="item.label"
-            :value="item.value"
-          />
-        </el-select>
-
+        <el-input v-model="query.show" clearable placeholder="启用" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
         <rrOperation :crud="crud" />
       </div>
       <!--如果想在工具栏加入更多按钮，可以使用插槽方式， slot = 'left' or 'right'-->
@@ -112,7 +80,7 @@
 
 <script>
 import crudDomain from '@/api/domain'
-import CRUD, { crud, form, header, presenter } from '@crud/crud'
+import CRUD, { presenter, header, form, crud } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
@@ -146,6 +114,7 @@ export default {
         ]
       },
       queryTypeOptions: [
+        { key: 'id', display_name: '主键' },
         { key: 'name', display_name: '名称' },
         { key: 'comment', display_name: '描述' },
         { key: 'show', display_name: '启用' }
