@@ -11,7 +11,7 @@
               <MyForm
                 label-width="50px"
                 size="small"
-                :datas="domain"
+                :datas="current.domain"
                 :rule="rules.domain"
                 :columns="columns.domain"
                 :dicts="dict"
@@ -105,6 +105,18 @@
           <el-button type="primary" @click="toDelete">确认</el-button>
         </div>
       </el-dialog>
+      <pagination>
+        <div slot="left">
+          <el-button
+            v-permission="permission.entity.edit"
+            icon="el-icon-check"
+            type="primary"
+            size="mini"
+            style="margin-left: 20px"
+            @click.native.stop="Crud.entity.editAll(Crud.entity.data)"
+          >保存</el-button>
+        </div>
+      </pagination>
       <draggable
         :model="crud.data"
         display="flex"
@@ -129,24 +141,12 @@
           @keyup="onKeyUp"
         />
       </draggable>
-      <pagination />
     </el-main>
     <el-aside>
       <el-collapse v-model="active.entity">
         <el-collapse-item title="实体信息" name="1">
           <div slot="title">
             实体信息
-            <el-button
-              v-permission="permission.field.add"
-              :disabled="disabled.entity"
-              icon="el-icon-check"
-              type="primary"
-              circle
-              size="mini"
-              style="margin-left: 20px"
-              crud-tag="default"
-              @click.native.stop="crud.submitCU"
-            />
           </div>
           <MyForm
             label-width="50px"
@@ -172,14 +172,14 @@
               @click.native.stop="onFieldAdd"
             />
             <el-button
-              v-permission="permission.field.add"
+              v-permission="permission.field.edit"
               :disabled="disabled.entity"
               icon="el-icon-check"
               type="primary"
               circle
               size="mini"
               style="margin-left: 20px"
-              @click.native.stop="Crud.field.submitCU"
+              @click.native.stop="Crud.field.editAll(Crud.field.data)"
             />
           </div>
           <el-table
@@ -227,6 +227,7 @@
             </el-table-column>
           </el-table>
           <MyForm
+            ref="form"
             label-width="50px"
             size="small"
             :datas="current.field"

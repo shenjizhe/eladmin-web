@@ -1,3 +1,4 @@
+import crudDomain from '@/api/domain'
 import crudEntityModel from '@/api/entityModel'
 import crudEntityField from '@/api/entityField'
 
@@ -14,6 +15,12 @@ import MyForm from '@/components/MyForm'
 
 // 实际上是 reset form 而不是 default form.因为一个界面多CRUD的情况下，这个 form是可以修改的,但框架 CRUD命名是 defaultForm，保持一致性
 const defaultForm = {
+  domain: {
+    id: null,
+    name: null,
+    comment: null,
+    show: null
+  },
   entity: {
     id: null,
     domainId: null,
@@ -35,14 +42,16 @@ const defaultForm = {
   }
 }
 const defaultValue = {
+  domain: {},
   entity: {},
   entityId: 0,
   field: {}
 }
 const debugMode = {
+  crudDomain: true,
   crudEntity: false,
-  crudField: false,
-  vue: false,
+  crudField: true,
+  vue: true,
   action: false
 }
 
@@ -131,14 +140,9 @@ export default {
         }
       },
       Crud: {
+        domain: {},
         entity: {},
         field: {}
-      },
-      domain: {
-        id: 0,
-        name: '',
-        comment: '',
-        show: false
       },
       toolEntity: [
         {
@@ -415,6 +419,7 @@ export default {
       },
       dialogVisible: false,
       current: {
+        domain: defaultValue.domain,
         entity: defaultValue.entity,
         entityId: defaultValue.entityId,
         field: defaultValue.field
@@ -433,6 +438,10 @@ export default {
 
   cruds() {
     return [
+      CRUD({ tag: 'domain', title: '域', url: 'api/domain',
+        idField: 'id', sort: 'id,asc', debug: debugMode.crudDomain,
+        defaultForm: defaultForm.domain,
+        crudMethod: { ...crudDomain }}),
       CRUD({ tag: 'default', title: '实体', url: 'api/entityModel',
         idField: 'id', sort: 'id,asc', debug: debugMode.crudEntity,
         crudMethod: { ...crudEntityModel }}),
@@ -450,25 +459,23 @@ export default {
   // vue 生命周期
   beforeCreate() {
     printVueLog('vue: beforeCreate')
-    const param = this.$route.query.domain
-    if (param != null && param !== '') {
-      this.domain = JSON.parse(param)
-      this.crud.query.domainId = this.domain.id
-      defaultForm.entity.domainId = this.domain.id
+    const domainId = this.$route.query.domainId
+    if (domainId != null && domainId !== '') {
+      this.crud.query.domainId = domainId
+      defaultForm.entity.domainId = domainId
+      defaultForm.domain.id = domainId
     }
-    this.crud.page.page = 0
+    this.crud.page.page = 1
     this.crud.page.size = 40
   },
 
   created() {
     printVueLog('vue: created')
-    const param = this.$route.query.domain
-    if (param != null && param !== '') {
-      this.domain = JSON.parse(param)
-    }
+    this.Crud.domain = this.$crud['domain']
     this.Crud.entity = this.$crud['default']
     this.Crud.field = this.$crud['field']
     this.Crud.field.registerVM('form', this, 3)
+    this.Crud.domain.registerVM('form', this, 3)
   },
 
   beforeMount() {
@@ -477,16 +484,28 @@ export default {
 
   mounted() {
     printVueLog('vue: mounted')
+    const domainId = this.$route.query.domainId
+    if (domainId != null && domainId !== '') {
+      this.Crud.domain.query = {
+        id: domainId,
+        sort: 'id,asc'
+      }
+      console.log('start')
+      this.Crud.domain.toQuery()
+      this.current.domain = this.Crud.domain.data[0]
+      console.log('finished')
+    }
   },
 
   beforeDestroy() {
     printVueLog('vue: beforeDestroy')
     this.Crud.field.unregisterVM('form', this)
+    this.Crud.domain.unregisterVM('form', this)
   },
 
   destroyed() {
     printVueLog('vue: destroyed')
-    this.domain = {}
+    this.current.domain = {}
   },
   methods: {
     // 钩子：在获取表格数据之前执行，false 则代表不获取数据
@@ -498,7 +517,7 @@ export default {
     },
     onAdd(e) {
       // 暂时用 clone.id 代表 type.value ,因为定义的顺序一致，而且没有别的办法可以传递
-      this.crud.form.domainId = this.domain.id
+      this.crud.form.domainId = this.current.domain.id
       this.crud.form.type = e.clone.id
       this.crud.toAddNoReset()
     },
@@ -535,6 +554,13 @@ export default {
       }
     },
 
+    // 保存域信息和所有的修改
+    onSaveAll() {
+      console.log(this.current.domain)
+      this.Crud.domain.editAll([this.current.domain])
+      this.Crud.entity.editAll(this.Crud.entity.data)
+    },
+
     // 属性
     onSelectField(e) {
       if (e == null) {
@@ -548,10 +574,6 @@ export default {
     onFieldAdd() {
       this.Crud.field.form.entityId = this.current.entityId
       this.Crud.field.toAddNoReset()
-    },
-    onFieldUpdate() {
-      console.log('save')
-      // TODO: entity 和 field 使用数组和索引的方式代替 current
     },
     doCancel() {
       if (this.current.entity) {

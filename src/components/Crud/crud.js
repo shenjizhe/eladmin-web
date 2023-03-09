@@ -131,6 +131,7 @@ function CRUD(options) {
         return
       }
       return new Promise((resolve, reject) => {
+        console.log(crud.tag + ':' + JSON.stringify(crud.getQueryParams()))
         crud.loading = true
         initData(crud.url, crud.getQueryParams()).then(data => {
           const table = crud.getTable()
@@ -250,6 +251,7 @@ function CRUD(options) {
         if (!callVmHook(crud, CRUD.HOOK.afterValidateCU)) {
           return
         }
+        console.log('add=' + crud.status.add + ',edit=' + crud.status.edit)
         if (crud.status.add === CRUD.STATUS.PREPARED) {
           crud.doAdd()
         } else if (crud.status.edit === CRUD.STATUS.PREPARED) {
@@ -275,6 +277,20 @@ function CRUD(options) {
         crud.status.add = CRUD.STATUS.PREPARED
         callVmHook(crud, CRUD.HOOK.afterAddError)
       })
+    },
+    editAll(datas) {
+      if (!callVmHook(crud, CRUD.HOOK.beforeSubmit)) {
+        return
+      }
+
+      for (const key in datas) {
+        crud.crudMethod.edit(datas[key]).then(() => {
+          callVmHook(crud, CRUD.HOOK.afterSubmit)
+          crud.refresh()
+        }).catch(() => {
+          callVmHook(crud, CRUD.HOOK.afterEditError)
+        })
+      }
     },
     /**
      * 执行编辑
