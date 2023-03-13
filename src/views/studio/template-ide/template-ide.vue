@@ -1,8 +1,8 @@
-<!--<template>-->
-<!--    <div class="template-ide">-->
-<!--      <textarea ref="mycode" class="textarea" v-model="textarea"></textarea>-->
-<!--    </div>-->
-<!--</template>-->
+<template>
+  <div class="template-ide">
+    <textarea ref="textarea" v-model="value" />
+  </div>
+</template>
 
-<!--<script src="src/views/studio/template-ide/_template-ide.ts" lang="ts"></script>-->
-<!--<style src="./_template-ide.scss" lang="scss" scoped></style>-->
+<script src="./_template-ide.js" lang="js"></script>
+<style src="./_template-ide.less" lang="less" scoped></style>
