@@ -16,15 +16,40 @@ import 'codemirror/mode/powershell/powershell'
 
 const CodeMirror = require('codemirror/lib/codemirror')
 
-// @vue/component
+const defaultValue = {
+  template: {}
+}
+
+import crudTemplate from '@/api/template'
+import crudTemplateBlock from '@/api/templateBlock'
+import CRUD, { presenter, header, form, crud } from '@crud/crud'
+import rrOperation from '@crud/RR.operation'
+import crudOperation from '@crud/CRUD.operation'
+import udOperation from '@crud/UD.operation'
+import pagination from '@crud/Pagination'
+
+import MyForm from '@/components/MyForm'
+
+const debugMode = {
+  vue: false
+}
+
+const defaultForm = {
+  template: { id: null, name: null, comment: null, show: null },
+  block: { id: null, name: null, comment: null, show: null }
+}
+
+function printVueLog(msg) {
+  if (debugMode.vue) {
+    console.log(msg)
+  }
+}
 
 export default {
   name: 'TemplateIde',
-
-  components: {
-  },
-
-  mixins: [],
+  components: { MyForm, pagination, crudOperation, rrOperation, udOperation },
+  mixins: [presenter(), header(), form(defaultForm), crud()],
+  dicts: ['show_status'],
 
   props: {
     value: {
@@ -52,10 +77,76 @@ export default {
         { value: 'x-powershell', label: 'PowerShell' },
         { value: 'x-php', label: 'PHP' }
       ],
+      current: {
+        template: defaultValue.template
+      },
       active: {
+        template: ['1'],
         tabs: 'first'
+      },
+      permission: {
+        template: {
+          add: ['admin', 'template:add'],
+          edit: ['admin', 'template:edit'],
+          del: ['admin', 'template:del']
+        }
+      },
+      rules: {
+        template: {
+          id: [
+            { required: true, message: '主键不能为空', trigger: 'blur' }
+          ],
+          name: [
+            { required: true, message: '名称不能为空', trigger: 'blur' }
+          ],
+          comment: [
+            { required: true, message: '描述不能为空', trigger: 'blur' }
+          ],
+          show: [
+            { required: true, message: '是否显示不能为空', trigger: 'blur' }
+          ]
+        }
+      },
+      Crud: {
+        template: {}
+      },
+      columns: {
+        template: [
+          {
+            name: 'id',
+            title: '模板ID',
+            type: 'text',
+            disabled: true
+          },
+          {
+            name: 'name',
+            title: '名称',
+            type: 'text',
+            focused: true
+          },
+          {
+            name: 'comment',
+            title: '描述',
+            type: 'textarea'
+          },
+          {
+            name: 'show',
+            title: '启用',
+            type: 'switch'
+          }
+        ]
+      },
+      disabled: {
+        template: true
       }
     }
+  },
+
+  cruds() {
+    return [
+      CRUD({ tag: 'template', title: '模板', url: 'api/template', idField: 'id', sort: 'id,desc', crudMethod: { ...crudTemplate }}),
+      CRUD({ title: '模板块', url: 'api/templateBlock', idField: 'id', sort: 'id,desc', crudMethod: { ...crudTemplateBlock }})
+    ]
   },
 
   computed: {
@@ -100,14 +191,60 @@ export default {
     }
   },
 
-  created() {},
+  beforeCreate() {
+    printVueLog('vue: beforeCreate')
+    console.log(this.$route.query.templateId)
+    const templateId = this.$route.query.templateId
+    if (templateId != null && templateId !== '') {
+      defaultForm.template.id = templateId
+    } else {
+      defaultForm.template.id = null
+    }
+  },
+
+  created() {
+    this.Crud.template = this.$crud['template']
+  },
 
   mounted() {
     // 初始化
     this.initialize()
   },
 
+  destroyed() {
+    printVueLog('vue: destroyed')
+    this.current.template = defaultValue.template
+  },
+
   methods: {
+    // 钩子：在获取表格数据之前执行，false 则代表不获取数据
+    [CRUD.HOOK.beforeRefresh](crud) {
+      if (crud.tag === 'template') {
+        crud.query = {
+          id: defaultForm.template.id
+        }
+      }
+      return true
+    },
+    [CRUD.HOOK.afterRefresh](crud) {
+      if (crud.tag === 'template') {
+        if (defaultForm.template.id) {
+          const data = this.Crud.template.data
+          if (data && data.length > 0) {
+            this.current.template = data[0]
+            this.disabled.template = false
+          } else {
+            this.disabled.template = true
+            this.current.template = {}
+          }
+        } else {
+          this.disabled.template = true
+          this.current.template = {}
+        }
+      }
+
+      return true
+    },
     // 初始化
     initialize() {
       // 初始化编辑器实例，传入需要被实例化的文本域对象和默认配置

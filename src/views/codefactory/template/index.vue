@@ -43,12 +43,16 @@
             {{ dict.label.show_status[scope.row.show] }}
           </template>
         </el-table-column>
-        <el-table-column v-if="checkPer(['admin','template:edit','template:del'])" label="操作" width="150px" align="center">
+        <el-table-column v-if="checkPer(['admin','template:edit','template:del'])" label="操作" width="180px" align="center">
           <template slot-scope="scope">
             <udOperation
               :data="scope.row"
               :permission="permission"
-            />
+            >
+              <template slot="right">
+                <el-button size="mini" type="success" icon="el-icon-setting" @click="editTemplate(scope.row)" />
+              </template>
+            </udOperation>
           </template>
         </el-table-column>
       </el-table>
@@ -108,6 +112,14 @@ export default {
     // 钩子：在获取表格数据之前执行，false 则代表不获取数据
     [CRUD.HOOK.beforeRefresh]() {
       return true
+    },
+    editTemplate(e) {
+      this.$router.push({
+        path: '/studio/template-ide',
+        query: {
+          templateId: e.id
+        }
+      })
     }
   }
 }
