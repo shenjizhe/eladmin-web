@@ -51,7 +51,10 @@ export default {
         { value: 'x-shell', label: 'Shell' },
         { value: 'x-powershell', label: 'PowerShell' },
         { value: 'x-php', label: 'PHP' }
-      ]
+      ],
+      active: {
+        tabs: 'first'
+      }
     }
   },
 
@@ -62,7 +65,7 @@ export default {
         mode: 'application/json', // json数据高亮
         // 设置主题 记得引入对应主题才有显示   import 'codemirror/theme/blackboard.css'
         theme: 'blackboard',
-        tabSize: 1,
+        tabSize: 2,
         // 显示行号
         lineNumbers: true,
         // 光标高度，默认是1
