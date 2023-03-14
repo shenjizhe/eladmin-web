@@ -17,7 +17,8 @@ import 'codemirror/mode/powershell/powershell'
 const CodeMirror = require('codemirror/lib/codemirror')
 
 const defaultValue = {
-  template: {}
+  template: {},
+  templateNodes: []
 }
 
 import crudTemplate from '@/api/template'
@@ -36,7 +37,7 @@ const debugMode = {
 
 const defaultForm = {
   template: { id: null, name: null, comment: null, show: null },
-  block: { id: null, name: null, comment: null, show: null }
+  templateBlock: { id: null, name: null, comment: null, show: null, templateId: null, code: null, level: null }
 }
 
 function printVueLog(msg) {
@@ -82,13 +83,19 @@ export default {
       },
       active: {
         template: ['1'],
-        tabs: 'first'
+        tabs: 'template',
+        blocks: 'first'
       },
       permission: {
         template: {
           add: ['admin', 'template:add'],
           edit: ['admin', 'template:edit'],
           del: ['admin', 'template:del']
+        },
+        templateBlock: {
+          add: ['admin', 'templateBlock:add'],
+          edit: ['admin', 'templateBlock:edit'],
+          del: ['admin', 'templateBlock:del']
         }
       },
       rules: {
@@ -104,6 +111,29 @@ export default {
           ],
           show: [
             { required: true, message: '是否显示不能为空', trigger: 'blur' }
+          ]
+        },
+        templateBlock: {
+          id: [
+            { required: true, message: '主键不能为空', trigger: 'blur' }
+          ],
+          name: [
+            { required: true, message: '名称不能为空', trigger: 'blur' }
+          ],
+          comment: [
+            { required: true, message: '描述不能为空', trigger: 'blur' }
+          ],
+          show: [
+            { required: true, message: '是否显示不能为空', trigger: 'blur' }
+          ],
+          templateId: [
+            { required: true, message: '模板ID不能为空', trigger: 'blur' }
+          ],
+          code: [
+            { required: true, message: '代码不能为空', trigger: 'blur' }
+          ],
+          level: [
+            { required: true, message: '级别不能为空', trigger: 'blur' }
           ]
         }
       },
@@ -138,18 +168,33 @@ export default {
       },
       disabled: {
         template: true
+      },
+      treeProps: {
+        block: { children: 'children', label: 'label' }
       }
     }
   },
 
   cruds() {
     return [
-      CRUD({ tag: 'template', title: '模板', url: 'api/template', idField: 'id', sort: 'id,desc', crudMethod: { ...crudTemplate }}),
-      CRUD({ title: '模板块', url: 'api/templateBlock', idField: 'id', sort: 'id,desc', crudMethod: { ...crudTemplateBlock }})
+      CRUD({ tag: 'template', title: '模板', url: 'api/template', idField: 'id', sort: 'id,asc', crudMethod: { ...crudTemplate }}),
+      CRUD({ title: '模板块', url: 'api/templateBlock', idField: 'id', sort: 'id,asc', crudMethod: { ...crudTemplateBlock }})
     ]
   },
 
   computed: {
+    blocks: {
+      get: function() {
+        console.log(this.crud.data)
+        return this.crud.data
+          .map((item, index, self) => {
+            return {
+              id: item.id,
+              label: item.name,
+              data: item }
+          })
+      }
+    },
     coderOptions() {
       return {
         line: true,
@@ -193,22 +238,30 @@ export default {
 
   beforeCreate() {
     printVueLog('vue: beforeCreate')
-    console.log(this.$route.query.templateId)
     const templateId = this.$route.query.templateId
     if (templateId != null && templateId !== '') {
       defaultForm.template.id = templateId
+      defaultForm.templateBlock.templateId = templateId
     } else {
       defaultForm.template.id = null
+      defaultForm.templateBlock.templateId = null
     }
+    this.crud.page.page = 1
+    this.crud.page.size = 1000
   },
 
   created() {
     this.Crud.template = this.$crud['template']
+    this.Crud.template.registerVM('form', this, 3)
   },
 
   mounted() {
     // 初始化
     this.initialize()
+  },
+
+  beforeDestroy() {
+    this.Crud.template.unregisterVM('form', this)
   },
 
   destroyed() {
@@ -234,12 +287,12 @@ export default {
             this.current.template = data[0]
             this.disabled.template = false
           } else {
-            this.disabled.template = true
-            this.current.template = {}
+            this.disabled.template = false
+            this.current.template = defaultValue.template
           }
         } else {
           this.disabled.template = true
-          this.current.template = {}
+          this.current.template = defaultValue.template
         }
       }
 
@@ -311,6 +364,9 @@ export default {
       const label = this.getLanguage(val).label.toLowerCase()
       // 允许父容器通过以下函数监听当前的语法值
       this.$emit('language-change', label)
+    },
+    handleNodeClick(data) {
+      console.log(data)
     }
   }
 }
