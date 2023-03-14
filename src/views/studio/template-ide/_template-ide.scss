@@ -1,6 +1,8 @@
 .template-ide {
-  $color-tree-color: #fff;
+  $color-tree-color: #909399;
   $color-tree-back: #1f2d3d;
+  $color-select-color: #fff;
+  $color-select-back: #00a0e9;
   $color-side-back: #1f2d3d;
   $color-tab-top: #409eff;
   $container-high: 85vm;
@@ -45,6 +47,7 @@
 
   .el-aside {
     background-color: $color-side-back;
+    padding: 2px;
   }
 
   .el-tabs{
@@ -59,14 +62,14 @@
     color: $color-tab-top;
   }
 
-  //.el-tree{
-  //  color: #00a0e9;
-  //  background: #00a0e9;
-  //}
-
   .el-tree--highlight-current {
     color: $color-tree-color;
     background: $color-tree-back;
+    .el-tree-node.is-current > .el-tree-node__content {
+      color: $color-select-color;
+      background: $color-select-back;
+      fond-weight: bold;
+    }
   }
 }
 

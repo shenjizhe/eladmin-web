@@ -113,6 +113,7 @@ export default {
             { required: true, message: '是否显示不能为空', trigger: 'blur' }
           ]
         },
+        openBlocks: [],
         templateBlock: {
           id: [
             { required: true, message: '主键不能为空', trigger: 'blur' }
@@ -183,9 +184,16 @@ export default {
   },
 
   computed: {
+    _value: {
+      get: function() {
+        return this.value
+      },
+      set: function(val) {
+        this.value = val
+      }
+    },
     blocks: {
       get: function() {
-        console.log(this.crud.data)
         return this.crud.data
           .map((item, index, self) => {
             return {
@@ -366,7 +374,7 @@ export default {
       this.$emit('language-change', label)
     },
     handleNodeClick(data) {
-      console.log(data)
+      this.setCodeContent(data.data.code)
     }
   }
 }

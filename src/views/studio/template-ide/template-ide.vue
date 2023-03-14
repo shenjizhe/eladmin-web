@@ -35,7 +35,7 @@
       <el-tabs v-model="active.blocks" type="border-card">
         <el-tab-pane label="代码示例" name="first">
           <div class="code">
-            <textarea ref="textarea" v-model="value" />
+            <textarea ref="textarea" v-model="code" />
           </div>
         </el-tab-pane>
       </el-tabs>
