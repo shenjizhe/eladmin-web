@@ -8,10 +8,10 @@
   $color-code: #000000;
 
   $container-high: 85vh;
-  $code-high: 87vh;
-  $contain-high: 90vh;
+  $code-high: 85vh;
+  $ide-high: 90vh;
 
-  height: $contain-high;
+  height: $ide-high;
   .code {
     .CodeMirror {
       direction: ltr;
@@ -49,6 +49,8 @@
   .el-main {
     margin: 0px;
     padding: 0px;
+    background: $color-code;
+    overflow: hidden;
   }
 
   .el-tabs {
@@ -57,7 +59,7 @@
 
   .el-tabs__content {
     padding: 0px;
-    height: 85vh;
+    //height: 85vh;
   }
 
 

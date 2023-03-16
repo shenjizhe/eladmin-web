@@ -410,7 +410,7 @@ export default {
         if (b == null) {
           setTimeout(() => {
             this.showBlock(block)
-          }, 50)
+          }, 10)
         }
       }
     },
