@@ -19,7 +19,8 @@ const CodeMirror = require('codemirror/lib/codemirror')
 
 const defaultValue = {
   template: {},
-  templateNodes: []
+  templateNodes: [],
+  blockTabs: []
 }
 
 import crudTemplate from '@/api/template'
@@ -66,8 +67,8 @@ export default {
 
   data() {
     return {
-      code: '',
-      coder: null,
+      // code: '',
+      // coder: null,
       mode: 'javascript',
       theme: 'default',
       modes: [
@@ -85,7 +86,7 @@ export default {
       active: {
         template: ['1'],
         tabs: 'template',
-        blocks: 'first'
+        block: 'first'
       },
       permission: {
         template: {
@@ -173,7 +174,8 @@ export default {
       },
       treeProps: {
         block: { children: 'children', label: 'label' }
-      }
+      },
+      blockTabs: defaultValue.blockTabs
     }
   },
 
@@ -191,6 +193,11 @@ export default {
       },
       set: function(val) {
         this.value = val
+      }
+    },
+    activeBlock: {
+      get: function() {
+        return this.active.block
       }
     },
     blocks: {
@@ -225,23 +232,14 @@ export default {
     }
   },
 
-  watch: {
-    language: {
-      handler(language) {
-        this.getCoder().then(() => {
-          // 尝试从父容器获取语法类型
-          if (language) {
-            // 获取具体的语法类型对象
-            const modeObj = this.getLanguage(language)
-            // 判断父容器传入的语法是否被支持
-            if (modeObj) {
-              this.mode = modeObj.label
-              this.coder.setOption('mode', `text/${modeObj.value}`)
-            }
-          }
-        })
-      },
-      immediate: true
+  watch: {},
+
+  changeLanguage(coder, language) {
+    const modeObj = this.getLanguage(language)
+    // 判断父容器传入的语法是否被支持
+    if (modeObj) {
+      this.mode = modeObj.label
+      coder.setOption('mode', `text/${modeObj.value}`)
     }
   },
 
@@ -266,7 +264,6 @@ export default {
 
   mounted() {
     // 初始化
-    this.initialize()
   },
 
   beforeDestroy() {
@@ -307,52 +304,57 @@ export default {
 
       return true
     },
-    // 初始化
-    initialize() {
+    clickTab(tab, event) {
+      this.$refs.tree.setCurrentKey(tab._props.name)
+    },
+    // 显示块
+    showBlock: function(block) {
+      const area = Reflect.get(this.$refs, 'textarea_' + block.id)[0]
       // 初始化编辑器实例，传入需要被实例化的文本域对象和默认配置
-      this.coder = CodeMirror.fromTextArea(
-        this.$refs.textarea,
+      block.coder = CodeMirror.fromTextArea(
+        area,
         this.coderOptions
       )
-      this.coder.on('inputRead', () => {
-        this.coder.showHint()
+      block.coder.on('inputRead', () => {
+        block.coder.showHint()
       })
       // 编辑器赋值
-      if (this.value || this.code) {
-        this.setCodeContent(this.value || this.code)
+      if (block.code) {
+        this.setCodeContent(block, block.code)
       } else {
-        this.coder.setValue('')
+        block.coder.setValue('')
       }
       // 支持双向绑定
-      this.coder.on('change', (coder) => {
-        this.code = coder.getValue()
+      block.coder.on('change', (coder) => {
+        block.code = coder.getValue()
         if (this.$emit) {
           this.$emit('input', this.code)
         }
       })
     },
-    setCodeContent(val) {
+    setCodeContent(block, val) {
       setTimeout(() => {
         if (!val) {
-          this.coder.setValue('')
+          block.coder.setValue('')
         } else {
-          this.coder.setValue(val)
+          block.coder.setValue(val)
         }
       }, 300)
     },
-    getCoder() {
-      const that = this
-      return new Promise((resolve) => {
-        (function get() {
-          if (that.coder) {
-            resolve(that.coder)
-          } else {
-            setTimeout(get, 10)
-          }
-        })()
-      })
+    getCoder(block) {
+      if (block) {
+        return new Promise((resolve) => {
+          (function get() {
+            if (block.coder) {
+              resolve(block.coder)
+            } else {
+              setTimeout(get, 10)
+            }
+          })()
+        })
+      }
     },
-    getLanguage(language) {
+    getLanguage(block, language) {
       // 在支持的语法类型列表中寻找传入的语法类型
       return this.modes.find((mode) => {
         // 所有的值都忽略大小写，方便比较
@@ -366,16 +368,71 @@ export default {
         )
       })
     },
-    changeMode(val) {
+    changeMode(block, val) {
       // 修改编辑器的语法配置
-      this.coder.setOption('mode', `text/${val}`)
+      block.coder.setOption('mode', `text/${val}`)
       // 获取修改后的语法
-      const label = this.getLanguage(val).label.toLowerCase()
+      const label = this.getLanguage(block, val).label.toLowerCase()
       // 允许父容器通过以下函数监听当前的语法值
       this.$emit('language-change', label)
     },
-    handleNodeClick(data) {
-      this.setCodeContent(data.data.code)
+    handleNodeClick(node) {
+      this.addTab(node.data)
+      // this.setCodeContent(node.data.code)
+    },
+    getBlockLevelClass(level) {
+      switch (level) {
+        case 1:
+          return 'project'
+        case 2:
+          return 'component'
+        case 3:
+          return 'database'
+        case 4:
+          return 'TypeofEntity'
+        default:
+          return ''
+      }
+    },
+    addTab: function(block) {
+      if (block) {
+        const b = this.blockTabs.find(tab => {
+          return tab.name === block.id
+        })
+        if (b == null) {
+          this.blockTabs.push({
+            title: block.name,
+            name: block.id,
+            data: block
+          })
+        }
+        this.active.block = block.id
+        if (b == null) {
+          setTimeout(() => {
+            this.showBlock(block)
+          }, 50)
+        }
+      }
+    },
+    removeTab(targetName) {
+      console.log(targetName)
+      const tabs = this.blockTabs
+      let activeName = this.active.block
+      if (activeName === targetName) {
+        tabs.forEach((tab, index) => {
+          if (tab.name === targetName) {
+            const nextTab = tabs[index + 1] || tabs[index - 1]
+            if (nextTab) {
+              activeName = nextTab.name
+            }
+          }
+        })
+      }
+      this.blockTabs = tabs.filter(tab => tab.name !== targetName)
+      this.active.block = activeName
+    },
+    showCoder() {
+      console.log('show coder')
     }
   }
 }
