@@ -415,7 +415,6 @@ export default {
       }
     },
     removeTab(targetName) {
-      console.log(targetName)
       const tabs = this.blockTabs
       let activeName = this.active.block
       if (activeName === targetName) {

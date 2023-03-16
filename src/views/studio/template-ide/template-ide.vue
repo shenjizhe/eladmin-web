@@ -47,6 +47,7 @@
         v-model="active.block"
         type="border-card"
         @tab-click="clickTab"
+        @tab-remove="removeTab"
       >
         <el-tab-pane
           v-for="(item) in blockTabs"
@@ -54,7 +55,6 @@
           :label="item.title"
           :name="item.name"
           closable
-          @show.native="showCoder"
         >
           <div>
             <textarea :ref="'textarea_'+item.name" v-model="item.data.code" />
