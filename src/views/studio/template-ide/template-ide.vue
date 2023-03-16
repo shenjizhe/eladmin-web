@@ -1,9 +1,12 @@
 <template>
   <el-container class="template-ide">
     <el-aside>
-      <el-tabs v-model="active.tabs" type="card">
+      <el-tabs
+        v-model="active.tabs"
+        type="border-card"
+      >
         <el-tab-pane label="模板" name="template">
-          <el-collapse v-model="active.template">
+          <el-collapse v-model="active.template" style="height: 100%">
             <el-collapse-item title="模板信息" name="1">
               <MyForm
                 label-width="50px"

@@ -69,10 +69,11 @@ export default {
     return {
       // code: '',
       // coder: null,
-      mode: 'javascript',
+      mode: 'velocity',
       theme: 'default',
       modes: [
         { value: 'javascript', label: 'Javascript' },
+        { value: 'velocity', label: 'velocity' },
         { value: 'x-java', label: 'Java' },
         { value: 'x-python', label: 'Python' },
         { value: 'x-sql', label: 'SQL' },
@@ -418,17 +419,19 @@ export default {
       const tabs = this.blockTabs
       let activeName = this.active.block
       if (activeName === targetName) {
-        tabs.forEach((tab, index) => {
-          if (tab.name === targetName) {
+        activeName = undefined
+        for (let index = 0; index < tabs.length; index++) {
+          if (tabs[index].name === targetName) {
             const nextTab = tabs[index + 1] || tabs[index - 1]
             if (nextTab) {
               activeName = nextTab.name
             }
           }
-        })
+        }
       }
       this.blockTabs = tabs.filter(tab => tab.name !== targetName)
       this.active.block = activeName
+      this.$refs.tree.setCurrentKey(activeName)
     },
     showCoder() {
       console.log('show coder')
