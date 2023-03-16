@@ -38,7 +38,7 @@
           v-for="item in dicts[col.dict]"
           :key="item.id"
           :label="item.label"
-          :value="item.value"
+          :value="typeof datas[col.name]=='number'? item.value*1:item.value+''"
         />
       </el-select>
     </el-form-item>

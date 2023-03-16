@@ -42,7 +42,7 @@
                 v-for="item in dict.block_level"
                 :key="item.id"
                 :label="item.label"
-                :value="item.value"
+                :value="item.value*1"
               />
             </el-select>
           </el-form-item>
