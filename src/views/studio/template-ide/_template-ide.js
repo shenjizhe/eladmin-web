@@ -19,6 +19,7 @@ const CodeMirror = require('codemirror/lib/codemirror')
 
 const defaultValue = {
   template: {},
+  block: {},
   templateNodes: [],
   blockTabs: []
 }
@@ -52,7 +53,7 @@ export default {
   name: 'TemplateIde',
   components: { MyForm, pagination, crudOperation, rrOperation, udOperation },
   mixins: [presenter(), header(), form(defaultForm), crud()],
-  dicts: ['show_status'],
+  dicts: ['show_status', 'block_level'],
 
   props: {
     value: {
@@ -82,12 +83,15 @@ export default {
         { value: 'x-php', label: 'PHP' }
       ],
       current: {
-        template: defaultValue.template
+        template: defaultValue.template,
+        block: defaultValue.block
       },
       active: {
         template: ['1'],
+        infos: ['1'],
         tabs: 'template',
-        block: 'first'
+        block: 'first',
+        property: 'block-info'
       },
       permission: {
         template: {
@@ -168,10 +172,42 @@ export default {
             title: '启用',
             type: 'switch'
           }
+        ],
+        block: [
+          {
+            name: 'id',
+            title: '块ID',
+            type: 'text',
+            disabled: true
+          },
+          {
+            name: 'name',
+            title: '名称',
+            type: 'text',
+            disabled: true
+          },
+          {
+            name: 'comment',
+            title: '描述',
+            type: 'textarea',
+            focused: true
+          },
+          {
+            name: 'show',
+            title: '启用',
+            type: 'switch'
+          },
+          {
+            name: 'level',
+            title: '块级别',
+            type: 'select',
+            dict: 'block_level'
+          }
         ]
       },
       disabled: {
-        template: true
+        template: true,
+        block: true
       },
       treeProps: {
         block: { children: 'children', label: 'label' }
@@ -306,7 +342,9 @@ export default {
       return true
     },
     clickTab(tab) {
-      this.$refs.tree.setCurrentKey(tab._props.name)
+      const blockId = tab._props.name
+      this.$refs.tree.setCurrentKey(blockId)
+      this.changeBlock(blockId)
     },
     // 显示块
     showBlock: function(block) {
@@ -407,7 +445,7 @@ export default {
             data: block
           })
         }
-        this.active.block = block.id
+        this.changeBlock(block.id)
         if (b == null) {
           setTimeout(() => {
             this.showBlock(block)
@@ -430,8 +468,19 @@ export default {
         }
       }
       this.blockTabs = tabs.filter(tab => tab.name !== targetName)
-      this.active.block = activeName
       this.$refs.tree.setCurrentKey(activeName)
+      this.changeBlock(activeName)
+    },
+    changeBlock(blockID) {
+      this.active.block = blockID
+      const find = this.blocks.find(block => {
+        if (block.data.id === blockID) {
+          return block
+        }
+      })
+      this.current.block = find.data
+      // eslint-disable-next-line eqeqeq
+      this.disabled.block = (find === undefined)
     },
     showCoder() {
       console.log('show coder')

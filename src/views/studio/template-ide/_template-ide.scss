@@ -80,6 +80,10 @@
     color:#ffffff;
   }
 
+  .el-form {
+    margin: 10px 10px 0px 5px
+  }
+
   .is-top {
     color: $color-tab-top;
   }
@@ -90,7 +94,7 @@
     .el-tree-node.is-current > .el-tree-node__content {
       color: $color-select-color;
       background: $color-select-back;
-      fond-weight: bold;
+      font-weight: bold;
     }
   }
 }

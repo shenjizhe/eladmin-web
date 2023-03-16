@@ -68,7 +68,28 @@
         </el-tab-pane>
       </el-tabs>
     </el-main>
-    <el-aside />
+    <el-aside>
+      <el-tabs
+        v-model="active.property"
+        type="border-card"
+      >
+        <el-tab-pane label="块信息" name="block-info">
+          <el-collapse v-model="active.infos" style="height: 100%">
+            <el-collapse-item title="模板信息" name="1">
+              <MyForm
+                label-width="50px"
+                size="small"
+                :datas="current.block"
+                :rule="rules.block"
+                :columns="columns.block"
+                :dicts="dict"
+                :disabled="disabled.block"
+              />
+            </el-collapse-item>
+          </el-collapse>
+        </el-tab-pane>
+      </el-tabs>
+    </el-aside>
   </el-container>
 </template>
 
