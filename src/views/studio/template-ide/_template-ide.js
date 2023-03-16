@@ -204,7 +204,7 @@ export default {
     blocks: {
       get: function() {
         return this.crud.data
-          .map((item, index, self) => {
+          .map((item) => {
             return {
               id: item.id,
               label: item.name,
@@ -305,7 +305,7 @@ export default {
 
       return true
     },
-    clickTab(tab, event) {
+    clickTab(tab) {
       this.$refs.tree.setCurrentKey(tab._props.name)
     },
     // 显示块

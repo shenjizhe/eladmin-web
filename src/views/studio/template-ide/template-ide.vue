@@ -60,7 +60,10 @@
           closable
         >
           <div>
-            <textarea :ref="'textarea_'+item.name" v-model="item.data.code" />
+            <textarea
+              :ref="'textarea_'+item.name"
+              v-model="item.data.code"
+            />
           </div>
         </el-tab-pane>
       </el-tabs>
