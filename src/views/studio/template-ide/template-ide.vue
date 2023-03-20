@@ -88,6 +88,11 @@
             </el-collapse-item>
           </el-collapse>
         </el-tab-pane>
+        <el-tab-pane label="上下文" name="context">
+          <el-collapse v-model="active.context" style="height: 100%">
+            <el-collapse-item title="上下文" name="1" />
+          </el-collapse>
+        </el-tab-pane>
       </el-tabs>
     </el-aside>
   </el-container>

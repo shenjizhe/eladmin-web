@@ -26,6 +26,7 @@ const defaultValue = {
 
 import crudTemplate from '@/api/template'
 import crudTemplateBlock from '@/api/templateBlock'
+import crudTemplateContext from '@/api/templateContext'
 import CRUD, { presenter, header, form, crud } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'
@@ -40,7 +41,8 @@ const debugMode = {
 
 const defaultForm = {
   template: { id: null, name: null, comment: null, show: null },
-  templateBlock: { id: null, name: null, comment: null, show: null, templateId: null, code: null, level: null }
+  templateBlock: { id: null, name: null, comment: null, show: null, templateId: null, code: null, level: null },
+  templateContext: { id: null, templateId: null, key: null, content: null, type: null, dataType: null }
 }
 
 function printVueLog(msg) {
@@ -53,7 +55,7 @@ export default {
   name: 'TemplateIde',
   components: { MyForm, pagination, crudOperation, rrOperation, udOperation },
   mixins: [presenter(), header(), form(defaultForm), crud()],
-  dicts: ['show_status', 'block_level'],
+  dicts: ['show_status', 'block_level', 'content_type', 'db_types'],
 
   props: {
     value: {
@@ -89,6 +91,7 @@ export default {
       active: {
         template: ['1'],
         infos: ['1'],
+        context: ['1'],
         tabs: 'template',
         block: 'first',
         property: 'block-info'
@@ -103,6 +106,11 @@ export default {
           add: ['admin', 'templateBlock:add'],
           edit: ['admin', 'templateBlock:edit'],
           del: ['admin', 'templateBlock:del']
+        },
+        templateContext: {
+          add: ['admin', 'templateContext:add'],
+          edit: ['admin', 'templateContext:edit'],
+          del: ['admin', 'templateContext:del']
         }
       },
       rules: {
@@ -143,10 +151,31 @@ export default {
           level: [
             { required: true, message: '级别不能为空', trigger: 'blur' }
           ]
+        },
+        templateContext: {
+          id: [
+            { required: true, message: '主键不能为空', trigger: 'blur' }
+          ],
+          templateId: [
+            { required: true, message: '模板主键不能为空', trigger: 'blur' }
+          ],
+          key: [
+            { required: true, message: '上下文关键字不能为空', trigger: 'blur' }
+          ],
+          content: [
+            { required: true, message: '说明不能为空', trigger: 'blur' }
+          ],
+          type: [
+            { required: true, message: '数据类型不能为空', trigger: 'blur' }
+          ],
+          dataType: [
+            { required: true, message: '数据类型不能为空', trigger: 'blur' }
+          ]
         }
       },
       Crud: {
-        template: {}
+        template: {},
+        templateContext: {}
       },
       columns: {
         template: [
@@ -219,7 +248,8 @@ export default {
   cruds() {
     return [
       CRUD({ tag: 'template', title: '模板', url: 'api/template', idField: 'id', sort: 'id,asc', crudMethod: { ...crudTemplate }}),
-      CRUD({ title: '模板块', url: 'api/templateBlock', idField: 'id', sort: 'id,asc', crudMethod: { ...crudTemplateBlock }})
+      CRUD({ tag: 'default', title: '模板块', url: 'api/templateBlock', idField: 'id', sort: 'id,asc', crudMethod: { ...crudTemplateBlock }}),
+      CRUD({ tag: 'context', title: '上下文', url: 'api/templateContext', idField: 'id', sort: 'id,desc', crudMethod: { ...crudTemplateContext }})
     ]
   },
 
@@ -478,9 +508,8 @@ export default {
           return block
         }
       })
-      this.current.block = find.data
-      // eslint-disable-next-line eqeqeq
       this.disabled.block = (find === undefined)
+      this.current.block = find.data
     },
     showCoder() {
       console.log('show coder')
