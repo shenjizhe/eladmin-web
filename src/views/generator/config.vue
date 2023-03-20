@@ -118,6 +118,10 @@
                       value="NotNull"
                     />
                     <el-option
+                      label="IN"
+                      value="IN"
+                    />
+                    <el-option
                       label="BetWeen"
                       value="BetWeen"
                     />
