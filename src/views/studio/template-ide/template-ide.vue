@@ -133,7 +133,7 @@
                 v-loading="Crud.context.loading"
                 :data="context"
                 size="small"
-                style="width: 100%;height: 73vh"
+                style="width: 100%"
                 stripe
                 border
                 highlight-current-row
@@ -149,15 +149,28 @@
                   align="center"
                 >
                   <template slot-scope="scope">
+                    <div v-if="!showOperatorButton(scope.row)">
+                      全局上下文
+                    </div>
                     <el-button
-                      v-if="showDeleteButton(scope.row)"
-                      slot="reference"
+                      v-if="showOperatorButton(scope.row)"
+                      v-permission="permission.context.edit"
+                      crud-tag="context"
+                      :loading="Crud.context.status.cu === 2"
+                      :disabled="scope.row === null"
+                      size="mini"
+                      type="primary"
+                      icon="el-icon-edit"
+                      @click="Crud.context.toEdit(scope.row)"
+                    />
+                    <el-button
+                      v-if="showOperatorButton(scope.row)"
                       v-permission="permission.context.del"
+                      crud-tag="context"
                       icon="el-icon-delete"
                       type="danger"
                       size="mini"
                       circle
-                      crud-tag="context"
                       :disabled="scope.row === null"
                       @click.native="Crud.context.doDelete(scope.row)"
                     />

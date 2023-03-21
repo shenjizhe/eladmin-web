@@ -282,7 +282,7 @@ export default {
     return [
       CRUD({ tag: 'template', title: '模板', url: 'api/template', idField: 'id', sort: 'id,asc', crudMethod: { ...crudTemplate }}),
       CRUD({ tag: 'default', title: '模板块', url: 'api/templateBlock', idField: 'id', sort: 'id,asc', crudMethod: { ...crudTemplateBlock }}),
-      CRUD({ tag: 'context', title: '上下文', url: 'api/templateContext', idField: 'id', sort: 'id,asc', crudMethod: { ...crudTemplateContext }})
+      CRUD({ tag: 'context', title: '上下文', url: 'api/templateContext', idField: 'id', sort: ['type,asc', 'id,asc'], crudMethod: { ...crudTemplateContext }})
     ]
   },
 
@@ -585,10 +585,10 @@ export default {
       this.Crud.context.form.templateId = this.current.template.id
       this.Crud.context.toAddNoReset()
     },
-    showDeleteButton(row) {
+    showOperatorButton(row) {
       // eslint-disable-next-line eqeqeq
       const del = this.Crud.context.optShow.del
-      const global = row.type === 0
+      const global = row.type < 2
       return del && !global
     }
   }

@@ -80,6 +80,20 @@
     color:#ffffff;
   }
 
+  .el-table th.gutter{
+    display: none;
+    width: 0;
+  }
+
+  .el-table colgroup col[name='gutter']{
+    display: none;
+    width: 0;
+  }
+
+  .el-table__body{
+    width: 100% !important;
+  }
+
   .el-form {
     margin: 10px 10px 0px 5px
   }
