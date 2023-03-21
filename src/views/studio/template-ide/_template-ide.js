@@ -15,6 +15,7 @@ import 'codemirror/mode/python/python'
 import 'codemirror/mode/shell/shell'
 import 'codemirror/mode/powershell/powershell'
 
+// import { CompletionContext } from '@codemirror/autocomplete'
 const CodeMirror = require('codemirror/lib/codemirror')
 
 const defaultValue = {
@@ -326,7 +327,7 @@ export default {
     coderOptions() {
       return {
         line: true,
-        mode: 'application/json', // json数据高亮
+        mode: 'velocity', // json数据高亮
         // 设置主题 记得引入对应主题才有显示   import 'codemirror/theme/blackboard.css'
         theme: 'blackboard',
         tabSize: 2,
@@ -431,6 +432,7 @@ export default {
     showBlock: function(block) {
       const area = Reflect.get(this.$refs, 'textarea_' + block.id)[0]
       // 初始化编辑器实例，传入需要被实例化的文本域对象和默认配置
+      console.log(this.coderOptions)
       block.coder = CodeMirror.fromTextArea(
         area,
         this.coderOptions
@@ -504,6 +506,20 @@ export default {
       // 允许父容器通过以下函数监听当前的语法值
       this.$emit('language-change', label)
     },
+
+    // onCompletions(context: CompletionContext) {
+    //   let word = context.matchBefore(/\w*/)
+    //   if (word.from == word.to && !context.explicit)
+    //     return null
+    //   return {
+    //     from: word.from,
+    //     options: [
+    //       {label: "match", type: "keyword"},
+    //       {label: "hello", type: "variable", info: "(World)"},
+    //       {label: "magic", type: "text", apply: "⠁⭒*.✩.*⭒⠁", detail: "macro"}
+    //     ]
+    //   }
+    // },
 
     // others
     handleNodeClick(node) {
