@@ -89,8 +89,82 @@
           </el-collapse>
         </el-tab-pane>
         <el-tab-pane label="上下文" name="context">
+          <el-dialog
+            :close-on-click-modal="false"
+            :before-close="Crud.context.cancelCU"
+            :visible.sync="Crud.context.status.cu > 0"
+            :title="Crud.context.status.title"
+            width="500px"
+          >
+            <MyForm
+              ref="form"
+              :datas="Crud.context.form"
+              :rule="rules.context"
+              :columns="columns.context"
+              :dicts="dict"
+            />
+            <div slot="footer" class="dialog-footer">
+              <el-button type="text" @click="Crud.context.cancelCU">取消</el-button>
+              <el-button :loading="Crud.context.status.cu === 2" type="primary" @click="Crud.context.submitCU">确认</el-button>
+            </div>
+          </el-dialog>
           <el-collapse v-model="active.context" style="height: 100%">
-            <el-collapse-item title="上下文" name="1" />
+            <el-collapse-item title="上下文" name="1">
+              <div slot="title">
+                上下文
+                <el-button
+                  v-permission="permission.context.add"
+                  :disabled="disabled.template"
+                  icon="el-icon-plus"
+                  type="success"
+                  circle
+                  size="mini"
+                  style="margin-left: 20px"
+                  @click.native.stop="onContextAdd"
+                />
+              </div>
+              <el-input
+                v-model="keyword"
+                placeholder="请输入关键字"
+                prefix-icon="el-icon-search"
+              />
+              <el-table
+                ref="table"
+                v-loading="Crud.context.loading"
+                :data="context"
+                size="small"
+                style="width: 100%;height: 73vh"
+                stripe
+                border
+                highlight-current-row
+                crud-tag="context"
+                :header-cell-style="{background:'#409eff',color:'#fff'}"
+                @current-change="onSelectContext"
+              >
+                <el-table-column prop="key" label="关键字" />
+                <el-table-column
+                  v-if="checkPer(['admin','templateContext:edit','templateContext:del'])"
+                  label="操作"
+                  width="150px"
+                  align="center"
+                >
+                  <template slot-scope="scope">
+                    <el-button
+                      v-if="showDeleteButton(scope.row)"
+                      slot="reference"
+                      v-permission="permission.context.del"
+                      icon="el-icon-delete"
+                      type="danger"
+                      size="mini"
+                      circle
+                      crud-tag="context"
+                      :disabled="scope.row === null"
+                      @click.native="Crud.context.doDelete(scope.row)"
+                    />
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-collapse-item>
           </el-collapse>
         </el-tab-pane>
       </el-tabs>

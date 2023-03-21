@@ -19,6 +19,7 @@ const CodeMirror = require('codemirror/lib/codemirror')
 
 const defaultValue = {
   template: {},
+  context: {},
   block: {},
   templateNodes: [],
   blockTabs: []
@@ -42,7 +43,7 @@ const debugMode = {
 const defaultForm = {
   template: { id: null, name: null, comment: null, show: null },
   templateBlock: { id: null, name: null, comment: null, show: null, templateId: null, code: null, level: null },
-  templateContext: { id: null, templateId: null, key: null, content: null, type: null, dataType: null }
+  context: { id: null, templateId: null, key: null, content: null, type: null, dataType: null }
 }
 
 function printVueLog(msg) {
@@ -55,7 +56,7 @@ export default {
   name: 'TemplateIde',
   components: { MyForm, pagination, crudOperation, rrOperation, udOperation },
   mixins: [presenter(), header(), form(defaultForm), crud()],
-  dicts: ['show_status', 'block_level', 'content_type', 'db_types'],
+  dicts: ['show_status', 'block_level', 'context_type', 'db_types'],
 
   props: {
     value: {
@@ -74,6 +75,7 @@ export default {
       // coder: null,
       mode: 'velocity',
       theme: 'default',
+      keyword: '',
       modes: [
         { value: 'javascript', label: 'Javascript' },
         { value: 'velocity', label: 'velocity' },
@@ -86,6 +88,7 @@ export default {
       ],
       current: {
         template: defaultValue.template,
+        context: defaultValue.context,
         block: defaultValue.block
       },
       active: {
@@ -107,7 +110,7 @@ export default {
           edit: ['admin', 'templateBlock:edit'],
           del: ['admin', 'templateBlock:del']
         },
-        templateContext: {
+        context: {
           add: ['admin', 'templateContext:add'],
           edit: ['admin', 'templateContext:edit'],
           del: ['admin', 'templateContext:del']
@@ -152,7 +155,7 @@ export default {
             { required: true, message: '级别不能为空', trigger: 'blur' }
           ]
         },
-        templateContext: {
+        context: {
           id: [
             { required: true, message: '主键不能为空', trigger: 'blur' }
           ],
@@ -175,7 +178,7 @@ export default {
       },
       Crud: {
         template: {},
-        templateContext: {}
+        context: {}
       },
       columns: {
         template: [
@@ -232,11 +235,41 @@ export default {
             type: 'select',
             dict: 'block_level'
           }
+        ],
+        context: [
+          {
+            name: 'key',
+            title: '关键字',
+            type: 'text'
+          },
+          {
+            name: 'content',
+            title: '描述',
+            type: 'textarea'
+          },
+          {
+            name: 'dataType',
+            title: '数据类型',
+            type: 'select',
+            dict: 'db_types'
+          },
+          {
+            name: 'type',
+            title: '类型',
+            type: 'select',
+            dict: 'context_type'
+          },
+          {
+            name: 'value',
+            title: '值',
+            type: 'text'
+          }
         ]
       },
       disabled: {
         template: true,
-        block: true
+        block: true,
+        context: true
       },
       treeProps: {
         block: { children: 'children', label: 'label' }
@@ -249,7 +282,7 @@ export default {
     return [
       CRUD({ tag: 'template', title: '模板', url: 'api/template', idField: 'id', sort: 'id,asc', crudMethod: { ...crudTemplate }}),
       CRUD({ tag: 'default', title: '模板块', url: 'api/templateBlock', idField: 'id', sort: 'id,asc', crudMethod: { ...crudTemplateBlock }}),
-      CRUD({ tag: 'context', title: '上下文', url: 'api/templateContext', idField: 'id', sort: 'id,desc', crudMethod: { ...crudTemplateContext }})
+      CRUD({ tag: 'context', title: '上下文', url: 'api/templateContext', idField: 'id', sort: 'id,asc', crudMethod: { ...crudTemplateContext }})
     ]
   },
 
@@ -275,6 +308,18 @@ export default {
               id: item.id,
               label: item.name,
               data: item }
+          })
+      }
+    },
+    context: {
+      get: function() {
+        return this.Crud.context.data
+          .filter((item) => {
+            if (this.keyword === '') {
+              return true
+            } else {
+              return item.key.indexOf(this.keyword) > -1
+            }
           })
       }
     },
@@ -316,9 +361,11 @@ export default {
     if (templateId != null && templateId !== '') {
       defaultForm.template.id = templateId
       defaultForm.templateBlock.templateId = templateId
+      defaultForm.context.templateId = templateId
     } else {
       defaultForm.template.id = null
       defaultForm.templateBlock.templateId = null
+      defaultForm.context.templateId = null
     }
     this.crud.page.page = 1
     this.crud.page.size = 1000
@@ -326,7 +373,9 @@ export default {
 
   created() {
     this.Crud.template = this.$crud['template']
+    this.Crud.context = this.$crud['context']
     this.Crud.template.registerVM('form', this, 3)
+    this.Crud.context.registerVM('form', this, 3)
   },
 
   mounted() {
@@ -335,11 +384,13 @@ export default {
 
   beforeDestroy() {
     this.Crud.template.unregisterVM('form', this)
+    this.Crud.context.unregisterVM('form', this)
   },
 
   destroyed() {
     printVueLog('vue: destroyed')
     this.current.template = defaultValue.template
+    this.current.context = defaultValue.context
   },
 
   methods: {
@@ -348,6 +399,12 @@ export default {
       if (crud.tag === 'template') {
         crud.query = {
           id: defaultForm.template.id
+        }
+      }
+      if (crud.tag === 'context') {
+        crud.page.size = -1
+        crud.query = {
+          templateId: defaultForm.template.id ? '0,' + defaultForm.template.id : '0'
         }
       }
       return true
@@ -513,6 +570,26 @@ export default {
     },
     showCoder() {
       console.log('show coder')
+    },
+    // 属性
+    onSelectContext(e) {
+      if (e == null) {
+        e = {}
+        this.disabled.context = true
+      }
+      this.disabled.context = false
+      this.current.context = e
+      defaultForm.context.id = e.id
+    },
+    onContextAdd() {
+      this.Crud.context.form.templateId = this.current.template.id
+      this.Crud.context.toAddNoReset()
+    },
+    showDeleteButton(row) {
+      // eslint-disable-next-line eqeqeq
+      const del = this.Crud.context.optShow.del
+      const global = row.type === 0
+      return del && !global
     }
   }
 }
