@@ -42,6 +42,12 @@
     padding-right: 8px;
   }
 
+  #tab-theme-pane {
+    padding: 0 !important;
+    margin: 0;
+    width: 100px;
+  }
+
   .el-container {
     height: $container-high;
   }

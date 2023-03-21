@@ -1,6 +1,15 @@
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/theme/base16-dark.css'
 import 'codemirror/theme/blackboard.css'
+import 'codemirror/theme/darcula.css'
+import 'codemirror/theme/dracula.css'
+import 'codemirror/theme/idea.css'
+import 'codemirror/theme/eclipse.css'
+import 'codemirror/theme/icecoder.css'
+import 'codemirror/theme/liquibyte.css'
+import 'codemirror/theme/neo.css'
+import 'codemirror/theme/shadowfox.css'
+import 'codemirror/theme/colorforth.css'
 import 'codemirror/addon/hint/show-hint.css'
 import 'codemirror/addon/hint/show-hint.js'
 import 'codemirror/addon/hint/show-hint'
@@ -57,7 +66,7 @@ export default {
   name: 'TemplateIde',
   components: { MyForm, pagination, crudOperation, rrOperation, udOperation },
   mixins: [presenter(), header(), form(defaultForm), crud()],
-  dicts: ['show_status', 'block_level', 'context_type', 'db_types'],
+  dicts: ['show_status', 'block_level', 'context_type', 'db_types', 'code_theme'],
 
   props: {
     value: {
@@ -75,8 +84,9 @@ export default {
       // code: '',
       // coder: null,
       mode: 'velocity',
-      theme: 'default',
+      theme: 'blackboard',
       keyword: '',
+      coderMap: {},
       modes: [
         { value: 'javascript', label: 'Javascript' },
         { value: 'velocity', label: 'velocity' },
@@ -296,6 +306,15 @@ export default {
         this.value = val
       }
     },
+    _theme: {
+      get: function() {
+        return this.theme
+      },
+      set: function(val) {
+        this.theme = val
+        this.setTheme(val)
+      }
+    },
     activeBlock: {
       get: function() {
         return this.active.block
@@ -432,11 +451,11 @@ export default {
     showBlock: function(block) {
       const area = Reflect.get(this.$refs, 'textarea_' + block.id)[0]
       // 初始化编辑器实例，传入需要被实例化的文本域对象和默认配置
-      console.log(this.coderOptions)
       block.coder = CodeMirror.fromTextArea(
         area,
         this.coderOptions
       )
+      this.coderMap[block.id] = block.coder
       block.coder.on('inputRead', () => {
         block.coder.showHint()
       })
@@ -505,6 +524,14 @@ export default {
       const label = this.getLanguage(block, val).label.toLowerCase()
       // 允许父容器通过以下函数监听当前的语法值
       this.$emit('language-change', label)
+    },
+
+    setTheme(val) {
+      for (const id in this.coderMap) {
+        const coder = this.coderMap[id]
+        console.log(coder)
+        coder.setOption('theme', val)
+      }
     },
 
     // onCompletions(context: CompletionContext) {

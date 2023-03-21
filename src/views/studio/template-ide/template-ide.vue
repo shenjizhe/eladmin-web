@@ -38,6 +38,21 @@
             </span>
           </el-tree>
         </el-tab-pane>
+        <el-tab-pane name="theme-pane">
+          <div slot="label">
+            <el-select
+              v-model="_theme"
+              placeholder="请选择主题"
+            >
+              <el-option
+                v-for="item in dict.code_theme"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              />
+            </el-select>
+          </div>
+        </el-tab-pane>
       </el-tabs>
     </el-aside>
     <el-main class="code">
