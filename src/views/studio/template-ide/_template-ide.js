@@ -37,7 +37,7 @@ import pagination from '@crud/Pagination'
 import MyForm from '@/components/MyForm'
 
 const debugMode = {
-  vue: false
+  vue: true
 }
 
 const defaultForm = {
@@ -358,7 +358,7 @@ export default {
   beforeCreate() {
     printVueLog('vue: beforeCreate')
     const templateId = this.$route.query.templateId
-    if (templateId != null && templateId !== '') {
+    if (templateId && templateId !== '') {
       defaultForm.template.id = templateId
       defaultForm.templateBlock.templateId = templateId
       defaultForm.context.templateId = templateId
@@ -372,6 +372,7 @@ export default {
   },
 
   created() {
+    printVueLog('vue: created')
     this.Crud.template = this.$crud['template']
     this.Crud.context = this.$crud['context']
     this.Crud.template.registerVM('form', this, 3)
@@ -380,9 +381,11 @@ export default {
 
   mounted() {
     // 初始化
+    printVueLog('vue: mounted')
   },
 
   beforeDestroy() {
+    printVueLog('vue: beforeDestroy')
     this.Crud.template.unregisterVM('form', this)
     this.Crud.context.unregisterVM('form', this)
   },

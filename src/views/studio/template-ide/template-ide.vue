@@ -161,6 +161,7 @@
                       size="mini"
                       type="primary"
                       icon="el-icon-edit"
+                      circle
                       @click="Crud.context.toEdit(scope.row)"
                     />
                     <el-button
