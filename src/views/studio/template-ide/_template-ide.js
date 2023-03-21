@@ -529,9 +529,9 @@ export default {
     setTheme(val) {
       for (const id in this.coderMap) {
         const coder = this.coderMap[id]
-        console.log(coder)
         coder.setOption('theme', val)
       }
+      this.coderOptions.theme = val
     },
 
     // onCompletions(context: CompletionContext) {
