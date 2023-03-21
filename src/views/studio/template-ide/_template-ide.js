@@ -346,15 +346,6 @@ export default {
 
   watch: {},
 
-  changeLanguage(coder, language) {
-    const modeObj = this.getLanguage(language)
-    // 判断父容器传入的语法是否被支持
-    if (modeObj) {
-      this.mode = modeObj.label
-      coder.setOption('mode', `text/${modeObj.value}`)
-    }
-  },
-
   beforeCreate() {
     printVueLog('vue: beforeCreate')
     const templateId = this.$route.query.templateId
@@ -436,7 +427,7 @@ export default {
       this.$refs.tree.setCurrentKey(blockId)
       this.changeBlock(blockId)
     },
-    // 显示块
+    // about code mirror
     showBlock: function(block) {
       const area = Reflect.get(this.$refs, 'textarea_' + block.id)[0]
       // 初始化编辑器实例，传入需要被实例化的文本域对象和默认配置
@@ -483,6 +474,14 @@ export default {
         })
       }
     },
+    changeLanguage(coder, language) {
+      const modeObj = this.getLanguage(language)
+      // 判断父容器传入的语法是否被支持
+      if (modeObj) {
+        this.mode = modeObj.label
+        coder.setOption('mode', `text/${modeObj.value}`)
+      }
+    },
     getLanguage(block, language) {
       // 在支持的语法类型列表中寻找传入的语法类型
       return this.modes.find((mode) => {
@@ -505,6 +504,8 @@ export default {
       // 允许父容器通过以下函数监听当前的语法值
       this.$emit('language-change', label)
     },
+
+    // others
     handleNodeClick(node) {
       this.addTab(node.data)
       // this.setCodeContent(node.data.code)
@@ -571,10 +572,6 @@ export default {
       this.disabled.block = (find === undefined)
       this.current.block = find.data
     },
-    showCoder() {
-      console.log('show coder')
-    },
-    // 属性
     onSelectContext(e) {
       if (e == null) {
         e = {}
