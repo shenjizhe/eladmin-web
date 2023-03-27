@@ -360,6 +360,12 @@ export default {
         showCursorWhenSelecting: true, // 文本选中时显示光标
         smartIndent: true, // 智能缩进
         completeSingle: false // 当匹配只有一项的时候是否自动补全
+        // hintOptions: {
+        //   tables: {
+        //     app: ['name()', 'score()', 'birthday'],
+        //     app1: ['name()', 'score()', 'birthday']
+        //   }
+        // }
       }
     }
   },
@@ -456,8 +462,19 @@ export default {
         this.coderOptions
       )
       this.coderMap[block.id] = block.coder
-      block.coder.on('inputRead', () => {
-        block.coder.showHint()
+      this.setEvent(block)
+    },
+    setEvent(block) {
+      // 代码补全
+      block.coder.on('inputRead', (cm, key) => {
+        if (key.text[0] === '$') {
+          block.coder.showHint(
+            {
+              text: '上下文',
+              completeSingle: false,
+              hint: this.hintCallback
+            })
+        }
       })
       // 编辑器赋值
       if (block.code) {
@@ -473,6 +490,24 @@ export default {
         }
       })
     },
+
+    hintCallback(coder) {
+      const cur = coder.getCursor()
+      const end = cur.ch
+      const start = end
+      const list = this.getContextList()
+      // Crud.context
+      return {
+        list: list,
+        from: (cur.line, start),
+        to: (cur.line, end)
+      }
+    },
+
+    getContextList() {
+      return this.Crud.context.data.map(cm => cm.key)
+    },
+
     setCodeContent(block, val) {
       setTimeout(() => {
         if (!val) {
