@@ -45,6 +45,7 @@ import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 
 import MyForm from '@/components/MyForm'
+import { Pos } from 'codemirror/src/line/pos'
 
 const debugMode = {
   vue: true
@@ -499,8 +500,8 @@ export default {
       // Crud.context
       return {
         list: list,
-        from: (cur.line, start),
-        to: (cur.line, end)
+        from: Pos(cur.line, start),
+        to: Pos(cur.line, end)
       }
     },
 
