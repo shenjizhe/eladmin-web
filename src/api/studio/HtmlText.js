@@ -1,20 +1,41 @@
+// id:
+// templateId
+// key:
+// content
+// type
+// dataType
 export class HtmlText {
-  get iconText() {
-    return this._icon
-  }
-
   setIcon(type) {
     const arr = [
-      '<i class="el-icon-s-cooperation"></i>',
-      '<i class="el-icon-menu"></i>',
-      '<i class="el-icon-share"></i>',
-      '<i class="el-icon-s-data"></i>'
+      'el-icon-s-cooperation',
+      'el-icon-menu',
+      'el-icon-share',
+      'el-icon-s-data'
     ]
+    return '<el-col style="flex: 1"><i class="' + arr[type] + '"></i></el-col>'
+  }
 
-    return arr[type]
+  setContent(text) {
+    return '<el-input readonly style="flex: 2">' + text + '</el-input>'
+  }
+
+  setDataType(type) {
+    return '<el-input readonly style="flex: 1">' + type + '</el-input>'
   }
 
   constructor(cm) {
     this._icon = this.setIcon(cm.type)
+    this._content = this.setContent(cm.content)
+    this._type = this.setDataType(cm.dataType)
+  }
+
+  html() {
+    const str = '<div style="width: 200px"><el-row style="display: flex;">' +
+      this._icon +
+      this._content +
+      this._type +
+      '</el-row></div>'
+    console.log(str)
+    return str
   }
 }

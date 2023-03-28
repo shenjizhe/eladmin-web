@@ -507,14 +507,13 @@ export default {
 
     getContextList() {
       return this.Crud.context.data.map(cm => {
+        console.log(cm)
         return {
           text: cm.key,
           displayText: cm.content,
           render: (element, self, data) => {
-            // console.log(element,self ,data)
-            // element.innerText = cm.content
             const htmlText = new HtmlText(cm)
-            element.innerHTML = '<div style="width: 200px">' + htmlText.iconText + '<el-input readonly >' + cm.content + '</el-input></div>'
+            element.innerHTML = htmlText.html()
           }
         }
       })
