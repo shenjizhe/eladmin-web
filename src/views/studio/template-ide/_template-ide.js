@@ -25,6 +25,8 @@ import 'codemirror/mode/shell/shell'
 import 'codemirror/mode/powershell/powershell'
 
 import { HtmlText } from '@/api/studio/HtmlText'
+import { LogicText } from '@/api/studio/LogicText'
+
 const CodeMirror = require('codemirror/lib/codemirror')
 
 const defaultValue = {
@@ -473,7 +475,14 @@ export default {
             {
               text: '上下文',
               completeSingle: false,
-              hint: this.hintCallback
+              hint: this.hintContextCallback
+            })
+        } else if (key.text[0] === '#') {
+          block.coder.showHint(
+            {
+              text: '逻辑控制',
+              completeSingle: false,
+              hint: this.hintLogicCallback
             })
         }
       })
@@ -492,7 +501,33 @@ export default {
       })
     },
 
-    hintCallback(coder) {
+    hintLogicCallback(coder) {
+      const cur = coder.getCursor()
+      const end = cur.ch
+      const start = end
+      const list = this.getLogicList()
+      // Crud.context
+      return {
+        list: list,
+        from: Pos(cur.line, start),
+        to: Pos(cur.line, end)
+      }
+    },
+
+    getLogicList() {
+      const logicText = new LogicText()
+      return logicText.getList.map(logic => {
+        return {
+          text: logic.text,
+          displayText: logic.display,
+          render: (element, self, data) => {
+            element.innerHTML = logic.html
+          }
+        }
+      })
+    },
+
+    hintContextCallback(coder) {
       const cur = coder.getCursor()
       const end = cur.ch
       const start = end
@@ -507,7 +542,6 @@ export default {
 
     getContextList() {
       return this.Crud.context.data.map(cm => {
-        console.log(cm)
         return {
           text: cm.key,
           displayText: cm.content,
