@@ -35,7 +35,6 @@ export class HtmlText {
       this._content +
       this._type +
       '</el-row></div>'
-    console.log(str)
     return str
   }
 }

@@ -24,9 +24,6 @@ import 'codemirror/mode/python/python'
 import 'codemirror/mode/shell/shell'
 import 'codemirror/mode/powershell/powershell'
 
-import { HtmlText } from '@/api/studio/HtmlText'
-import { LogicText } from '@/api/studio/LogicText'
-
 const CodeMirror = require('codemirror/lib/codemirror')
 
 const defaultValue = {
@@ -34,7 +31,8 @@ const defaultValue = {
   context: {},
   block: {},
   templateNodes: [],
-  blockTabs: []
+  blockTabs: [],
+  declare: {}
 }
 
 import crudTemplate from '@/api/template'
@@ -48,9 +46,12 @@ import pagination from '@crud/Pagination'
 
 import MyForm from '@/components/MyForm'
 import { Pos } from 'codemirror/src/line/pos'
+import { HtmlText } from '@/api/studio/HtmlText'
+import { LogicText } from '@/api/studio/LogicText'
+import { Declare } from '@/api/studio/Declare'
 
 const debugMode = {
-  vue: true
+  vue: false
 }
 
 const defaultForm = {
@@ -103,7 +104,8 @@ export default {
       current: {
         template: defaultValue.template,
         context: defaultValue.context,
-        block: defaultValue.block
+        block: defaultValue.block,
+        declare: defaultValue.declare
       },
       active: {
         template: ['1'],
@@ -377,6 +379,7 @@ export default {
 
   beforeCreate() {
     printVueLog('vue: beforeCreate')
+
     const templateId = this.$route.query.templateId
     if (templateId && templateId !== '') {
       defaultForm.template.id = templateId
@@ -393,6 +396,8 @@ export default {
 
   created() {
     printVueLog('vue: created')
+    this.current.declare = new Declare()
+
     this.Crud.template = this.$crud['template']
     this.Crud.context = this.$crud['context']
     this.Crud.template.registerVM('form', this, 3)
@@ -467,7 +472,7 @@ export default {
       this.coderMap[block.id] = block.coder
       this.setEvent(block)
     },
-    setEvent(block) {
+    setEvent: function(block) {
       // 代码补全
       block.coder.on('inputRead', (cm, key) => {
         if (key.text[0] === '$') {
@@ -484,6 +489,16 @@ export default {
               completeSingle: false,
               hint: this.hintLogicCallback
             })
+        } else if (key.text[0] === '.') {
+          const contains = this.current.declare.setKey(cm, key)
+          if (contains) {
+            block.coder.showHint(
+              {
+                text: '智能感知',
+                completeSingle: false,
+                hint: this.current.declare.callback
+              })
+          }
         }
       })
       // 编辑器赋值
@@ -613,20 +628,6 @@ export default {
       }
       this.coderOptions.theme = val
     },
-
-    // onCompletions(context: CompletionContext) {
-    //   let word = context.matchBefore(/\w*/)
-    //   if (word.from == word.to && !context.explicit)
-    //     return null
-    //   return {
-    //     from: word.from,
-    //     options: [
-    //       {label: "match", type: "keyword"},
-    //       {label: "hello", type: "variable", info: "(World)"},
-    //       {label: "magic", type: "text", apply: "⠁⭒*.✩.*⭒⠁", detail: "macro"}
-    //     ]
-    //   }
-    // },
 
     // others
     handleNodeClick(node) {
