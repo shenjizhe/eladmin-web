@@ -429,6 +429,11 @@ export default {
           id: defaultForm.template.id
         }
       }
+      if (crud.tag === 'default') {
+        crud.query = {
+          templateId: defaultForm.templateBlock.templateId
+        }
+      }
       if (crud.tag === 'context') {
         crud.page.size = -1
         crud.query = {
