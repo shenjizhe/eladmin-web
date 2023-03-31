@@ -49,7 +49,6 @@ export class Declare {
   }
 
   callback(coder) {
-    console.log(coder.declare)
     const cur = coder.getCursor()
     const end = cur.ch
     const start = end
