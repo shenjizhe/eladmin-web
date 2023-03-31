@@ -428,6 +428,12 @@ export default {
     this.Crud.context = this.$crud['context']
     this.Crud.template.registerVM('form', this, 3)
     this.Crud.context.registerVM('form', this, 3)
+
+    // window.addEventListener('keydown', function(event) {
+    //   if (event.ctrlKey && event.key === 's') {
+    //     event.preventDefault()
+    //   }
+    // })
   },
 
   mounted() {
@@ -500,10 +506,15 @@ export default {
         area,
         this.coderOptions
       )
+
       this.coderMap[block.id] = block.coder
       this.setEvent(block)
     },
     setEvent: function(block) {
+      // 快捷键
+      block.coder.setOption('extraKeys', {
+        'Ctrl-S': this.onSaveBlock
+      })
       // 代码补全
       block.coder.on('inputRead', (cm, key) => {
         if (key.text[0] === '$') {
