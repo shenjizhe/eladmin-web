@@ -753,7 +753,6 @@ export default {
     },
     onSaveBlock() {
       if (this.current.block) {
-        console.log(this.current.block)
         const block = {
           id: this.current.block.id,
           comment: this.current.block.comment,

@@ -48,7 +48,7 @@
               type="success"
               size="mini"
               circle
-              @click.native.stop="Crud.block.toEdit()"
+              @click.native.stop="onBlockAdd"
             />
             <el-button
               v-permission="permission.block.edit"
