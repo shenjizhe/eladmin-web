@@ -58,7 +58,6 @@ export class Declare {
         displayText: item.key
       }
     })
-    console.log(list)
     // Crud.context
     return {
       list: list,
