@@ -757,6 +757,11 @@ export default {
       this.Crud.block.form.code = ''
       this.Crud.block.toAddNoReset()
     },
+    onBlockEdit() {
+      this.Crud.block.form.templateId = this.current.template.id
+      this.Crud.block.form.code = ''
+      this.Crud.block.toEdit(this.current.block)
+    },
     showOperatorButton(row) {
       const del = this.Crud.context.optShow.del
       const global = row.type < 2
