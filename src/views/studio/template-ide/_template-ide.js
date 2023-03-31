@@ -490,8 +490,9 @@ export default {
               hint: this.hintLogicCallback
             })
         } else if (key.text[0] === '.') {
-          const contains = this.current.declare.setKey(cm, key)
-          if (contains) {
+          const declare = this.current.declare.getDeclare(cm, key)
+          block.coder.declare = declare
+          if (declare) {
             block.coder.showHint(
               {
                 text: '智能感知',

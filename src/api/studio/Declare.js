@@ -2,7 +2,6 @@ import request from '@/utils/request'
 import { Pos } from 'codemirror/src/line/pos'
 
 export class Declare {
-  current
   declares
   _url = 'http://localhost:8071/'
 
@@ -43,19 +42,17 @@ export class Declare {
     }
   }
 
-  setKey(cm, key) {
-    this.current = null
+  getDeclare(cm, key) {
     const word = this.findWord(cm, key)
-    this.current = this.findDeclare(word)
-    return this.current != null
+    return this.findDeclare(word)
   }
 
   callback(coder) {
-    console.log(1)
+    console.log(coder.declare)
     const cur = coder.getCursor()
     const end = cur.ch
     const start = end
-    const list = this.current.itemList.map(item => {
+    const list = coder.declare.itemList.map(item => {
       return {
         text: item.expression,
         displayText: item.key
