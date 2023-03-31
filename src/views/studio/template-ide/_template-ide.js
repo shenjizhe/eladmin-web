@@ -121,7 +121,7 @@ export default {
           edit: ['admin', 'template:edit'],
           del: ['admin', 'template:del']
         },
-        templateBlock: {
+        block: {
           add: ['admin', 'templateBlock:add'],
           edit: ['admin', 'templateBlock:edit'],
           del: ['admin', 'templateBlock:del']
@@ -194,6 +194,7 @@ export default {
       },
       Crud: {
         template: {},
+        block: {},
         context: {}
       },
       columns: {
@@ -239,6 +240,30 @@ export default {
             title: '描述',
             type: 'textarea',
             focused: true
+          },
+          {
+            name: 'show',
+            title: '启用',
+            type: 'switch'
+          },
+          {
+            name: 'level',
+            title: '块级别',
+            type: 'select',
+            dict: 'block_level'
+          }
+        ],
+        block_new: [
+          {
+            name: 'name',
+            title: '名称',
+            type: 'text',
+            focused: true
+          },
+          {
+            name: 'comment',
+            title: '描述',
+            type: 'textarea'
           },
           {
             name: 'show',
@@ -399,6 +424,7 @@ export default {
     this.current.declare = new Declare()
 
     this.Crud.template = this.$crud['template']
+    this.Crud.block = this.$crud['default']
     this.Crud.context = this.$crud['context']
     this.Crud.template.registerVM('form', this, 3)
     this.Crud.context.registerVM('form', this, 3)
@@ -715,11 +741,30 @@ export default {
       this.Crud.context.form.templateId = this.current.template.id
       this.Crud.context.toAddNoReset()
     },
+    onBlockAdd() {
+      this.Crud.block.form.templateId = this.current.template.id
+      this.Crud.block.form.code = ''
+      this.Crud.block.toAddNoReset()
+    },
     showOperatorButton(row) {
-      // eslint-disable-next-line eqeqeq
       const del = this.Crud.context.optShow.del
       const global = row.type < 2
       return del && !global
+    },
+    onSaveBlock() {
+      if (this.current.block) {
+        console.log(this.current.block)
+        const block = {
+          id: this.current.block.id,
+          comment: this.current.block.comment,
+          level: this.current.block.level,
+          code: this.current.block.code,
+          name: this.current.block.name,
+          templateId: this.current.block.templateId,
+          show: this.current.block.show
+        }
+        this.Crud.block.editAll([block])
+      }
     }
   }
 }

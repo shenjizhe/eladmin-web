@@ -576,7 +576,6 @@ export default {
 
     // 保存域信息和所有的修改
     onSaveAll() {
-      console.log(this.current.domain)
       this.Crud.domain.editAll([this.current.domain])
       this.Crud.entity.editAll(this.Crud.entity.data)
     },

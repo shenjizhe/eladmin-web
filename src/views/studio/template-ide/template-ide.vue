@@ -21,6 +21,45 @@
           </el-collapse>
         </el-tab-pane>
         <el-tab-pane label="模板块" name="template-block">
+          <el-dialog
+            :close-on-click-modal="false"
+            :before-close="Crud.block.cancelCU"
+            :visible.sync="Crud.block.status.cu > 0"
+            :title="Crud.block.status.title"
+            width="500px"
+          >
+            <MyForm
+              ref="form"
+              :datas="Crud.block.form"
+              :rule="rules.block"
+              :columns="columns.block_new"
+              :dicts="dict"
+            />
+            <div slot="footer" class="dialog-footer">
+              <el-button type="text" @click="Crud.block.cancelCU">取消</el-button>
+              <el-button :loading="Crud.block.status.cu === 2" type="primary" @click="Crud.block.submitCU">确认</el-button>
+            </div>
+          </el-dialog>
+          <div>
+            <el-button
+              v-permission="permission.block.add"
+              :disabled="disabled.template"
+              icon="el-icon-plus"
+              type="success"
+              size="mini"
+              circle
+              @click.native.stop="Crud.block.toEdit()"
+            />
+            <el-button
+              v-permission="permission.block.edit"
+              :disabled="disabled.block"
+              icon="el-icon-check"
+              type="primary"
+              size="mini"
+              circle
+              @click.native.stop="onSaveBlock"
+            />
+          </div>
           <el-tree
             ref="tree"
             :data="blocks"
@@ -32,7 +71,6 @@
             @node-click="handleNodeClick"
           >
             <span slot-scope="{ node, data }" class="custom-tree-node">
-              <span>{{ data.id }}</span>
               <span>{{ node.label }}</span>
               <svg-icon :icon-class="getBlockLevelClass(data.data.level)" />
             </span>

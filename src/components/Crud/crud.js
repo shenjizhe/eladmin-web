@@ -281,10 +281,10 @@ function CRUD(options) {
       if (!callVmHook(crud, CRUD.HOOK.beforeSubmit)) {
         return
       }
-
       for (const key in datas) {
         crud.crudMethod.edit(datas[key]).then(() => {
           callVmHook(crud, CRUD.HOOK.afterSubmit)
+          console.log('success')
           crud.refresh()
         }).catch(() => {
           callVmHook(crud, CRUD.HOOK.afterEditError)
