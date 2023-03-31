@@ -1,5 +1,6 @@
 import request from '@/utils/request'
 import { Pos } from 'codemirror/src/line/pos'
+import { DeclareItem } from '@/api/studio/DeclareItem'
 
 export class Declare {
   declares
@@ -52,10 +53,14 @@ export class Declare {
     const cur = coder.getCursor()
     const end = cur.ch
     const start = end
-    const list = coder.declare.itemList.map(item => {
+    const list = coder.declare.itemList.map(i => {
+      const item = new DeclareItem(i)
       return {
-        text: item.expression,
-        displayText: item.key
+        text: i.expression,
+        displayText: item.di,
+        render: (element, self, data) => {
+          element.innerHTML = item.html()
+        }
       }
     })
     // Crud.context
