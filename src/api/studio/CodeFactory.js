@@ -6,17 +6,9 @@ export class CodeFactory {
   }
 
   generate(id) {
-    request({
+    return request({
       url: this.url + 'code-factory/generate/' + id,
       method: 'post'
-    }).then(response => {
-      if (response.errCode === 0) {
-        console.log(response.msg)
-      } else {
-        console.error(response.msg)
-      }
-    }).catch(error => {
-      console.error(error)
     })
   }
 }

@@ -157,9 +157,26 @@ export default {
     },
 
     generateCode(row) {
-      console.log(row)
       const factory = new CodeFactory()
       factory.generate(row.id)
+        .then(response => {
+          if (response.errCode === 0) {
+            this.$message({
+              message: '生成代码成功',
+              type: 'success'
+            })
+          } else {
+            this.$message({
+              message: '生成代码失败',
+              type: 'fail'
+            })
+          }
+        }).catch(error => {
+          this.$message({
+            message: '生成代码失败:' + error,
+            type: 'fail'
+          })
+        })
     }
   }
 }
