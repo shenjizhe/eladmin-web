@@ -50,15 +50,6 @@
               circle
               @click.native.stop="onBlockAdd"
             />
-            <!--            <el-button-->
-            <!--              v-permission="permission.block.edit"-->
-            <!--              :disabled="disabled.block"-->
-            <!--              icon="el-icon-edit"-->
-            <!--              type="warning"-->
-            <!--              size="mini"-->
-            <!--              circle-->
-            <!--              @click.native.stop="Crud.block.toEdit"-->
-            <!--            />-->
             <el-button
               v-permission="permission.block.edit"
               :disabled="disabled.block"
