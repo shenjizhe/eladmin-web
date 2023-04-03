@@ -39,6 +39,7 @@ export function buildMenus() {
 }
 
 export function add(data) {
+  console.log(data)
   return request({
     url: 'api/menus',
     method: 'post',

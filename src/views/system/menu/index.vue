@@ -138,13 +138,27 @@
         </template>
       </el-table-column>
       <el-table-column prop="createTime" label="创建日期" width="135px" />
-      <el-table-column v-if="checkPer(['admin','menu:edit','menu:del'])" label="操作" width="130px" align="center" fixed="right">
+      <el-table-column v-if="checkPer(['admin','menu:edit','menu:del'])" label="操作" width="250px" align="center" fixed="right">
         <template slot-scope="scope">
           <udOperation
             :data="scope.row"
             :permission="permission"
             msg="确定删除吗,如果存在下级节点则一并删除，此操作不能撤销！"
-          />
+          >
+            <template
+              v-if="scope.row.type===1"
+              slot="right"
+            >
+              <el-tooltip content="批量添加CUD子菜单" placement="top">
+                <el-button
+                  size="mini"
+                  type="success"
+                  icon="el-icon-folder-add"
+                  @click="addCUD(scope.row)"
+                />
+              </el-tooltip>
+            </template>
+          </udOperation>
         </template>
       </el-table-column>
     </el-table>
@@ -240,6 +254,51 @@ export default {
     // 选中图标
     selected(name) {
       this.form.icon = name
+    },
+    // 一键添加 CUD 子菜单
+    addCUD(menu) {
+      if (menu.type === 1) {
+        const subMenu = [
+          {
+            title: '添加' + menu.title,
+            menuSort: 1,
+            type: 2,
+            permission: menu.path + ':add',
+            cache: false,
+            hidden: false,
+            pid: menu.id,
+            subCount: 0,
+            iFrame: false
+          },
+          {
+            title: '编辑' + menu.title,
+            menuSort: 2,
+            type: 2,
+            permission: menu.path + ':edit',
+            cache: false,
+            hidden: false,
+            pid: menu.id,
+            subCount: 0,
+            iFrame: false
+          },
+          {
+            title: '删除' + menu.title,
+            menuSort: 3,
+            type: 2,
+            permission: menu.path + ':del',
+            cache: false,
+            hidden: false,
+            pid: menu.id,
+            subCount: 0,
+            iFrame: false
+          }
+        ]
+
+        for (let i = 0; i < subMenu.length; i++) {
+          this.crud.crudMethod.add(subMenu[i])
+        }
+        this.crud.refresh()
+      }
     }
   }
 }
