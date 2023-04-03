@@ -73,12 +73,21 @@
         <el-table-column prop="comment" label="描述" />
         <el-table-column prop="port" label="结果端口" />
         <el-table-column prop="rootPackage" label="结果包名" />
-        <el-table-column v-if="checkPer(['admin','component:edit','component:del'])" label="操作" width="150px" align="center">
+        <el-table-column v-if="checkPer(['admin','component:edit','component:del'])" label="操作" width="250px" align="center">
           <template slot-scope="scope">
             <udOperation
               :data="scope.row"
               :permission="permission"
-            />
+            >
+              <template slot="right">
+                <el-button
+                  size="mini"
+                  type="success"
+                  icon="el-icon-share"
+                  @click="generateCode(scope.row)"
+                >生成</el-button>
+              </template>
+            </udOperation>
           </template>
         </el-table-column>
       </el-table>
@@ -95,6 +104,7 @@ import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
+import { CodeFactory } from '@/api/studio/CodeFactory'
 
 const defaultForm = { id: null, name: null, comment: null, show: null, modelId: null, templateId: null, filePath: null, port: null, rootPackage: null, deployUrl: null, deployPath: null, gitPath: null, gitGroup: null }
 export default {
@@ -144,6 +154,12 @@ export default {
     // 钩子：在获取表格数据之前执行，false 则代表不获取数据
     [CRUD.HOOK.beforeRefresh]() {
       return true
+    },
+
+    generateCode(row) {
+      console.log(row)
+      const factory = new CodeFactory()
+      factory.generate(row.id)
     }
   }
 }
