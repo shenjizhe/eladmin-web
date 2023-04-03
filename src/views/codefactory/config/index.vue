@@ -4,7 +4,7 @@
     <div class="head-container">
       <div v-if="crud.props.searchToggle">
         <!-- 搜索 -->
-        <label class="el-form-item-label">关键词( 唯一 )</label>
+        <label class="el-form-item-label">关键词</label>
         <el-input v-model="query.key" clearable placeholder="关键词( 唯一 )" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
         <label class="el-form-item-label">类型</label>
         <el-input v-model="query.type" clearable placeholder="类型" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
@@ -19,7 +19,7 @@
       <!--表单组件-->
       <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="500px">
         <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
-          <el-form-item label="关键词( 唯一 )" prop="key">
+          <el-form-item label="关键词" prop="key">
             <el-input v-model="form.key" style="width: 370px;" />
           </el-form-item>
           <el-form-item label="类型" prop="type">
@@ -48,7 +48,7 @@
       <el-table ref="table" v-loading="crud.loading" :data="crud.data" size="small" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
         <el-table-column type="selection" width="55" />
         <el-table-column prop="id" label="主键" />
-        <el-table-column prop="key" label="关键词( 唯一 )" />
+        <el-table-column prop="key" label="关键词" />
         <el-table-column prop="type" label="类型">
           <template slot-scope="scope">
             {{ dict.label.data_type[scope.row.type] }}
