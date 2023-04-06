@@ -13,12 +13,15 @@
           <el-form-item label="IP地址" prop="ip">
             <el-input v-model="form.ip" style="width: 370px;" />
           </el-form-item>
+          <el-form-item label="端口" prop="port">
+            <el-input-number v-model="form.port" />
+          </el-form-item>
           <el-form-item label="名称" prop="name">
             <el-input v-model="form.name" style="width: 370px;" />
           </el-form-item>
           <el-form-item label="密码" prop="password">
             <el-input v-model="form.password" type="password" style="width: 200px" />
-            <el-button :loading="loading" type="success" style="align: right;">测试连接</el-button>
+            <el-button :loading="loading" type="success" style="align: right;" @click="testConnectServer">测试连接</el-button>
           </el-form-item>
           <el-form-item label="私钥">
             <el-input v-model="form.rsa" :rows="3" type="textarea" style="width: 370px;" />
@@ -58,6 +61,7 @@
             {{ dict.label.system_type[scope.row.system] }}
           </template>
         </el-table-column>
+        <el-table-column prop="port" label="端口" />
         <el-table-column v-if="checkPer(['admin','server:edit','server:del'])" label="操作" width="150px" align="center">
           <template slot-scope="scope">
             <udOperation
@@ -80,8 +84,9 @@ import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
+import { testServerConnect } from '@/api/mnt/connect'
 
-const defaultForm = { id: null, account: null, ip: null, name: null, password: null, rsa: null, pub: null, system: null, version: null }
+const defaultForm = { id: null, account: null, ip: null, name: null, password: null, rsa: null, pub: null, system: null, version: null, port: null }
 export default {
   name: 'Server',
   components: { pagination, crudOperation, rrOperation, udOperation },
@@ -92,6 +97,7 @@ export default {
   },
   data() {
     return {
+      loading: false,
       permission: {
         add: ['admin', 'server:add'],
         edit: ['admin', 'server:edit'],
@@ -112,6 +118,9 @@ export default {
         ],
         password: [
           { required: true, message: '密码不能为空', trigger: 'blur' }
+        ],
+        port: [
+          { required: true, message: '端口不能为空', trigger: 'blur' }
         ]
       }
     }
@@ -120,6 +129,23 @@ export default {
     // 钩子：在获取表格数据之前执行，false 则代表不获取数据
     [CRUD.HOOK.beforeRefresh]() {
       return true
+    },
+    testConnectServer() {
+      this.$refs['form'].validate((valid) => {
+        if (valid) {
+          this.loading = true
+          testServerConnect(this.form).then((res) => {
+            this.loading = false
+            this.$notify({
+              title: res ? '连接成功' : '连接失败',
+              type: res ? 'success' : 'error',
+              duration: 2500
+            })
+          }).catch(() => {
+            this.loading = false
+          })
+        }
+      })
     }
   }
 }
