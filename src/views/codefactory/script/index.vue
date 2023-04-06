@@ -7,6 +7,12 @@
       <!--表单组件-->
       <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="500px">
         <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
+          <el-form-item label="脚本名称">
+            <el-input v-model="form.name" style="width: 370px;" />
+          </el-form-item>
+          <el-form-item label="脚本描述">
+            <el-input v-model="form.comment" :rows="3" type="textarea" style="width: 370px;" />
+          </el-form-item>
           <el-form-item label="脚本" prop="script">
             <el-input v-model="form.script" :rows="3" type="textarea" style="width: 370px;" />
           </el-form-item>
@@ -46,6 +52,8 @@
       <el-table ref="table" v-loading="crud.loading" :data="crud.data" size="small" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
         <el-table-column type="selection" width="55" />
         <el-table-column prop="id" label="ID" />
+        <el-table-column prop="name" label="脚本名称" />
+        <el-table-column prop="comment" label="脚本描述" />
         <el-table-column prop="system" label="使用系统">
           <template slot-scope="scope">
             {{ dict.label.system_type[scope.row.system] }}
@@ -81,7 +89,7 @@ import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 
-const defaultForm = { id: null, script: null, system: null, language: null, type: null, params: null }
+const defaultForm = { id: null, script: null, system: null, language: null, type: null, params: null, name: null, comment: null }
 export default {
   name: 'Script',
   components: { pagination, crudOperation, rrOperation, udOperation },
