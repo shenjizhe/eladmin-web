@@ -68,6 +68,10 @@
                       value="Textarea"
                     />
                     <el-option
+                      label="密码框"
+                      value="Password"
+                    />
+                    <el-option
                       label="单选框"
                       value="Radio"
                     />
