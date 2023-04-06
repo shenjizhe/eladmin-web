@@ -85,6 +85,7 @@ import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 import { testServerConnect } from '@/api/mnt/connect'
+import { execute } from '@/api/mnt/serverDeploy'
 
 const defaultForm = { id: null, account: null, ip: null, name: null, password: null, rsa: null, pub: null, system: null, version: null, port: null }
 export default {
@@ -143,6 +144,10 @@ export default {
             })
           }).catch(() => {
             this.loading = false
+          })
+
+          execute(2, 3).then(res => {
+            console.log(res)
           })
         }
       })

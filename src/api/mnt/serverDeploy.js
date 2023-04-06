@@ -24,4 +24,16 @@ export function edit(data) {
   })
 }
 
-export default { add, edit, del }
+export function execute(serverId, scriptId) {
+  const data = {
+    serverId: serverId,
+    scriptId: scriptId
+  }
+  return request({
+    url: 'api/serverDeploy/execute',
+    method: 'post',
+    data
+  })
+}
+
+export default { add, edit, del, execute }
