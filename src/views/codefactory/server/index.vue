@@ -148,7 +148,7 @@ export default {
 
           execute(2, 3).then(res => {
             if (res.includes('Linux')) {
-              this.form.system = 1
+              this.form.system = 'linux'
             }
             this.form.version = res
             console.log(res)
