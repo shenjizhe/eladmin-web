@@ -13,9 +13,6 @@
           <el-form-item label="IP地址" prop="ip">
             <el-input v-model="form.ip" style="width: 370px;" />
           </el-form-item>
-          <el-form-item label="端口" prop="port">
-            <el-input-number v-model="form.port" />
-          </el-form-item>
           <el-form-item label="名称" prop="name">
             <el-input v-model="form.name" style="width: 370px;" />
           </el-form-item>
@@ -61,13 +58,32 @@
             {{ dict.label.system_type[scope.row.system] }}
           </template>
         </el-table-column>
-        <el-table-column prop="port" label="端口" />
-        <el-table-column v-if="checkPer(['admin','server:edit','server:del'])" label="操作" width="150px" align="center">
+        <el-table-column prop="step" label="进度" width="350px">
+          <template slot-scope="scope">
+            <el-steps :active="scope.row.step" finish-status="success">
+              <el-step title="jdk" />
+              <el-step title="maven" />
+              <el-step title="git" />
+              <el-step title="docker" />
+              <el-step title="配置" />
+            </el-steps>
+          </template>
+        </el-table-column>
+        <el-table-column v-if="checkPer(['admin','server:edit','server:del'])" label="操作" width="250px" align="center">
           <template slot-scope="scope">
             <udOperation
               :data="scope.row"
               :permission="permission"
-            />
+            >
+              <template slot="right">
+                <el-button
+                  size="mini"
+                  type="success"
+                  icon="el-icon-finished"
+                  @click="onCheckEnvironment(scope.row)"
+                >检测</el-button>
+              </template>
+            </udOperation>
           </template>
         </el-table-column>
       </el-table>
@@ -86,11 +102,12 @@ import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 import { testServerConnect } from '@/api/mnt/connect'
 import { execute } from '@/api/mnt/serverDeploy'
+import Template from '../template'
 
 const defaultForm = { id: null, account: null, ip: null, name: null, password: null, rsa: null, pub: null, system: null, version: null, port: null }
 export default {
   name: 'Server',
-  components: { pagination, crudOperation, rrOperation, udOperation },
+  components: { Template, pagination, crudOperation, rrOperation, udOperation },
   mixins: [presenter(), header(), form(defaultForm), crud()],
   dicts: ['system_type'],
   cruds() {
@@ -155,6 +172,9 @@ export default {
           })
         }
       })
+    },
+    onCheckEnvironment(server) {
+      console.log(server)
     }
   }
 }
