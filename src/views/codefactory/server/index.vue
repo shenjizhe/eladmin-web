@@ -183,12 +183,14 @@ export default {
       await execute(server.id, key)
         .then(res => {
           server.step = step
+          this.crud.editAll([server])
         })
     },
     async copyFile(server, path, key, step) {
       await copy(server.id, path, key)
         .then(res => {
           server.step = step
+          this.crud.editAll([server])
         })
     }
   }
