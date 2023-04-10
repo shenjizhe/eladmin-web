@@ -24,10 +24,11 @@ export function edit(data) {
   })
 }
 
-export function execute(serverId, scriptId) {
+export function execute(serverId, key) {
+  console.log(serverId, key)
   const data = {
     serverId: serverId,
-    scriptId: scriptId
+    key: key
   }
   return request({
     url: 'api/serverDeploy/execute',

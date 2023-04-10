@@ -13,18 +13,15 @@
           <el-form-item label="IP地址" prop="ip">
             <el-input v-model="form.ip" style="width: 370px;" />
           </el-form-item>
+          <el-form-item label="端口" prop="port">
+            <el-input-number v-model="form.port" />
+          </el-form-item>
           <el-form-item label="名称" prop="name">
             <el-input v-model="form.name" style="width: 370px;" />
           </el-form-item>
           <el-form-item label="密码" prop="password">
             <el-input v-model="form.password" type="password" style="width: 200px" />
-            <el-button :loading="loading" type="success" style="align: right;" @click="testConnectServer">测试连接</el-button>
-          </el-form-item>
-          <el-form-item label="私钥">
-            <el-input v-model="form.rsa" :rows="3" type="textarea" style="width: 370px;" />
-          </el-form-item>
-          <el-form-item label="公钥">
-            <el-input v-model="form.pub" :rows="3" type="textarea" style="width: 370px;" />
+            <el-button :loading="loading" type="success" style="align: right;" @click="testConnectServer(form.id)">测试连接</el-button>
           </el-form-item>
           <el-form-item label="系统">
             <el-select v-model="form.system" filterable placeholder="请选择">
@@ -101,7 +98,7 @@ import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 import { testServerConnect } from '@/api/mnt/connect'
-import { execute } from '@/api/mnt/serverDeploy'
+import { execute, copy } from '@/api/server'
 import Template from '../template'
 
 const defaultForm = { id: null, account: null, ip: null, name: null, password: null, rsa: null, pub: null, system: null, version: null, port: null }
@@ -148,7 +145,7 @@ export default {
     [CRUD.HOOK.beforeRefresh]() {
       return true
     },
-    testConnectServer() {
+    testConnectServer(id) {
       this.$refs['form'].validate((valid) => {
         if (valid) {
           this.loading = true
@@ -163,18 +160,36 @@ export default {
             this.loading = false
           })
 
-          execute(2, 3).then(res => {
-            if (res.includes('Linux')) {
-              this.form.system = 'linux'
-            }
-            this.form.version = res
-            console.log(res)
-          })
+          execute(id, 'linux-version')
+            .then(res => {
+              if (res.includes('Linux')) {
+                this.form.system = 'linux'
+              }
+              this.form.version = res
+            })
         }
       })
     },
-    onCheckEnvironment(server) {
-      console.log(server)
+    async onCheckEnvironment(server) {
+      console.log('server', server)
+
+      await this.check('jdk-check', server, 1)
+      await this.check('maven-check', server, 2)
+      await this.check('git-check', server, 3)
+      await this.check('docker-check', server, 4)
+      await this.copyFile(server, '/root/.m2/settings.xml', 'maven-config-file', 5)
+    },
+    async check(key, server, step) {
+      await execute(server.id, key)
+        .then(res => {
+          server.step = step
+        })
+    },
+    async copyFile(server, path, key, step) {
+      await copy(server.id, path, key)
+        .then(res => {
+          server.step = step
+        })
     }
   }
 }
