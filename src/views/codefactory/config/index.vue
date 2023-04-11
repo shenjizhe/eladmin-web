@@ -17,10 +17,10 @@
       <!--如果想在工具栏加入更多按钮，可以使用插槽方式， slot = 'left' or 'right'-->
       <crudOperation :permission="permission" />
       <!--表单组件-->
-      <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="500px">
+      <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="600px">
         <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
           <el-form-item label="关键词" prop="key">
-            <el-input v-model="form.key" style="width: 370px;" />
+            <el-input v-model="form.key" style="width: 95%;" />
           </el-form-item>
           <el-form-item label="类型" prop="type">
             <el-select v-model="form.type" filterable placeholder="请选择">
@@ -33,10 +33,10 @@
             </el-select>
           </el-form-item>
           <el-form-item label="描述" prop="comment">
-            <el-input v-model="form.comment" :rows="3" type="textarea" style="width: 370px;" />
+            <el-input v-model="form.comment" :rows="3" type="textarea" style="width: 95%;" />
           </el-form-item>
           <el-form-item label="数值" prop="value">
-            <el-input v-model="form.value" :rows="3" type="textarea" style="width: 370px;" />
+            <el-input v-model="form.value" :rows="10" type="textarea" style="width: 95%;" />
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -55,7 +55,6 @@
           </template>
         </el-table-column>
         <el-table-column prop="comment" label="描述" />
-        <el-table-column prop="value" label="数值" />
         <el-table-column v-if="checkPer(['admin','config:edit','config:del'])" label="操作" width="150px" align="center">
           <template slot-scope="scope">
             <udOperation

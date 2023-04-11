@@ -55,7 +55,7 @@
             {{ dict.label.system_type[scope.row.system] }}
           </template>
         </el-table-column>
-        <el-table-column prop="step" label="进度" width="350px">
+        <el-table-column prop="step" label="进度" width="500px">
           <template slot-scope="scope">
             <el-steps :active="scope.row.step" finish-status="success">
               <el-step title="jdk" />
@@ -145,6 +145,9 @@ export default {
     [CRUD.HOOK.beforeRefresh]() {
       return true
     },
+    [CRUD.HOOK.afterRefresh]() {
+      return true
+    },
     testConnectServer(id) {
       this.$refs['form'].validate((valid) => {
         if (valid) {
@@ -171,19 +174,22 @@ export default {
       })
     },
     async onCheckEnvironment(server) {
-      console.log('server', server)
-
       await this.check('jdk-check', server, 1)
       await this.check('maven-check', server, 2)
       await this.check('git-check', server, 3)
       await this.check('docker-check', server, 4)
+      await this.check('docker-config', server, 4)
+      await this.check('docker-compose-check', server, 4)
       await this.copyFile(server, '/root/.m2/settings.xml', 'maven-config-file', 5)
     },
     async check(key, server, step) {
       await execute(server.id, key)
         .then(res => {
+          console.log(res)
           server.step = step
           this.crud.editAll([server])
+        }).catch(err => {
+          console.log(err)
         })
     },
     async copyFile(server, path, key, step) {
@@ -191,6 +197,8 @@ export default {
         .then(res => {
           server.step = step
           this.crud.editAll([server])
+        }).catch(err => {
+          console.log(err)
         })
     }
   }
