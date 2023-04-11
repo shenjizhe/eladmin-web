@@ -6,15 +6,17 @@
         <!-- 搜索 -->
         <label class="el-form-item-label">查找键</label>
         <el-input v-model="query.key" clearable placeholder="查找键" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
+        <label class="el-form-item-label">内置参数</label>
+        <el-input v-model="query.buidIn" clearable placeholder="内置参数" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
         <rrOperation :crud="crud" />
       </div>
       <!--如果想在工具栏加入更多按钮，可以使用插槽方式， slot = 'left' or 'right'-->
       <crudOperation :permission="permission" />
       <!--表单组件-->
-      <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="800px">
+      <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="500px">
         <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
           <el-form-item label="脚本" prop="script">
-            <el-input v-model="form.script" :rows="10" type="textarea" style="width: 95%;" />
+            <el-input v-model="form.script" :rows="3" type="textarea" style="width: 370px;" />
           </el-form-item>
           <el-form-item label="使用系统" prop="system">
             <el-select v-model="form.system" filterable placeholder="请选择">
@@ -81,6 +83,7 @@
             <udOperation
               :data="scope.row"
               :permission="permission"
+              :disabled-dle="scope.row.buidIn"
             />
           </template>
         </el-table-column>
@@ -99,7 +102,7 @@ import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 
-const defaultForm = { id: null, script: null, system: null, language: null, type: null, params: null, name: null, comment: null, key: null }
+const defaultForm = { id: null, script: null, system: null, language: null, type: null, params: null, name: null, comment: null, key: null, buidIn: null }
 export default {
   name: 'Script',
   components: { pagination, crudOperation, rrOperation, udOperation },
@@ -130,10 +133,14 @@ export default {
         ],
         key: [
           { required: true, message: '查找键不能为空', trigger: 'blur' }
+        ],
+        buidIn: [
+          { required: true, message: '内置参数不能为空', trigger: 'blur' }
         ]
       },
       queryTypeOptions: [
-        { key: 'key', display_name: '查找键' }
+        { key: 'key', display_name: '查找键' },
+        { key: 'buidIn', display_name: '内置参数' }
       ]
 
     }

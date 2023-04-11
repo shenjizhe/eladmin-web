@@ -4,7 +4,7 @@
     <div class="head-container">
       <div v-if="crud.props.searchToggle">
         <!-- 搜索 -->
-        <label class="el-form-item-label">关键词</label>
+        <label class="el-form-item-label">关键词( 唯一 )</label>
         <el-input v-model="query.key" clearable placeholder="关键词( 唯一 )" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
         <label class="el-form-item-label">类型</label>
         <el-input v-model="query.type" clearable placeholder="类型" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
@@ -12,15 +12,17 @@
         <el-input v-model="query.comment" clearable placeholder="描述" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
         <label class="el-form-item-label">数值</label>
         <el-input v-model="query.value" clearable placeholder="数值" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
+        <label class="el-form-item-label">内置参数</label>
+        <el-input v-model="query.buidIn" clearable placeholder="内置参数" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
         <rrOperation :crud="crud" />
       </div>
       <!--如果想在工具栏加入更多按钮，可以使用插槽方式， slot = 'left' or 'right'-->
       <crudOperation :permission="permission" />
       <!--表单组件-->
-      <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="600px">
+      <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="500px">
         <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
-          <el-form-item label="关键词" prop="key">
-            <el-input v-model="form.key" style="width: 95%;" />
+          <el-form-item label="关键词( 唯一 )" prop="key">
+            <el-input v-model="form.key" style="width: 370px;" />
           </el-form-item>
           <el-form-item label="类型" prop="type">
             <el-select v-model="form.type" filterable placeholder="请选择">
@@ -33,10 +35,10 @@
             </el-select>
           </el-form-item>
           <el-form-item label="描述" prop="comment">
-            <el-input v-model="form.comment" :rows="3" type="textarea" style="width: 95%;" />
+            <el-input v-model="form.comment" :rows="3" type="textarea" style="width: 370px;" />
           </el-form-item>
           <el-form-item label="数值" prop="value">
-            <el-input v-model="form.value" :rows="10" type="textarea" style="width: 95%;" />
+            <el-input v-model="form.value" :rows="3" type="textarea" style="width: 370px;" />
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -48,18 +50,20 @@
       <el-table ref="table" v-loading="crud.loading" :data="crud.data" size="small" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
         <el-table-column type="selection" width="55" />
         <el-table-column prop="id" label="主键" />
-        <el-table-column prop="key" label="关键词" />
+        <el-table-column prop="key" label="关键词( 唯一 )" />
         <el-table-column prop="type" label="类型">
           <template slot-scope="scope">
             {{ dict.label.data_type[scope.row.type] }}
           </template>
         </el-table-column>
         <el-table-column prop="comment" label="描述" />
+        <el-table-column prop="buidIn" label="内置参数" />
         <el-table-column v-if="checkPer(['admin','config:edit','config:del'])" label="操作" width="150px" align="center">
           <template slot-scope="scope">
             <udOperation
               :data="scope.row"
               :permission="permission"
+              :disabled-dle="scope.row.buidIn"
             />
           </template>
         </el-table-column>
@@ -78,7 +82,7 @@ import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 
-const defaultForm = { id: null, key: null, type: null, comment: null, value: null }
+const defaultForm = { id: null, key: null, type: null, comment: null, value: null, buidIn: null }
 export default {
   name: 'Config',
   components: { pagination, crudOperation, rrOperation, udOperation },
@@ -109,13 +113,17 @@ export default {
         ],
         value: [
           { required: true, message: '数值不能为空', trigger: 'blur' }
+        ],
+        buidIn: [
+          { required: true, message: '内置参数不能为空', trigger: 'blur' }
         ]
       },
       queryTypeOptions: [
         { key: 'key', display_name: '关键词( 唯一 )' },
         { key: 'type', display_name: '类型' },
         { key: 'comment', display_name: '描述' },
-        { key: 'value', display_name: '数值' }
+        { key: 'value', display_name: '数值' },
+        { key: 'buidIn', display_name: '内置参数' }
       ]
 
     }
