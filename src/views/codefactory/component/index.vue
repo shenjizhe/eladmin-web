@@ -188,7 +188,7 @@ export default {
 
     pushCode(row) {
       const helper = new GitlabHelper()
-      helper.pushCode(row.id)
+      helper.pushProject(row.id)
         .then(response => {
           if (response.errCode === 0) {
             this.$message({
@@ -197,13 +197,13 @@ export default {
             })
           } else {
             this.$message({
-              message: '推送代码失败',
+              message: '推送代码失败: ' + response.message,
               type: 'fail'
             })
           }
         }).catch(error => {
           this.$message({
-            message: '推送代码失败:' + error,
+            message: '推送代码失败: ' + error,
             type: 'fail'
           })
         })
