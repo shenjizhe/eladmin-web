@@ -73,7 +73,7 @@
         <el-table-column prop="comment" label="描述" />
         <el-table-column prop="port" label="结果端口" />
         <el-table-column prop="rootPackage" label="结果包名" />
-        <el-table-column v-if="checkPer(['admin','component:edit','component:del'])" label="操作" width="250px" align="center">
+        <el-table-column v-if="checkPer(['admin','component:edit','component:del'])" label="操作" width="350px" align="center">
           <template slot-scope="scope">
             <udOperation
               :data="scope.row"
@@ -86,6 +86,12 @@
                   icon="el-icon-share"
                   @click="generateCode(scope.row)"
                 >生成</el-button>
+                <el-button
+                  size="mini"
+                  type="primary"
+                  icon="el-icon-upload"
+                  @click="pushCode(scope.row)"
+                >推送</el-button>
               </template>
             </udOperation>
           </template>
@@ -105,6 +111,7 @@ import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 import { CodeFactory } from '@/api/studio/CodeFactory'
+import { GitlabHelper } from '@/api/studio/GitlabHelper'
 
 const defaultForm = { id: null, name: null, comment: null, show: null, modelId: null, templateId: null, filePath: null, port: null, rootPackage: null, deployUrl: null, deployPath: null, gitPath: null, gitGroup: null }
 export default {
@@ -174,6 +181,29 @@ export default {
         }).catch(error => {
           this.$message({
             message: '生成代码失败:' + error,
+            type: 'fail'
+          })
+        })
+    },
+
+    pushCode(row) {
+      const helper = new GitlabHelper()
+      helper.pushCode(row.id)
+        .then(response => {
+          if (response.errCode === 0) {
+            this.$message({
+              message: '推送代码成功',
+              type: 'success'
+            })
+          } else {
+            this.$message({
+              message: '推送代码失败',
+              type: 'fail'
+            })
+          }
+        }).catch(error => {
+          this.$message({
+            message: '推送代码失败:' + error,
             type: 'fail'
           })
         })

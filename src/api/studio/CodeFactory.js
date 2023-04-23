@@ -7,7 +7,7 @@ export class CodeFactory {
 
   generate(id) {
     return request({
-      url: this.url + 'code-factory/generate/' + id,
+      url: this.url + 'code-factory/generate/' + id + '?outputType=file',
       method: 'post'
     })
   }
