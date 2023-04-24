@@ -66,7 +66,14 @@
         </div>
       </el-dialog>
       <!--表格渲染-->
-      <el-table ref="table" v-loading="crud.loading" :data="crud.data" size="small" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
+      <el-table
+        ref="table"
+        v-loading="crud.loading"
+        :data="crud.data"
+        size="small"
+        style="width: 100%;"
+        @selection-change="crud.selectionChangeHandler"
+      >
         <el-table-column type="selection" width="55" />
         <el-table-column prop="id" label="主键" />
         <el-table-column prop="name" label="名称" />
@@ -87,6 +94,10 @@
                   @click="generateCode(scope.row)"
                 >生成</el-button>
                 <el-button
+                  v-loading.fullscreen.lock="loading.show"
+                  :element-loading-text="loading.text"
+                  :element-loading-spinner="loading.spinner"
+                  :element-loading-background="loading.background"
                   size="mini"
                   type="primary"
                   icon="el-icon-upload"
@@ -146,6 +157,12 @@ export default {
           { required: true, message: '模块ID不能为空', trigger: 'blur' }
         ]
       },
+      loading: {
+        show: false,
+        text: null,
+        background: 'rgba(0, 0, 0, 0.2)',
+        spinner: 'el-icon-loading'
+      },
       queryTypeOptions: [
         { key: 'id', display_name: '主键' },
         { key: 'name', display_name: '名称' },
@@ -188,20 +205,25 @@ export default {
 
     pushCode(row) {
       const helper = new GitlabHelper()
+      this.loading.show = true
+      this.loading.text = '代码生成中'
       helper.pushProject(row.id)
         .then(response => {
           if (response.errCode === 0) {
+            this.loading.show = false
             this.$message({
               message: '推送代码成功',
               type: 'success'
             })
           } else {
+            this.loading.show = false
             this.$message({
               message: '推送代码失败: ' + response.message,
               type: 'fail'
             })
           }
         }).catch(error => {
+          this.loading.show = false
           this.$message({
             message: '推送代码失败: ' + error,
             type: 'fail'
