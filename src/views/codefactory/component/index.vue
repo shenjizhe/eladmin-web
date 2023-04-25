@@ -103,6 +103,12 @@
                   icon="el-icon-upload"
                   @click="pushCode(scope.row)"
                 >推送</el-button>
+                <el-button
+                  size="mini"
+                  type="warning"
+                  icon="el-icon-upload"
+                  @click="testProcess(scope.row)"
+                >进度</el-button>
               </template>
             </udOperation>
           </template>
@@ -123,6 +129,7 @@ import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 import { CodeFactory } from '@/api/studio/CodeFactory'
 import { GitlabHelper } from '@/api/studio/GitlabHelper'
+import { Process } from '@/api/studio/Process'
 
 const defaultForm = { id: null, name: null, comment: null, show: null, modelId: null, templateId: null, filePath: null, port: null, rootPackage: null, deployUrl: null, deployPath: null, gitPath: null, gitGroup: null }
 export default {
@@ -201,6 +208,11 @@ export default {
             type: 'fail'
           })
         })
+    },
+
+    testProcess(row) {
+      var process = new Process()
+      process.process()
     },
 
     pushCode(row) {
