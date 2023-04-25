@@ -103,12 +103,12 @@
                   icon="el-icon-upload"
                   @click="pushCode(scope.row)"
                 >推送</el-button>
-                <el-button
-                  size="mini"
-                  type="warning"
-                  icon="el-icon-upload"
-                  @click="testProcess(scope.row)"
-                >进度</el-button>
+                <!--                <el-button-->
+                <!--                  size="mini"-->
+                <!--                  type="warning"-->
+                <!--                  icon="el-icon-upload"-->
+                <!--                  @click="testProcess(scope.row)"-->
+                <!--                >进度</el-button>-->
               </template>
             </udOperation>
           </template>
