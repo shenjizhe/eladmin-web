@@ -28,9 +28,10 @@ export class Process {
         console.log(error)
       }
     }
-    xhr.send()
     xhr.onprogress = function(event) {
       console.log(event)
     }
+
+    xhr.send()
   }
 }
