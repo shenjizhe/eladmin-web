@@ -39,6 +39,9 @@
           <el-form-item label="交易时间" prop="tradeTime">
             <el-date-picker v-model="form.tradeTime" type="datetime" style="width: 370px;" />
           </el-form-item>
+          <el-form-item label="用户id" prop="userId">
+            <el-input v-model="form.userId" style="width: 95%;" />
+          </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button type="text" @click="crud.cancelCU">取消</el-button>
@@ -58,6 +61,7 @@
         <el-table-column prop="tradePrice" label="交易价格" />
         <el-table-column prop="tradeCount" label="交易股票数量" />
         <el-table-column prop="tradeTime" label="交易时间" />
+        <el-table-column prop="userId" label="用户id" />
         <el-table-column v-if="checkPer(['admin','stockOrder:edit','stockOrder:del'])" label="操作" width="150px" align="center">
           <template slot-scope="scope">
             <udOperation
@@ -81,7 +85,7 @@ import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 
-const defaultForm = { id: null, stockId: null, tradeType: null, tradePrice: null, tradeCount: null, tradeTime: null }
+const defaultForm = { id: null, stockId: null, tradeType: null, tradePrice: null, tradeCount: null, tradeTime: null, userId: null }
 export default {
   name: 'StockOrder',
   components: { pagination, crudOperation, rrOperation, udOperation },
@@ -115,6 +119,9 @@ export default {
         ],
         tradeTime: [
           { required: true, message: '交易时间不能为空', trigger: 'blur' }
+        ],
+        userId: [
+          { required: true, message: '用户id不能为空', trigger: 'blur' }
         ]
       },
       queryTypeOptions: [
