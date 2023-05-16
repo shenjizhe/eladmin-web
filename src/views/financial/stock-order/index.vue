@@ -4,6 +4,8 @@
     <div class="head-container">
       <div v-if="crud.props.searchToggle">
         <!-- 搜索 -->
+        <label class="el-form-item-label">用户id</label>
+        <el-input v-model="query.userId" clearable placeholder="用户id" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
         <date-range-picker
           v-model="query.tradeTime"
           start-placeholder="tradeTimeStart"
@@ -26,7 +28,7 @@
                 v-for="item in dict.trade_type"
                 :key="item.id"
                 :label="item.label"
-                :value="item.value"
+                :value="item.value*1"
               />
             </el-select>
           </el-form-item>
@@ -125,6 +127,7 @@ export default {
         ]
       },
       queryTypeOptions: [
+        { key: 'userId', display_name: '用户id' }
       ]
 
     }

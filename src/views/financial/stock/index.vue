@@ -24,7 +24,7 @@
                 v-for="item in dict.stock_stage"
                 :key="item.id"
                 :label="item.label"
-                :value="item.value"
+                :value="item.value*1"
               />
             </el-select>
           </el-form-item>
@@ -34,7 +34,7 @@
                 v-for="item in dict.stock_role"
                 :key="item.id"
                 :label="item.label"
-                :value="item.value"
+                :value="item.value*1"
               />
             </el-select>
           </el-form-item>
@@ -50,7 +50,7 @@
                 v-for="item in dict.stock_industry"
                 :key="item.id"
                 :label="item.label"
-                :value="item.value"
+                :value="item.value*1"
               />
             </el-select>
           </el-form-item>

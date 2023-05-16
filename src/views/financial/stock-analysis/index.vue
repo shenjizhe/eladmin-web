@@ -2,6 +2,12 @@
   <div class="app-container">
     <!--工具栏-->
     <div class="head-container">
+      <div v-if="crud.props.searchToggle">
+        <!-- 搜索 -->
+        <label class="el-form-item-label">股票ID</label>
+        <el-input v-model="query.stockId" clearable placeholder="股票ID" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
+        <rrOperation :crud="crud" />
+      </div>
       <!--如果想在工具栏加入更多按钮，可以使用插槽方式， slot = 'left' or 'right'-->
       <crudOperation :permission="permission" />
       <!--表单组件-->
@@ -19,18 +25,23 @@
           <el-form-item label="低位价格" prop="priceLow">
             <el-input v-model="form.priceLow" style="width: 95%;" />
           </el-form-item>
-          <el-form-item label="评估类型" prop="estimateType">
-            <el-select v-model="form.estimateType" filterable placeholder="请选择">
-              <el-option
-                v-for="item in dict.estimate_type"
-                :key="item.id"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
+          <el-form-item label="高位价格90" prop="priceHign90">
+            <el-input v-model="form.priceHign90" style="width: 95%;" />
           </el-form-item>
-          <el-form-item label="波动周期" prop="fluctuationCycle">
-            <el-input v-model="form.fluctuationCycle" style="width: 95%;" />
+          <el-form-item label="低位价格90" prop="priceLow90">
+            <el-input v-model="form.priceLow90" style="width: 95%;" />
+          </el-form-item>
+          <el-form-item label="高位价格70" prop="priceHign70">
+            <el-input v-model="form.priceHign70" style="width: 95%;" />
+          </el-form-item>
+          <el-form-item label="低位价格70" prop="priceLow70">
+            <el-input v-model="form.priceLow70" style="width: 95%;" />
+          </el-form-item>
+          <el-form-item label="集中度90" prop="concentration90">
+            <el-input v-model="form.concentration90" style="width: 95%;" />
+          </el-form-item>
+          <el-form-item label="集中度70" prop="concentration70">
+            <el-input v-model="form.concentration70" style="width: 95%;" />
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -46,12 +57,12 @@
         <el-table-column prop="priceAvg" label="平均价格" />
         <el-table-column prop="priceHign" label="高位价格" />
         <el-table-column prop="priceLow" label="低位价格" />
-        <el-table-column prop="estimateType" label="评估类型">
-          <template slot-scope="scope">
-            {{ dict.label.estimate_type[scope.row.estimateType] }}
-          </template>
-        </el-table-column>
-        <el-table-column prop="fluctuationCycle" label="波动周期" />
+        <el-table-column prop="priceHign90" label="高位价格90" />
+        <el-table-column prop="priceLow90" label="低位价格90" />
+        <el-table-column prop="priceHign70" label="高位价格70" />
+        <el-table-column prop="priceLow70" label="低位价格70" />
+        <el-table-column prop="concentration90" label="集中度90" />
+        <el-table-column prop="concentration70" label="集中度70" />
         <el-table-column v-if="checkPer(['admin','stockAnalysis:edit','stockAnalysis:del'])" label="操作" width="150px" align="center">
           <template slot-scope="scope">
             <udOperation
@@ -75,12 +86,11 @@ import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 
-const defaultForm = { id: null, stockId: null, priceAvg: null, priceHign: null, priceLow: null, estimateType: null, fluctuationCycle: null }
+const defaultForm = { id: null, stockId: null, priceAvg: null, priceHign: null, priceLow: null, priceHign90: null, priceLow90: null, priceHign70: null, priceLow70: null, concentration90: null, concentration70: null }
 export default {
   name: 'StockAnalysis',
   components: { pagination, crudOperation, rrOperation, udOperation },
   mixins: [presenter(), header(), form(defaultForm), crud()],
-  dicts: ['estimate_type'],
   cruds() {
     return CRUD({ title: '股票分析', url: 'api/stockAnalysis', idField: 'id', sort: 'id,desc', crudMethod: { ...crudStockAnalysis }})
   },
@@ -107,13 +117,29 @@ export default {
         priceLow: [
           { required: true, message: '低位价格不能为空', trigger: 'blur' }
         ],
-        estimateType: [
-          { required: true, message: '评估类型不能为空', trigger: 'blur' }
+        priceHign90: [
+          { required: true, message: '高位价格90不能为空', trigger: 'blur' }
         ],
-        fluctuationCycle: [
-          { required: true, message: '波动周期不能为空', trigger: 'blur' }
+        priceLow90: [
+          { required: true, message: '低位价格90不能为空', trigger: 'blur' }
+        ],
+        priceHign70: [
+          { required: true, message: '高位价格70不能为空', trigger: 'blur' }
+        ],
+        priceLow70: [
+          { required: true, message: '低位价格70不能为空', trigger: 'blur' }
+        ],
+        concentration90: [
+          { required: true, message: '集中度90不能为空', trigger: 'blur' }
+        ],
+        concentration70: [
+          { required: true, message: '集中度70不能为空', trigger: 'blur' }
         ]
-      }
+      },
+      queryTypeOptions: [
+        { key: 'stockId', display_name: '股票ID' }
+      ]
+
     }
   },
   methods: {

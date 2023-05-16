@@ -16,7 +16,7 @@
                 v-for="item in dict.stock_event_type"
                 :key="item.id"
                 :label="item.label"
-                :value="item.value"
+                :value="item.value*1"
               />
             </el-select>
           </el-form-item>
@@ -26,7 +26,7 @@
                 v-for="item in dict.stock_event_nature"
                 :key="item.id"
                 :label="item.label"
-                :value="item.value"
+                :value="item.value*1"
               />
             </el-select>
           </el-form-item>
@@ -36,7 +36,7 @@
                 v-for="item in dict.stock_event_level"
                 :key="item.id"
                 :label="item.label"
-                :value="item.value"
+                :value="item.value*1"
               />
             </el-select>
           </el-form-item>
