@@ -19,20 +19,11 @@
           <el-form-item label="平均价格" prop="priceAvg">
             <el-input v-model="form.priceAvg" style="width: 95%;" />
           </el-form-item>
-          <el-form-item label="高位价格" prop="priceHign">
-            <el-input v-model="form.priceHign" style="width: 95%;" />
-          </el-form-item>
           <el-form-item label="低位价格" prop="priceLow">
             <el-input v-model="form.priceLow" style="width: 95%;" />
           </el-form-item>
-          <el-form-item label="高位价格90" prop="priceHign90">
-            <el-input v-model="form.priceHign90" style="width: 95%;" />
-          </el-form-item>
           <el-form-item label="低位价格90" prop="priceLow90">
             <el-input v-model="form.priceLow90" style="width: 95%;" />
-          </el-form-item>
-          <el-form-item label="高位价格70" prop="priceHign70">
-            <el-input v-model="form.priceHign70" style="width: 95%;" />
           </el-form-item>
           <el-form-item label="低位价格70" prop="priceLow70">
             <el-input v-model="form.priceLow70" style="width: 95%;" />
@@ -42,6 +33,18 @@
           </el-form-item>
           <el-form-item label="集中度70" prop="concentration70">
             <el-input v-model="form.concentration70" style="width: 95%;" />
+          </el-form-item>
+          <el-form-item label="主力持仓成本" prop="mainHoldCost">
+            <el-input v-model="form.mainHoldCost" style="width: 95%;" />
+          </el-form-item>
+          <el-form-item label="高位价格" prop="priceHigh">
+            <el-input v-model="form.priceHigh" style="width: 95%;" />
+          </el-form-item>
+          <el-form-item label="高位价格90" prop="priceHigh90">
+            <el-input v-model="form.priceHigh90" style="width: 95%;" />
+          </el-form-item>
+          <el-form-item label="高位价格70" prop="priceHigh70">
+            <el-input v-model="form.priceHigh70" style="width: 95%;" />
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -55,14 +58,15 @@
         <el-table-column prop="id" label="ID" />
         <el-table-column prop="stockId" label="股票ID" />
         <el-table-column prop="priceAvg" label="平均价格" />
-        <el-table-column prop="priceHign" label="高位价格" />
         <el-table-column prop="priceLow" label="低位价格" />
-        <el-table-column prop="priceHign90" label="高位价格90" />
         <el-table-column prop="priceLow90" label="低位价格90" />
-        <el-table-column prop="priceHign70" label="高位价格70" />
         <el-table-column prop="priceLow70" label="低位价格70" />
         <el-table-column prop="concentration90" label="集中度90" />
         <el-table-column prop="concentration70" label="集中度70" />
+        <el-table-column prop="mainHoldCost" label="主力持仓成本" />
+        <el-table-column prop="priceHigh" label="高位价格" />
+        <el-table-column prop="priceHigh90" label="高位价格90" />
+        <el-table-column prop="priceHigh70" label="高位价格70" />
         <el-table-column v-if="checkPer(['admin','stockAnalysis:edit','stockAnalysis:del'])" label="操作" width="150px" align="center">
           <template slot-scope="scope">
             <udOperation
@@ -86,7 +90,7 @@ import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 
-const defaultForm = { id: null, stockId: null, priceAvg: null, priceHign: null, priceLow: null, priceHign90: null, priceLow90: null, priceHign70: null, priceLow70: null, concentration90: null, concentration70: null }
+const defaultForm = { id: null, stockId: null, priceAvg: null, priceLow: null, priceLow90: null, priceLow70: null, concentration90: null, concentration70: null, mainHoldCost: null, priceHigh: null, priceHigh90: null, priceHigh70: null }
 export default {
   name: 'StockAnalysis',
   components: { pagination, crudOperation, rrOperation, udOperation },
@@ -111,20 +115,11 @@ export default {
         priceAvg: [
           { required: true, message: '平均价格不能为空', trigger: 'blur' }
         ],
-        priceHign: [
-          { required: true, message: '高位价格不能为空', trigger: 'blur' }
-        ],
         priceLow: [
           { required: true, message: '低位价格不能为空', trigger: 'blur' }
         ],
-        priceHign90: [
-          { required: true, message: '高位价格90不能为空', trigger: 'blur' }
-        ],
         priceLow90: [
           { required: true, message: '低位价格90不能为空', trigger: 'blur' }
-        ],
-        priceHign70: [
-          { required: true, message: '高位价格70不能为空', trigger: 'blur' }
         ],
         priceLow70: [
           { required: true, message: '低位价格70不能为空', trigger: 'blur' }
@@ -134,6 +129,18 @@ export default {
         ],
         concentration70: [
           { required: true, message: '集中度70不能为空', trigger: 'blur' }
+        ],
+        mainHoldCost: [
+          { required: true, message: '主力持仓成本不能为空', trigger: 'blur' }
+        ],
+        priceHigh: [
+          { required: true, message: '高位价格不能为空', trigger: 'blur' }
+        ],
+        priceHigh90: [
+          { required: true, message: '高位价格90不能为空', trigger: 'blur' }
+        ],
+        priceHigh70: [
+          { required: true, message: '高位价格70不能为空', trigger: 'blur' }
         ]
       },
       queryTypeOptions: [

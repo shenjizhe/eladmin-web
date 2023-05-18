@@ -4,6 +4,10 @@
     <div class="head-container">
       <div v-if="crud.props.searchToggle">
         <!-- 搜索 -->
+        <label class="el-form-item-label">股票ID</label>
+        <el-input v-model="query.stockId" clearable placeholder="股票ID" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
+        <label class="el-form-item-label">交易类型</label>
+        <el-input v-model="query.tradeType" clearable placeholder="交易类型" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
         <label class="el-form-item-label">用户id</label>
         <el-input v-model="query.userId" clearable placeholder="用户id" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
         <date-range-picker
@@ -127,6 +131,8 @@ export default {
         ]
       },
       queryTypeOptions: [
+        { key: 'stockId', display_name: '股票ID' },
+        { key: 'tradeType', display_name: '交易类型' },
         { key: 'userId', display_name: '用户id' }
       ]
 
