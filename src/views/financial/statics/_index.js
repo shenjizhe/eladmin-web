@@ -59,16 +59,6 @@ export default {
     },
 
     formatDate(date) {
-      // if (date != null) {
-      //   const year = date.getFullYear() // 获取当前年份
-      //   const month = String(date.getMonth() + 1).padStart(2, '0') // 获取当前月份，并将其前导零，使其成为两位数字
-      //   const day = String(date.getDate()).padStart(2, '0') // 获取当前天数，并将其前导零，使其成为两位数字
-      //
-      //   const formattedDate = `${year}-${month}-${day}` // 将年、月、日组合成格式化后的日期字符串
-      //   return formattedDate
-      // } else {
-      //   return ''
-      // }
       if (date) {
         const _date = new Date(date)
         const year = _date.getFullYear() // 获取当前年份
