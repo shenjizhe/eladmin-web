@@ -14,9 +14,14 @@
 
   height: $viewer-high;
   .left-container {
+    padding: 0;
     .infoHead {
       background-color: #3A71A8;
       color: #ffffff;
+    }
+    .el-card__body {
+      padding: 1px;
+      background-color: #edf0f5;
     }
   }
 
