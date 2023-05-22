@@ -18,11 +18,27 @@
         </el-row>
         <el-row>
           <el-col :x-s="24" :sm="12">平均时期</el-col>
-          <el-col :x-s="24" :sm="12">{{ formatDate(statics.holdDateAvg) }}</el-col>
+          <el-col :x-s="24" :sm="12">{{ formattedDate }}</el-col>
+        </el-row>
+        <el-row>
+          <el-col :x-s="24" :sm="12">平均天数</el-col>
+          <el-col :x-s="24" :sm="12">{{ statics.priceReference.holdDays }}</el-col>
         </el-row>
         <el-row>
           <el-col :x-s="24" :sm="12">持股总价</el-col>
           <el-col :x-s="24" :sm="12">{{ statics.holdPriceTotal }}</el-col>
+        </el-row>
+        <el-row class="infoHead">
+          <el-col :x-s="24" :sm="12">价值参考</el-col>
+          <el-col :x-s="24" :sm="12">{{ statics.priceReference.priceWorth }}</el-col>
+        </el-row>
+        <el-row>
+          <el-col :x-s="24" :sm="12">平均参考</el-col>
+          <el-col :x-s="24" :sm="12">{{ statics.priceReference.priceRefer }}</el-col>
+        </el-row>
+        <el-row>
+          <el-col :x-s="24" :sm="12">短期参考</el-col>
+          <el-col :x-s="24" :sm="12">{{ statics.priceReference.priceGoal }}</el-col>
         </el-row>
         <el-row>
           <el-col :x-s="24" :sm="12" class="infoHead">市场平均</el-col>
@@ -39,6 +55,38 @@
         <el-row>
           <el-col :x-s="24" :sm="12">参考 70</el-col>
           <el-col :x-s="24" :sm="12">{{ statics.analysis.priceLow70 }} - {{ statics.analysis.priceHigh70 }}</el-col>
+        </el-row>
+        <el-row style="background-color: #f56c6c">
+          <el-col :x-s="24" :sm="12">卖3</el-col>
+          <el-col :x-s="24" :sm="12">{{ statics.level.levelSell3 }}</el-col>
+        </el-row>
+        <el-row style="background-color: #fbe1e1">
+          <el-col :x-s="24" :sm="12">卖2</el-col>
+          <el-col :x-s="24" :sm="12">{{ statics.level.levelSell2 }}</el-col>
+        </el-row>
+        <el-row style="background-color: #fcefef">
+          <el-col :x-s="24" :sm="12">卖1</el-col>
+          <el-col :x-s="24" :sm="12">{{ statics.level.levelSell1 }}</el-col>
+        </el-row>
+        <el-row>
+          <el-col :x-s="24" :sm="12">卖</el-col>
+          <el-col :x-s="24" :sm="12">{{ statics.level.levelSell }}</el-col>
+        </el-row>
+        <el-row>
+          <el-col :x-s="24" :sm="12">买</el-col>
+          <el-col :x-s="24" :sm="12">{{ statics.level.levelBuy }}</el-col>
+        </el-row>
+        <el-row style="background-color: #eff8ea">
+          <el-col :x-s="24" :sm="12">补1</el-col>
+          <el-col :x-s="24" :sm="12">{{ statics.level.levelBuy1 }}</el-col>
+        </el-row>
+        <el-row style="background-color: #e0f2d7">
+          <el-col :x-s="24" :sm="12">补1</el-col>
+          <el-col :x-s="24" :sm="12">{{ statics.level.levelBuy2 }}</el-col>
+        </el-row>
+        <el-row style="background-color: #67c23a">
+          <el-col :x-s="24" :sm="12">补3</el-col>
+          <el-col :x-s="24" :sm="12">{{ statics.level.levelBuy3 }}</el-col>
         </el-row>
       </el-card>
     </el-aside>

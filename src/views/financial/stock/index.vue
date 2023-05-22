@@ -87,12 +87,16 @@
           </template>
         </el-table-column>
         <el-table-column prop="listDate" label="上市日期" />
-        <el-table-column v-if="checkPer(['admin','stock:edit','stock:del'])" label="操作" width="150px" align="center">
+        <el-table-column v-if="checkPer(['admin','stock:edit','stock:del'])" label="操作" width="200px" align="center">
           <template slot-scope="scope">
             <udOperation
               :data="scope.row"
               :permission="permission"
-            />
+            >
+              <template slot="right">
+                <el-button size="mini" type="success" icon="el-icon-setting" @click="staticsStock(scope.row)" />
+              </template>
+            </udOperation>
           </template>
         </el-table-column>
       </el-table>
@@ -109,11 +113,12 @@ import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
+import Template from '../../codefactory/template/index.vue'
 
 const defaultForm = { id: null, code: null, name: null, stage: null, role: null, cycleBig: null, cycleSmall: null, industry: null, listDate: null }
 export default {
   name: 'Stock',
-  components: { pagination, crudOperation, rrOperation, udOperation },
+  components: { Template, pagination, crudOperation, rrOperation, udOperation },
   mixins: [presenter(), header(), form(defaultForm), crud()],
   dicts: ['stock_stage', 'stock_role', 'stock_industry'],
   cruds() {
@@ -166,6 +171,14 @@ export default {
     // 钩子：在获取表格数据之前执行，false 则代表不获取数据
     [CRUD.HOOK.beforeRefresh]() {
       return true
+    },
+    staticsStock(e) {
+      this.$router.push({
+        path: '/financial/statics',
+        query: {
+          stockId: e.id
+        }
+      })
     }
   }
 }
