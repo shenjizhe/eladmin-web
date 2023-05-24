@@ -90,7 +90,9 @@
         </el-row>
       </el-card>
     </el-aside>
-    <el-main class="center-container" />
+    <el-main class="center-container">
+      <div id="mychart" style="width: 100%;height: 50%" />
+    </el-main>
     <el-aside class="right-container" />
   </el-container>
 </template>
