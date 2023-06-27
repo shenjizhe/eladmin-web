@@ -81,7 +81,7 @@
           <el-col :x-s="24" :sm="12">{{ statics.level.levelBuy1 }}</el-col>
         </el-row>
         <el-row style="background-color: #e0f2d7">
-          <el-col :x-s="24" :sm="12">补1</el-col>
+          <el-col :x-s="24" :sm="12">补2</el-col>
           <el-col :x-s="24" :sm="12">{{ statics.level.levelBuy2 }}</el-col>
         </el-row>
         <el-row style="background-color: #67c23a">
