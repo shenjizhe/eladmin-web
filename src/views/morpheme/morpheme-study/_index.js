@@ -110,6 +110,32 @@ export default {
           })
         })
     },
+    showNext(row) {
+      const helper = new Morpheme()
+      helper.next()
+        .then(response => {
+          console.log(response)
+          this.pair = response
+        }).catch(error => {
+          this.$message({
+            message: '取得数据失败: ' + error,
+            type: 'fail'
+          })
+        })
+    },
+    showPrevious(row) {
+      const helper = new Morpheme()
+      helper.previous()
+        .then(response => {
+          console.log(response)
+          this.pair = response
+        }).catch(error => {
+          this.$message({
+            message: '取得数据失败: ' + error,
+            type: 'fail'
+          })
+        })
+    },
     getDetectionType(index) {
       switch (index) {
         case 0: return ''

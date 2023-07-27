@@ -81,7 +81,10 @@
     </el-main>
     <el-footer class="foot-container">
       <div class="log-panel" />
-      <div class="button-panel" />
+      <div class="button-panel">
+        <el-button type="primary" @click="showPrevious">上一词</el-button>
+        <el-button type="primary" @click="showNext">下一词</el-button>
+      </div>
     </el-footer>
   </el-container>
 </template>
