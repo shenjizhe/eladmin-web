@@ -208,6 +208,9 @@ export default {
         if (!this.isLast) {
           this.showNext()
         }
+      } else if (event.key === 'Enter') {
+        console.log('aaa')
+        this.speak()
       }
     }
   }
