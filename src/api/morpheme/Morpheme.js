@@ -28,5 +28,21 @@ export class Morpheme {
       method: 'get'
     })
   }
+
+  isFirst() {
+    console.log('check is first')
+    return request({
+      url: this.url + '/api/morpheme-study/is-first',
+      method: 'get'
+    })
+  }
+
+  isLast() {
+    console.log('check is last')
+    return request({
+      url: this.url + '/api/morpheme-study/is-last',
+      method: 'get'
+    })
+  }
 }
 

@@ -33,7 +33,9 @@
               <el-input v-model="pair.word.nature" readonly />
             </el-col>
             <el-col :span="6">
-              <el-button type="primary">英文读音</el-button>
+              <audio controls>
+                <source :src="audioPath" type="audio/mpeg">
+              </audio>
             </el-col>
           </el-form-item>
           <el-form-item v-for="(item,index) in pair.word.deductions" :key="index">
@@ -82,8 +84,8 @@
     <el-footer class="foot-container">
       <div class="log-panel" />
       <div class="button-panel">
-        <el-button type="primary" @click="showPrevious">上一词</el-button>
-        <el-button type="primary" @click="showNext">下一词</el-button>
+        <el-button type="primary" :disabled="isFirst" @click="showPrevious">上一词</el-button>
+        <el-button type="primary" :disabled="isLast" @click="showNext">下一词</el-button>
       </div>
     </el-footer>
   </el-container>

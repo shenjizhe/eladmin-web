@@ -7,6 +7,8 @@ export default {
   components: { MyForm },
   data() {
     return {
+      isFirst: false,
+      isLast: false,
       pair: {
         morphemeStudy: {
           id: 0,
@@ -89,6 +91,9 @@ export default {
   },
 
   mounted() {
+    this.checkFirst()
+    this.checkLast()
+    document.addEventListener('keydown', this.handleArrowKey)
   },
 
   beforeDestroy() {
@@ -114,8 +119,9 @@ export default {
       const helper = new Morpheme()
       helper.next()
         .then(response => {
-          console.log(response)
           this.pair = response
+          this.checkLast()
+          this.isFirst = false
         }).catch(error => {
           this.$message({
             message: '取得数据失败: ' + error,
@@ -127,8 +133,9 @@ export default {
       const helper = new Morpheme()
       helper.previous()
         .then(response => {
-          console.log(response)
           this.pair = response
+          this.checkFirst()
+          this.isLast = false
         }).catch(error => {
           this.$message({
             message: '取得数据失败: ' + error,
@@ -136,6 +143,33 @@ export default {
           })
         })
     },
+
+    checkFirst(row) {
+      const helper = new Morpheme()
+      helper.isFirst()
+        .then(response => {
+          this.isFirst = response
+        }).catch(error => {
+          this.$message({
+            message: '判断第一条失败: ' + error,
+            type: 'fail'
+          })
+        })
+    },
+
+    checkLast(row) {
+      const helper = new Morpheme()
+      helper.isLast()
+        .then(response => {
+          this.isLast = response
+        }).catch(error => {
+          this.$message({
+            message: '判断最后一条失败: ' + error,
+            type: 'fail'
+          })
+        })
+    },
+
     getDetectionType(index) {
       switch (index) {
         case 0: return ''
@@ -143,6 +177,17 @@ export default {
         case 2: return 'danger'
         case 3: return 'info'
         default: return 'warning'
+      }
+    },
+    handleArrowKey(event) {
+      if (event.key === 'ArrowLeft') {
+        if (!this.isFirst) {
+          this.showPrevious()
+        }
+      } else if (event.key === 'ArrowRight') {
+        if (!this.isLast) {
+          this.showNext()
+        }
       }
     }
   }
