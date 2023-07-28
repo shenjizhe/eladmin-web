@@ -33,9 +33,7 @@
               <el-input v-model="pair.word.nature" readonly />
             </el-col>
             <el-col :span="6">
-              <audio controls>
-                <source :src="audioPath" type="audio/mpeg">
-              </audio>
+              <el-button type="success" icon="el-icon-video-play" @click="speak">开始朗读</el-button>
             </el-col>
           </el-form-item>
           <el-form-item v-for="(item,index) in pair.word.deductions" :key="index">

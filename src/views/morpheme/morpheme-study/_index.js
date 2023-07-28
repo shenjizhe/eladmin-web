@@ -7,6 +7,9 @@ export default {
   components: { MyForm },
   data() {
     return {
+      text: '你好，欢迎使用语音合成功能',
+      voices: [],
+      selectedVoice: null,
       isFirst: false,
       isLast: false,
       pair: {
@@ -40,42 +43,48 @@ export default {
           ]
         },
         word: {
-          morphemeStudy: {
-            id: 0,
-            index: 0,
-            nature: '',
-            deduction: '',
-            isDerive: '',
-            text: '',
-            deductions: [
-              {
-                id: 0,
-                affix: 0,
-                fullText: '',
-                isDerive: true,
-                meaningChinese: '',
-                meaningEnglish: '',
-                morphemeText: '',
-                nature: '',
-                shape: 0,
-                sourceText: ''
-              }
-            ],
-            meanings: [
-              {
-                id: 0,
-                meaningChinese: '',
-                meaningEnglish: '',
-                nature: ''
-              }
-            ]
-          }
+          id: 0,
+          index: 0,
+          nature: '',
+          deduction: '',
+          isDerive: '',
+          text: '',
+          deductions: [
+            {
+              id: 0,
+              affix: 0,
+              fullText: '',
+              isDerive: true,
+              meaningChinese: '',
+              meaningEnglish: '',
+              morphemeText: '',
+              nature: '',
+              shape: 0,
+              sourceText: ''
+            }
+          ],
+          meanings: [
+            {
+              id: 0,
+              meaningChinese: '',
+              meaningEnglish: '',
+              nature: ''
+            }
+          ]
         }
       }
     }
   },
 
-  computed: {},
+  computed: {
+    wordSound: {
+      get() {
+        const sound = './sounds/' + this.pair.word.text + '.mpga'
+        console.log(sound)
+        return sound
+      }
+    }
+  },
 
   watch: {},
 
@@ -91,6 +100,7 @@ export default {
   },
 
   mounted() {
+    this.getVoices()
     this.checkFirst()
     this.checkLast()
     document.addEventListener('keydown', this.handleArrowKey)
@@ -102,6 +112,16 @@ export default {
   destroyed() {
   },
   methods: {
+    getVoices() {
+      this.voices = speechSynthesis.getVoices()
+    },
+    speak() {
+      if (!speechSynthesis.speaking) {
+        const utterance = new SpeechSynthesisUtterance(this.pair.word.text)
+        utterance.voice = this.selectedVoice
+        speechSynthesis.speak(utterance)
+      }
+    },
     showCurrent(row) {
       const helper = new Morpheme()
       helper.current()
