@@ -117,13 +117,6 @@ export default {
     getVoices() {
       this.voices = speechSynthesis.getVoices()
     },
-    speak() {
-      if (!speechSynthesis.speaking) {
-        const utterance = new SpeechSynthesisUtterance(this.pair.word.text)
-        utterance.voice = this.selectedVoice
-        speechSynthesis.speak(utterance)
-      }
-    },
     speakText(text) {
       if (!speechSynthesis.speaking) {
         const utterance = new SpeechSynthesisUtterance(text)
@@ -218,8 +211,7 @@ export default {
           this.showNext()
         }
       } else if (event.key === 'Enter') {
-        console.log('aaa')
-        this.speak()
+        this.speakText(this.pair.word.text)
       }
     }
   }
