@@ -122,6 +122,13 @@ export default {
         speechSynthesis.speak(utterance)
       }
     },
+    speakText(text) {
+      if (!speechSynthesis.speaking) {
+        const utterance = new SpeechSynthesisUtterance(text)
+        utterance.voice = this.selectedVoice
+        speechSynthesis.speak(utterance)
+      }
+    },
     showCurrent(row) {
       const helper = new Morpheme()
       helper.current()

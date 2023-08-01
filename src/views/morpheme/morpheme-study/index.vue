@@ -4,22 +4,24 @@
       <div class="morpheme-panel">
         <el-form ref="form" :model="pair.morphemeStudy" label-width="80px">
           <el-form-item label="词根">
-            <el-input v-model="pair.morphemeStudy.text" readonly />
+            <el-input v-model="pair.morphemeStudy.text" readonly class="class-title" />
           </el-form-item>
-          <el-form-item label="英文" label-class="white-label">
-            <el-input v-model="pair.morphemeStudy.meaningEnglish" readonly />
-          </el-form-item>
-          <el-form-item label="中文" label-class="white-label">
-            <el-input v-model="pair.morphemeStudy.meaningChinese" readonly />
+          <el-form-item label="含义" label-class="white-label">
+            <el-col :span="12">
+              <el-input v-model="pair.morphemeStudy.meaningEnglish" readonly class="class-main" />
+            </el-col>
+            <el-col :span="12">
+              <el-input v-model="pair.morphemeStudy.meaningChinese" readonly class="class-info" />
+            </el-col>
           </el-form-item>
           <el-form-item v-for="item in pair.morphemeStudy.items" :key="item.id">
             <span slot="label">
-              <span style="color: rgb(43,120,227)">{{ item.text }}</span>
+              <span style="color: rgb(241,96,238)">{{ item.text }}</span>
             </span>
-            <el-input v-model="item.source" readonly />
+            <el-input v-model="item.source" readonly class="class-info" />
           </el-form-item>
           <el-form-item label="词源" label-class="white-label">
-            <el-input v-model="pair.morphemeStudy.description" type="textarea" readonly rows="5" />
+            <el-input v-model="pair.morphemeStudy.description" type="textarea" readonly rows="7" class="class-meaning" />
           </el-form-item>
         </el-form>
       </div>
@@ -27,10 +29,10 @@
         <el-form ref="form" :model="pair.word" label-width="60px">
           <el-form-item label="单词">
             <el-col :span="12">
-              <el-input v-model="pair.word.text" readonly />
+              <el-input v-model="pair.word.text" readonly class="class-title" />
             </el-col>
             <el-col :span="6">
-              <el-input v-model="pair.word.nature" readonly />
+              <el-input v-model="pair.word.nature" readonly class="class-info" />
             </el-col>
             <el-col :span="6">
               <el-button type="success" icon="el-icon-video-play" @click="speak">开始朗读(Enter)</el-button>
@@ -42,19 +44,22 @@
                 <el-tag :type="getDetectionType(index)">{{ index }}</el-tag>
               </span>
             </span>
-            <el-col :span="12">
-              <el-input v-model="item.fullText" readonly />
+            <el-col :span="8">
+              <el-input v-model="item.fullText" readonly class="class-source" />
             </el-col>
             <el-col :span="6">
-              <el-input v-model="item.meaningChinese" readonly />
+              <el-input v-model="item.meaningChinese" readonly class="class-info" />
             </el-col>
             <el-col :span="6">
-              <el-input v-model="item.sourceText" readonly />
+              <el-input v-model="item.sourceText" readonly class="class-tip" />
+            </el-col>
+            <el-col :span="4">
+              <el-button type="info" icon="el-icon-video-play" @click="speakText(item.sourceText)">读音</el-button>
             </el-col>
           </el-form-item>
           <el-form-item label="推导">
             <el-col :span="24">
-              <el-input v-model="pair.word.deduction" readonly />
+              <el-input v-model="pair.word.deduction" type="textarea" readonly class="class-example" />
             </el-col>
           </el-form-item>
           <el-form-item v-for="(item,index) in pair.word.meanings" :key="index">
@@ -63,17 +68,23 @@
                 <el-tag :type="getDetectionType(index)">{{ item.nature }}</el-tag>
               </span>
             </span>
-            <el-col :span="8">
-              <el-input v-model="item.meaningChinese" readonly />
+            <el-col :span="16">
+              <el-input v-model="item.meaningChinese" readonly class="class-info" />
+            </el-col>
+            <el-col :span="4">
+              <el-button type="info" icon="el-icon-video-play" @click="speakText(item.meaningEnglish)">读含义</el-button>
+            </el-col>
+            <el-col :span="4">
+              <el-button type="info" icon="el-icon-video-play" @click="speakText(item.exampleSentenceEnglish)">读例子</el-button>
             </el-col>
             <el-col :span="24">
-              <el-input v-model="item.meaningEnglish" readonly />
+              <el-input v-model="item.meaningEnglish" readonly class="class-tip" />
             </el-col>
             <el-col :span="24">
-              <el-input v-model="item.exampleSentenceEnglish" readonly />
+              <el-input v-model="item.exampleSentenceChinese" readonly type="textarea" :autosize="{ minRows: 1, maxRows: 4}" class="class-info" />
             </el-col>
             <el-col :span="24">
-              <el-input v-model="item.exampleSentenceChinese" readonly />
+              <el-input v-model="item.exampleSentenceEnglish" readonly type="textarea" :autosize="{ minRows: 1, maxRows: 4}" class="class-example" />
             </el-col>
           </el-form-item>
         </el-form>
