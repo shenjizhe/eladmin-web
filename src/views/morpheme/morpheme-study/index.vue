@@ -96,8 +96,8 @@
     <el-footer class="foot-container">
       <div class="log-panel" />
       <div class="button-panel">
-        <el-button type="primary" :disabled="isFirst" @click="showPrevious">上一词</el-button>
         <el-button type="primary" :disabled="isLast" @click="showNext">下一词</el-button>
+        <el-button type="primary" :disabled="isFirst" @click="showPrevious">上一词</el-button>
       </div>
     </el-footer>
   </el-container>
