@@ -49,6 +49,8 @@ export default {
           deduction: '',
           isDerive: '',
           text: '',
+          description: '',
+          phonetic: '',
           deductions: [
             {
               id: 0,

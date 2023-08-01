@@ -28,10 +28,13 @@
       <div class="word-panel">
         <el-form ref="form" :model="pair.word" label-width="60px">
           <el-form-item label="单词">
-            <el-col :span="12">
+            <el-col :span="8">
               <el-input v-model="pair.word.text" readonly class="class-title" />
             </el-col>
             <el-col :span="6">
+              <el-input v-model="pair.word.phonetic" readonly class="class-tool" />
+            </el-col>
+            <el-col :span="4">
               <el-input v-model="pair.word.nature" readonly class="class-info" />
             </el-col>
             <el-col :span="6">

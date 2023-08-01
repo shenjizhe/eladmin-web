@@ -32,6 +32,12 @@
           <el-form-item label="是否是派生词素(0-不是派生词 1-是派生词)">
             <el-switch v-model="form.isDerive" />
           </el-form-item>
+          <el-form-item label="英语的解释">
+            <el-input v-model="form.description" style="width: 95%;" />
+          </el-form-item>
+          <el-form-item label="音标">
+            <el-input v-model="form.phonetic" style="width: 95%;" />
+          </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button type="text" @click="crud.cancelCU">取消</el-button>
@@ -50,6 +56,8 @@
           </template>
         </el-table-column>
         <el-table-column prop="isDerive" label="是否是派生词素(0-不是派生词 1-是派生词)" />
+        <el-table-column prop="description" label="英语的解释" />
+        <el-table-column prop="phonetic" label="音标" />
         <el-table-column v-if="checkPer(['admin','word:edit','word:del'])" label="操作" width="150px" align="center">
           <template slot-scope="scope">
             <udOperation
@@ -73,7 +81,7 @@ import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 
-const defaultForm = { id: null, text: null, deduction: null, nature: null, isDerive: null }
+const defaultForm = { id: null, text: null, deduction: null, nature: null, isDerive: null, description: null, phonetic: null }
 export default {
   name: 'Word',
   components: { pagination, crudOperation, rrOperation, udOperation },
