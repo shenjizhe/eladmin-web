@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export class GitlabHelper {
   constructor() {
-    this.url = 'http://localhost:8000/'
+    this.url = 'http://test.com:8000/'
   }
 
   pushProject(componentId) {

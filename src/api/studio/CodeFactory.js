@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export class CodeFactory {
   constructor() {
-    this.url = 'http://localhost:8071/'
+    this.url = 'http://test.com:8071/'
   }
 
   generate(id) {
