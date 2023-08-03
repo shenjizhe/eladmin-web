@@ -4,7 +4,7 @@ import { DeclareItem } from '@/api/studio/DeclareItem'
 
 export class Declare {
   declares
-  _url = 'http://localhost:8071/'
+  _url = 'http://test.com:8071/'
 
   constructor() {
     this.init()
