@@ -10,6 +10,8 @@
         <el-input v-model="query.content" clearable placeholder="题目内容" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
         <label class="el-form-item-label">选项</label>
         <el-input v-model="query.options" clearable placeholder="选项" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
+        <label class="el-form-item-label">答案</label>
+        <el-input v-model="query.answer" clearable placeholder="答案" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
         <rrOperation :crud="crud" />
       </div>
       <!--如果想在工具栏加入更多按钮，可以使用插槽方式， slot = 'left' or 'right'-->
@@ -42,6 +44,9 @@
           <el-form-item label="选项" prop="options">
             <el-input v-model="form.options" :rows="3" type="textarea" style="width: 95%;;" />
           </el-form-item>
+          <el-form-item label="答案">
+            <el-input v-model="form.answer" :rows="3" type="textarea" style="width: 95%;;" />
+          </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button type="text" @click="crud.cancelCU">取消</el-button>
@@ -62,6 +67,7 @@
         <el-table-column prop="questionStem" label="题干" />
         <el-table-column prop="content" label="题目内容" />
         <el-table-column prop="options" label="选项" />
+        <el-table-column prop="answer" label="答案" />
         <el-table-column v-if="checkPer(['admin','exerciseQuestion:edit','exerciseQuestion:del'])" label="操作" width="150px" align="center">
           <template slot-scope="scope">
             <udOperation
@@ -85,7 +91,7 @@ import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 
-const defaultForm = { id: null, morphemeId: null, number: null, type: null, questionStem: null, content: null, options: null }
+const defaultForm = { id: null, morphemeId: null, number: null, type: null, questionStem: null, content: null, options: null, answer: null }
 export default {
   name: 'ExerciseQuestion',
   components: { pagination, crudOperation, rrOperation, udOperation },
@@ -127,7 +133,8 @@ export default {
       queryTypeOptions: [
         { key: 'questionStem', display_name: '题干' },
         { key: 'content', display_name: '题目内容' },
-        { key: 'options', display_name: '选项' }
+        { key: 'options', display_name: '选项' },
+        { key: 'answer', display_name: '答案' }
       ]
 
     }
