@@ -4,11 +4,11 @@
       <div v-show="show.morpheme" class="morpheme-panel">
         <el-form ref="form" :model="pair.morphemeStudy" label-width="80px">
           <el-form-item label="词根">
-            <el-input v-model="pair.morphemeStudy.text" readonly class="class-title" />
+            <el-input v-model="pair.morphemeStudy.text" readonly class="class-title" @dblclick.native="onDbClick" />
           </el-form-item>
           <el-form-item v-show="show.morphemeMeaning" label="含义" label-class="white-label">
             <el-col :span="12">
-              <el-input v-model="pair.morphemeStudy.meaningEnglish" readonly class="class-main" />
+              <el-input v-model="pair.morphemeStudy.meaningEnglish" readonly class="class-main" @dblclick.native="onDbClick" />
             </el-col>
             <el-col :span="12">
               <el-input v-model="pair.morphemeStudy.meaningChinese" readonly class="class-info" />
@@ -21,7 +21,7 @@
             <el-input v-model="item.source" readonly class="class-info" />
           </el-form-item>
           <el-form-item v-show="show.morphemeInfo" label="词源" label-class="white-label">
-            <el-input v-model="pair.morphemeStudy.description" type="textarea" readonly rows="7" class="class-meaning" />
+            <el-input v-model="pair.morphemeStudy.description" type="textarea" readonly rows="7" class="class-meaning" @dblclick.native="onDbClick" />
           </el-form-item>
         </el-form>
       </div>
@@ -29,7 +29,7 @@
         <el-form ref="form" :model="pair.word" label-width="60px">
           <el-form-item label="单词">
             <el-col :span="8">
-              <el-input v-show="show.word" v-model="pair.word.text" readonly class="class-title" />
+              <el-input v-show="show.word" v-model="pair.word.text" readonly class="class-title" @dblclick.native="onDbClick" />
             </el-col>
             <el-col :span="6">
               <el-input v-show="show.sound" v-model="pair.word.phonetic" readonly class="class-tool" />
@@ -48,13 +48,13 @@
               </span>
             </span>
             <el-col :span="8">
-              <el-input v-model="item.fullText" readonly class="class-source" />
+              <el-input v-model="item.fullText" readonly class="class-source" @dblclick.native="onDbClick" />
             </el-col>
             <el-col :span="6">
               <el-input v-show="show.deductInfo" v-model="item.meaningChinese" readonly class="class-info" />
             </el-col>
             <el-col :span="6">
-              <el-input v-show="show.deductInfo" v-model="item.sourceText" readonly class="class-tip" />
+              <el-input v-show="show.deductInfo" v-model="item.sourceText" readonly class="class-tip" @dblclick.native="onDbClick" />
             </el-col>
             <el-col :span="4">
               <el-button type="info" icon="el-icon-video-play" @click="speakText(item.sourceText)">读音</el-button>
@@ -62,7 +62,7 @@
           </el-form-item>
           <el-form-item label="推导">
             <el-col :span="24">
-              <el-input v-show="show.deductInfo" v-model="pair.word.deduction" type="textarea" readonly class="class-example" />
+              <el-input v-show="show.deductInfo" v-model="pair.word.deduction" type="textarea" readonly class="class-example" @dblclick.native="onDbClick" />
             </el-col>
           </el-form-item>
           <el-form-item v-for="(item,index) in pair.word.meanings" v-show="show.meaning" :key="index">
@@ -91,7 +91,7 @@
             </el-col>
           </el-form-item>
           <el-form-item label="翻译">
-            <quill-editor v-model="explain" :options="editorOption" class="explainEditor" />
+            <quill-editor v-show="show.explain" v-model="explain" :options="editorOption" class="explainEditor" />
           </el-form-item>
         </el-form>
       </div>
