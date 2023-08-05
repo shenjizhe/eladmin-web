@@ -170,6 +170,7 @@ export default {
       const helper = new Morpheme()
       helper.next()
         .then(response => {
+          this.explain = ''
           this.pair = response
           this.checkLast()
           this.isFirst = false
@@ -184,6 +185,7 @@ export default {
       const helper = new Morpheme()
       helper.previous()
         .then(response => {
+          this.explain = ''
           this.pair = response
           this.checkFirst()
           this.isLast = false
