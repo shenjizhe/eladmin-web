@@ -78,7 +78,7 @@
       width: 60%;
       height: 100%;
       overflow: auto;
-      background-color: #000000;
+      background-color: #111111;
       padding: 20px 30px 10px 0px;
       .el-form-item__label {
         color: #ffffff;
@@ -96,12 +96,16 @@
     .log-panel {
       width: 70%;
       height: 100%;
+      background-color: #000000;
+      padding: 15px;
+      border-style: solid;
     }
 
     .button-panel {
       width: 30%;
       height: 100%;
-      background-color: #5a5c5d;
+      background-color: #000000;
+      border-style: solid;
 
       .el-button {
         float: right;

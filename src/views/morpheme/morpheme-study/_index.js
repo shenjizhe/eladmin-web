@@ -12,6 +12,16 @@ export default {
       selectedVoice: null,
       isFirst: false,
       isLast: false,
+      show: {
+        morpheme: true,
+        morphemeMeaning: true,
+        morphemeInfo: true,
+        word: true,
+        deduct: true,
+        sound: true,
+        deductInfo: true,
+        meaning: true
+      },
       pair: {
         morphemeStudy: {
           id: 0,
