@@ -44,5 +44,12 @@ export class Morpheme {
       method: 'get'
     })
   }
+
+  transferWord(word) {
+    return request({
+      url: this.url + '/api/word/transfer-words/' + word,
+      method: 'get'
+    })
+  }
 }
 

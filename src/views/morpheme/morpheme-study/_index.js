@@ -5,6 +5,7 @@ export default {
   name: 'MorphemeStudyComponent',
   props: {},
   components: { MyForm },
+  helper: {},
   data() {
     return {
       text: '你好，欢迎使用语音合成功能',
@@ -20,7 +21,13 @@ export default {
         deduct: true,
         sound: true,
         deductInfo: true,
-        meaning: true
+        meaning: true,
+        explain: false
+      },
+      explain: '',
+      editorOption: {
+        header: {
+        }
       },
       pair: {
         morphemeStudy: {
@@ -102,6 +109,7 @@ export default {
 
   // vue 生命周期
   beforeCreate() {
+    this.helper = new Morpheme()
   },
 
   created() {
@@ -124,6 +132,20 @@ export default {
   destroyed() {
   },
   methods: {
+    onDbClick(event) {
+      const start = event.target.selectionStart
+      const end = event.target.selectionEnd
+      var text = event.target.value
+      text = text.substring(start, end)
+      this.speakText(text)
+      console.log(text)
+      this.helper.transferWord(text)
+        .then(response => {
+          this.explain = response
+        }).catch(error => {
+          console.error(error)
+        })
+    },
     getVoices() {
       this.voices = speechSynthesis.getVoices()
     },
@@ -135,8 +157,7 @@ export default {
       }
     },
     showCurrent(row) {
-      const helper = new Morpheme()
-      helper.current()
+      this.helper.current()
         .then(response => {
           console.log(response)
           this.pair = response

@@ -81,14 +81,17 @@
               <el-button type="info" icon="el-icon-video-play" @click="speakText(item.exampleSentenceEnglish)">读例子</el-button>
             </el-col>
             <el-col :span="24">
-              <el-input v-model="item.meaningEnglish" readonly class="class-tip" />
+              <el-input v-model="item.meaningEnglish" readonly class="class-tip" @dblclick.native="onDbClick" />
             </el-col>
             <el-col :span="24">
               <el-input v-model="item.exampleSentenceChinese" readonly type="textarea" :autosize="{ minRows: 1, maxRows: 4}" class="class-info" />
             </el-col>
             <el-col :span="24">
-              <el-input v-model="item.exampleSentenceEnglish" readonly type="textarea" :autosize="{ minRows: 1, maxRows: 4}" class="class-example" />
+              <el-input v-model="item.exampleSentenceEnglish" readonly type="textarea" :autosize="{ minRows: 1, maxRows: 4}" class="class-example" @dblclick.native="onDbClick" />
             </el-col>
+          </el-form-item>
+          <el-form-item label="翻译">
+            <quill-editor v-model="explain" :options="editorOption" class="explainEditor" />
           </el-form-item>
         </el-form>
       </div>

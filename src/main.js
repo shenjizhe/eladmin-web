@@ -22,6 +22,12 @@ import './assets/icons' // icon
 import './router/index' // permission control
 import VueClipBoard from 'vue-clipboard2'
 
+import VueQuillEditor from 'vue-quill-editor'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
+
+Vue.use(VueQuillEditor)
 Vue.use(VueClipBoard)
 Vue.use(checkPer)
 Vue.use(permission)
