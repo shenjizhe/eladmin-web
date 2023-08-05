@@ -90,8 +90,8 @@
               <el-input v-model="item.exampleSentenceEnglish" readonly type="textarea" :autosize="{ minRows: 1, maxRows: 4}" class="class-example" @dblclick.native="onDbClick" />
             </el-col>
           </el-form-item>
-          <el-form-item label="翻译">
-            <quill-editor v-show="show.explain" v-model="explain" :options="editorOption" class="explainEditor" />
+          <el-form-item v-show="show.explain" label="翻译">
+            <quill-editor v-model="explain" :options="editorOption" class="explainEditor" />
           </el-form-item>
         </el-form>
       </div>
@@ -106,6 +106,7 @@
         <el-checkbox v-model="show.deduct">推导</el-checkbox>
         <el-checkbox v-model="show.deductInfo">推导信息</el-checkbox>
         <el-checkbox v-model="show.meaning">单词含义</el-checkbox>
+        <el-checkbox v-model="show.explain">翻译开关</el-checkbox>
       </div>
       <div class="button-panel">
         <el-button type="primary" :disabled="isLast" @click="showNext">下一词</el-button>

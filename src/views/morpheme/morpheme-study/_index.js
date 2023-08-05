@@ -22,7 +22,7 @@ export default {
         sound: true,
         deductInfo: true,
         meaning: true,
-        explain: false
+        explain: true
       },
       explain: '',
       editorOption: {
@@ -141,7 +141,6 @@ export default {
       this.helper.transferWord(text)
         .then(response => {
           this.explain = response
-          this.show.explain = true
         }).catch(error => {
           console.error(error)
         })
@@ -171,7 +170,6 @@ export default {
       const helper = new Morpheme()
       helper.next()
         .then(response => {
-          this.show.explain = false
           this.pair = response
           this.checkLast()
           this.isFirst = false
@@ -186,7 +184,6 @@ export default {
       const helper = new Morpheme()
       helper.previous()
         .then(response => {
-          this.show.explain = false
           this.pair = response
           this.checkFirst()
           this.isLast = false
