@@ -13,6 +13,22 @@ export default {
       selectedVoice: null,
       isFirst: false,
       isLast: false,
+      options: [{
+        value: 1,
+        label: '学习模式'
+      }, {
+        value: 2,
+        label: '复习模式'
+      }, {
+        value: 3,
+        label: '极简模式'
+      }, {
+        value: 4,
+        label: '单词模式'
+      }, {
+        value: 5,
+        label: '读音模式'
+      }],
       show: {
         morpheme: true,
         morphemeMeaning: true,
@@ -132,6 +148,68 @@ export default {
   destroyed() {
   },
   methods: {
+    onChanged(value) {
+      console.log(value)
+      switch (value) {
+        case 1:
+          this.show.morpheme = true
+          this.show.morphemeMeaning = true
+          this.show.morphemeInfo = true
+          this.show.word = true
+          this.show.deduct = true
+          this.show.sound = true
+          this.show.deductInfo = true
+          this.show.meaning = true
+          this.show.explain = true
+          break
+        case 2:
+          this.show.morpheme = true
+          this.show.morphemeMeaning = true
+          this.show.morphemeInfo = true
+          this.show.word = true
+          this.show.deduct = true
+          this.show.sound = true
+          this.show.deductInfo = false
+          this.show.meaning = false
+          this.show.explain = false
+          break
+        case 3:
+          this.show.morpheme = true
+          this.show.morphemeMeaning = true
+          this.show.morphemeInfo = true
+          this.show.word = true
+          this.show.deduct = false
+          this.show.sound = true
+          this.show.deductInfo = false
+          this.show.meaning = false
+          this.show.explain = false
+          break
+        case 4:
+          this.show.morpheme = false
+          this.show.morphemeMeaning = false
+          this.show.morphemeInfo = false
+          this.show.word = true
+          this.show.deduct = true
+          this.show.sound = true
+          this.show.deductInfo = true
+          this.show.meaning = true
+          this.show.explain = true
+          break
+        case 5:
+          this.show.morpheme = false
+          this.show.morphemeMeaning = false
+          this.show.morphemeInfo = false
+          this.show.word = false
+          this.show.deduct = false
+          this.show.sound = true
+          this.show.deductInfo = false
+          this.show.meaning = false
+          this.show.explain = false
+          break
+        default:
+          console.log('default')
+      }
+    },
     onDbClick(event) {
       const start = event.target.selectionStart
       const end = event.target.selectionEnd
@@ -149,6 +227,7 @@ export default {
       this.voices = speechSynthesis.getVoices()
     },
     speakText(text) {
+      console.log('读音：' + text)
       if (!speechSynthesis.speaking) {
         const utterance = new SpeechSynthesisUtterance(text)
         utterance.voice = this.selectedVoice
@@ -242,7 +321,7 @@ export default {
           this.showNext()
         }
       } else if (event.key === 'Enter') {
-        this.speakText(this.pair.word.text)
+        // this.speakText(this.pair.word.text)
       }
     }
   }

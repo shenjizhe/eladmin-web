@@ -60,9 +60,9 @@
               <el-button type="info" icon="el-icon-video-play" @click="speakText(item.sourceText)">读音</el-button>
             </el-col>
           </el-form-item>
-          <el-form-item label="推导">
+          <el-form-item v-show="show.deductInfo" label="推导">
             <el-col :span="24">
-              <el-input v-show="show.deductInfo" v-model="pair.word.deduction" type="textarea" readonly class="class-example" @dblclick.native="onDbClick" />
+              <el-input v-model="pair.word.deduction" type="textarea" readonly class="class-example" @dblclick.native="onDbClick" />
             </el-col>
           </el-form-item>
           <el-form-item v-for="(item,index) in pair.word.meanings" v-show="show.meaning" :key="index">
@@ -98,6 +98,14 @@
     </el-main>
     <el-footer class="foot-container">
       <div class="log-panel">
+        <el-select placeholder="模式" style="width: 80px" @change="onChanged">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          />
+        </el-select>
         <el-checkbox v-model="show.morpheme">词根</el-checkbox>
         <el-checkbox v-model="show.morphemeMeaning">词根含义</el-checkbox>
         <el-checkbox v-model="show.morphemeInfo">词根信息</el-checkbox>
