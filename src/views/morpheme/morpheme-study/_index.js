@@ -321,7 +321,7 @@ export default {
           this.showNext()
         }
       } else if (event.key === 'Enter') {
-        // this.speakText(this.pair.word.text)
+        this.speakText(this.pair.word.text)
       }
     }
   }
