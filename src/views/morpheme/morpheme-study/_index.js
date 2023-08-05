@@ -26,7 +26,8 @@ export default {
       },
       explain: '',
       editorOption: {
-        header: {
+        modules: {
+          toolbar: []
         }
       },
       pair: {
@@ -99,7 +100,6 @@ export default {
     wordSound: {
       get() {
         const sound = './sounds/' + this.pair.word.text + '.mpga'
-        console.log(sound)
         return sound
       }
     }
@@ -159,7 +159,6 @@ export default {
     showCurrent(row) {
       this.helper.current()
         .then(response => {
-          console.log(response)
           this.pair = response
         }).catch(error => {
           this.$message({
