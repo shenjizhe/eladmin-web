@@ -128,7 +128,6 @@ export default {
         } else {
           this.mode = newVal
         }
-        console.log(this.mode)
         switch (this.mode) {
           case 7: // 学习模式
             this.show.morpheme = true
@@ -353,7 +352,6 @@ export default {
     },
 
     handleArrowKey(event) {
-      console.log(event.key)
       if (event.key === 'ArrowLeft') {
         if (!this.isFirst) {
           this.showPrevious()
