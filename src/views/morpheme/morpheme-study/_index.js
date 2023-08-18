@@ -8,26 +8,36 @@ export default {
   helper: {},
   data() {
     return {
+      mode: 7,
       text: '你好，欢迎使用语音合成功能',
       voices: [],
       selectedVoice: null,
       isFirst: false,
       isLast: false,
       options: [{
-        value: 1,
+        value: 7,
         label: '学习模式'
       }, {
-        value: 2,
-        label: '复习模式'
-      }, {
-        value: 3,
-        label: '极简模式'
-      }, {
-        value: 4,
-        label: '单词模式'
+        value: 6,
+        label: '翻译模式'
       }, {
         value: 5,
+        label: '含义模式'
+      }, {
+        value: 4,
+        label: '推导模式'
+      }, {
+        value: 3,
+        label: '词根模式'
+      }, {
+        value: 2,
         label: '读音模式'
+      }, {
+        value: 1,
+        label: '单词模式'
+      }, {
+        value: 0,
+        label: '最简模式'
       }],
       show: {
         morpheme: true,
@@ -121,7 +131,112 @@ export default {
     }
   },
 
-  watch: {},
+  watch: {
+    mode: {
+      handler(newVal, oldVal) {
+        if (newVal > 7) {
+          this.mode = 7
+        } else if (newVal < 0) {
+          this.mode = 0
+        } else {
+          this.mode = newVal
+        }
+        console.log(this.mode)
+        switch (this.mode) {
+          case 7: // 学习模式
+            this.show.morpheme = true
+            this.show.morphemeMeaning = true
+            this.show.morphemeInfo = true
+            this.show.word = true
+            this.show.deduct = true
+            this.show.sound = true
+            this.show.deductInfo = true
+            this.show.meaning = true
+            this.show.explain = true
+            break
+          case 6: // 翻译模式
+            this.show.morpheme = false
+            this.show.morphemeMeaning = false
+            this.show.morphemeInfo = false
+            this.show.word = true
+            this.show.deduct = true
+            this.show.sound = true
+            this.show.deductInfo = true
+            this.show.meaning = true
+            this.show.explain = true
+            break
+          case 5: // 含义模式
+            this.show.morpheme = false
+            this.show.morphemeMeaning = false
+            this.show.morphemeInfo = false
+            this.show.word = true
+            this.show.deduct = true
+            this.show.sound = true
+            this.show.deductInfo = true
+            this.show.meaning = true
+            this.show.explain = false
+            break
+          case 4: // 推导模式
+            this.show.morpheme = false
+            this.show.morphemeMeaning = false
+            this.show.morphemeInfo = false
+            this.show.word = true
+            this.show.deduct = true
+            this.show.sound = true
+            this.show.deductInfo = true
+            this.show.meaning = false
+            this.show.explain = false
+            break
+          case 3: // 词根模式
+            this.show.morpheme = false
+            this.show.morphemeMeaning = false
+            this.show.morphemeInfo = false
+            this.show.word = true
+            this.show.deduct = true
+            this.show.sound = true
+            this.show.deductInfo = false
+            this.show.meaning = false
+            this.show.explain = false
+            break
+          case 2: // 读音模式
+            this.show.morpheme = false
+            this.show.morphemeMeaning = false
+            this.show.morphemeInfo = false
+            this.show.word = true
+            this.show.deduct = false
+            this.show.sound = true
+            this.show.deductInfo = false
+            this.show.meaning = false
+            this.show.explain = false
+            break
+          case 1: // 单词模式
+            this.show.morpheme = false
+            this.show.morphemeMeaning = false
+            this.show.morphemeInfo = false
+            this.show.word = true
+            this.show.deduct = false
+            this.show.sound = false
+            this.show.deductInfo = false
+            this.show.meaning = false
+            this.show.explain = false
+            break
+          case 0: // 最简模式
+            this.show.morpheme = false
+            this.show.morphemeMeaning = false
+            this.show.morphemeInfo = false
+            this.show.word = false
+            this.show.deduct = false
+            this.show.sound = false
+            this.show.deductInfo = false
+            this.show.meaning = false
+            this.show.explain = false
+            break
+          default:
+            console.log('default')
+        }
+      }
+    }
+  },
 
   // vue 生命周期
   beforeCreate() {
@@ -148,68 +263,6 @@ export default {
   destroyed() {
   },
   methods: {
-    onChanged(value) {
-      console.log(value)
-      switch (value) {
-        case 1:
-          this.show.morpheme = true
-          this.show.morphemeMeaning = true
-          this.show.morphemeInfo = true
-          this.show.word = true
-          this.show.deduct = true
-          this.show.sound = true
-          this.show.deductInfo = true
-          this.show.meaning = true
-          this.show.explain = true
-          break
-        case 2:
-          this.show.morpheme = true
-          this.show.morphemeMeaning = true
-          this.show.morphemeInfo = true
-          this.show.word = true
-          this.show.deduct = true
-          this.show.sound = true
-          this.show.deductInfo = false
-          this.show.meaning = false
-          this.show.explain = false
-          break
-        case 3:
-          this.show.morpheme = true
-          this.show.morphemeMeaning = true
-          this.show.morphemeInfo = true
-          this.show.word = true
-          this.show.deduct = false
-          this.show.sound = true
-          this.show.deductInfo = false
-          this.show.meaning = false
-          this.show.explain = false
-          break
-        case 4:
-          this.show.morpheme = false
-          this.show.morphemeMeaning = false
-          this.show.morphemeInfo = false
-          this.show.word = true
-          this.show.deduct = true
-          this.show.sound = true
-          this.show.deductInfo = true
-          this.show.meaning = true
-          this.show.explain = true
-          break
-        case 5:
-          this.show.morpheme = false
-          this.show.morphemeMeaning = false
-          this.show.morphemeInfo = false
-          this.show.word = false
-          this.show.deduct = false
-          this.show.sound = true
-          this.show.deductInfo = false
-          this.show.meaning = false
-          this.show.explain = false
-          break
-        default:
-          console.log('default')
-      }
-    },
     onDbClick(event) {
       const start = event.target.selectionStart
       const end = event.target.selectionEnd
@@ -311,6 +364,7 @@ export default {
         default: return 'warning'
       }
     },
+
     handleArrowKey(event) {
       if (event.key === 'ArrowLeft') {
         if (!this.isFirst) {
@@ -322,6 +376,10 @@ export default {
         }
       } else if (event.key === 'Enter') {
         this.speakText(this.pair.word.text)
+      } else if (event.key === 'ArrowUp') {
+        this.mode = this.mode + 1
+      } else if (event.key === 'ArrowDown') {
+        this.mode = this.mode - 1
       }
     }
   }
