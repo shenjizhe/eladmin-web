@@ -252,7 +252,7 @@ export default {
     onDbClick(event) {
       const start = event.target.selectionStart
       const end = event.target.selectionEnd
-      var text = event.target.value
+      let text = event.target.value
       text = text.substring(start, end)
       this.speakText(text)
       this.helper.transferWord(text)
