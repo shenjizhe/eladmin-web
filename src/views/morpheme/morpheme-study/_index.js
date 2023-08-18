@@ -95,20 +95,7 @@ export default {
           text: '',
           description: '',
           phonetic: '',
-          deductions: [
-            {
-              id: 0,
-              affix: 0,
-              fullText: '',
-              isDerive: true,
-              meaningChinese: '',
-              meaningEnglish: '',
-              morphemeText: '',
-              nature: '',
-              shape: 0,
-              sourceText: ''
-            }
-          ],
+          deductions: [],
           meanings: [
             {
               id: 0,

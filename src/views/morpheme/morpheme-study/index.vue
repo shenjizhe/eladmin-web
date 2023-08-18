@@ -41,7 +41,7 @@
               <el-button type="success" icon="el-icon-video-play" @click="speakText(pair.word.text)">开始朗读(Enter)</el-button>
             </el-col>
           </el-form-item>
-          <el-form-item v-for="(item,index) in pair.word.deductions" v-show="show.deduct" :key="index">
+          <el-form-item v-for="(item,index) in pair.word.deductions" v-show="show.deduct" :key="item.id">
             <span slot="label">
               <span>
                 <el-tag :type="getDetectionType(index)">{{ index }}</el-tag>
@@ -65,7 +65,7 @@
               <el-input v-model="pair.word.deduction" type="textarea" readonly class="class-example" @dblclick.native="onDbClick" />
             </el-col>
           </el-form-item>
-          <el-form-item v-for="(item,index) in pair.word.meanings" v-show="show.meaning" :key="index">
+          <el-form-item v-for="(item,index) in pair.word.meanings" v-show="show.meaning" :key="item.id">
             <span slot="label">
               <span>
                 <el-tag :type="getDetectionType(index)">{{ item.nature }}</el-tag>
@@ -98,7 +98,7 @@
     </el-main>
     <el-footer class="foot-container">
       <div class="log-panel">
-        <el-select placeholder="模式" style="width: 80px" @change="onChanged">
+        <el-select v-model="mode" placeholder="模式" style="width: 100px">
           <el-option
             v-for="item in options"
             :key="item.value"
