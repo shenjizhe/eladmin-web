@@ -353,6 +353,7 @@ export default {
     },
 
     handleArrowKey(event) {
+      console.log(event.key)
       if (event.key === 'ArrowLeft') {
         if (!this.isFirst) {
           this.showPrevious()
@@ -367,6 +368,9 @@ export default {
         this.mode = this.mode + 1
       } else if (event.key === 'ArrowDown') {
         this.mode = this.mode - 1
+      } else if (parseInt(event.key) !== 'NaN') {
+        const number = parseInt(event.key)
+        this.mode = number
       }
     }
   }
