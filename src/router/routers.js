@@ -10,11 +10,11 @@ export const constantRouterMap = [
     component: (resolve) => require(['@/views/login'], resolve),
     hidden: true
   },
-  {
-    path: '/404',
-    component: (resolve) => require(['@/views/features/404'], resolve),
-    hidden: true
-  },
+  // {
+  //   path: '/404',
+  //   component: (resolve) => require(['@/views/features/404'], resolve),
+  //   hidden: true
+  // },
   {
     path: '/401',
     component: (resolve) => require(['@/views/features/401'], resolve),
