@@ -1,10 +1,8 @@
 import request from '@/utils/request'
 
-const head = 'http://zentao.licaiedu.com/apiweb/'
-
 export function login(username, password, code, uuid) {
   return request({
-    url: head + 'auth/login',
+    url: 'auth/login',
     method: 'post',
     data: {
       username,
@@ -17,21 +15,21 @@ export function login(username, password, code, uuid) {
 
 export function getInfo() {
   return request({
-    url: head + 'auth/info',
+    url: 'auth/info',
     method: 'get'
   })
 }
 
 export function getCodeImg() {
   return request({
-    url: head + 'auth/code',
+    url: 'auth/code',
     method: 'get'
   })
 }
 
 export function logout() {
   return request({
-    url: head + 'auth/logout',
+    url: 'auth/logout',
     method: 'delete'
   })
 }

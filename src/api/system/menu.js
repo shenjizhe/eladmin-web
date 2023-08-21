@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-const head = 'http://zentao.licaiedu.com/apiweb/'
+const head = ''
 
 export function getMenusTree(pid) {
   return request({
