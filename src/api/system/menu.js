@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-const head = ''
+const head = process.env.USE_AGENT ? 'http://zentao.licaiedu.com/apiweb/' : ''
 
 export function getMenusTree(pid) {
   return request({

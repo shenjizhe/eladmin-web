@@ -8,10 +8,10 @@ import { buildMenus } from '@/api/system/menu'
 import { filterAsyncRouter } from '@/store/modules/permission'
 
 NProgress.configure({ showSpinner: false })// NProgress Configuration
-
 const whiteList = ['/login']// no redirect whitelist
 
 router.beforeEach((to, from, next) => {
+  console.log('test......', to, from, next)
   if (to.meta.title) {
     document.title = to.meta.title + ' - ' + Config.title
   }
@@ -52,6 +52,7 @@ router.beforeEach((to, from, next) => {
 })
 
 export const loadMenus = (next, to) => {
+  console.log('test1......')
   buildMenus().then(res => {
     const sdata = JSON.parse(JSON.stringify(res))
     const rdata = JSON.parse(JSON.stringify(res))
@@ -68,5 +69,6 @@ export const loadMenus = (next, to) => {
 }
 
 router.afterEach(() => {
+  console.log('test2......')
   NProgress.done() // finish progress bar
 })
