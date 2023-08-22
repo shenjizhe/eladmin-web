@@ -5,6 +5,14 @@ export class Morpheme {
     this.url = ''
   }
 
+  version() {
+    console.log('current version')
+    return request({
+      url: this.url + '/api/morpheme-study/version',
+      method: 'get'
+    })
+  }
+
   current() {
     console.log('current morpheme')
     return request({
