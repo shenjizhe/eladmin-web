@@ -11,7 +11,6 @@ NProgress.configure({ showSpinner: false })// NProgress Configuration
 const whiteList = ['/login']// no redirect whitelist
 
 router.beforeEach((to, from, next) => {
-  console.log('test......', to, from, next)
   if (to.meta.title) {
     document.title = to.meta.title + ' - ' + Config.title
   }
@@ -52,12 +51,12 @@ router.beforeEach((to, from, next) => {
 })
 
 export const loadMenus = (next, to) => {
-  console.log('test1......', next, to)
   buildMenus().then(res => {
     const sdata = JSON.parse(JSON.stringify(res))
     const rdata = JSON.parse(JSON.stringify(res))
     const sidebarRoutes = filterAsyncRouter(sdata)
     const rewriteRoutes = filterAsyncRouter(rdata, false, true)
+
     rewriteRoutes.push({ path: '*', redirect: '/404', hidden: true })
 
     store.dispatch('GenerateRoutes', rewriteRoutes).then(() => { // 存储路由
