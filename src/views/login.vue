@@ -142,7 +142,9 @@ export default {
           this.$store.dispatch('Login', user).then(() => {
             this.loading = false
             const path = process.env.USE_AGENT ? process.env.AGENT_PATH : ''
-            this.$router.push({ path: path + this.redirect || '/' })
+            const fullPath = path + this.redirect || '/'
+            console.log('full:', fullPath)
+            this.$router.push({ path: fullPath })
           }).catch(() => {
             this.loading = false
             this.getCode()

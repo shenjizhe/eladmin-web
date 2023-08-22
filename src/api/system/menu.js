@@ -35,7 +35,7 @@ export function getChild(id) {
 
 export function buildMenus() {
   return request({
-    url: head + 'api/menus/build',
+    url: 'api/menus/build',
     method: 'get'
   })
 }

@@ -10,11 +10,11 @@ export const constantRouterMap = [
     component: (resolve) => require(['@/views/login'], resolve),
     hidden: true
   },
-  // {
-  //   path: '/404',
-  //   component: (resolve) => require(['@/views/features/404'], resolve),
-  //   hidden: true
-  // },
+  {
+    path: '/404',
+    component: (resolve) => require(['@/views/features/404'], resolve),
+    hidden: true
+  },
   {
     path: '/401',
     component: (resolve) => require(['@/views/features/401'], resolve),
@@ -61,8 +61,8 @@ export const constantRouterMap = [
 ]
 
 export default new Router({
-  // mode: 'hash',
-  mode: 'history',
+  mode: process.env.USE_AGENT ? 'hash' : 'history',
+  // mode: 'history',
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRouterMap
 })
