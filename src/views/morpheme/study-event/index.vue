@@ -1,47 +1,47 @@
 <template>
   <div class="app-container">
-    <!--¹¤¾ßÀ¸-->
+    <!--å·¥å…·æ -->
     <div class="head-container">
-      <!--Èç¹ûÏëÔÚ¹¤¾ßÀ¸¼ÓÈë¸ü¶à°´Å¥£¬¿ÉÒÔÊ¹ÓÃ²å²Û·½Ê½£¬ slot = 'left' or 'right'-->
+      <!--å¦‚æœæƒ³åœ¨å·¥å…·æ åŠ å…¥æ›´å¤šæŒ‰é’®ï¼Œå¯ä»¥ä½¿ç”¨æ’æ§½æ–¹å¼ï¼Œ slot = 'left' or 'right'-->
       <crudOperation :permission="permission" />
-      <!--±íµ¥×é¼ş-->
+      <!--è¡¨å•ç»„ä»¶-->
       <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="600px">
         <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
-          <el-form-item label="²Ù×÷Ê±¼ä" prop="time">
+          <el-form-item label="æ“ä½œæ—¶é—´" prop="time">
             <el-input v-model="form.time" style="width: 95%;" />
           </el-form-item>
-          <el-form-item label="ÊÂ¼ş" prop="event">
+          <el-form-item label="äº‹ä»¶" prop="event">
             <el-input v-model="form.event" style="width: 95%;" />
           </el-form-item>
-          <el-form-item label="ÄÚÈİ" prop="content">
+          <el-form-item label="å†…å®¹" prop="content">
             <el-input v-model="form.content" style="width: 95%;" />
           </el-form-item>
-          <el-form-item label="´Ê¸ùID" prop="morphememId">
+          <el-form-item label="è¯æ ¹ID" prop="morphememId">
             <el-input v-model="form.morphememId" style="width: 95%;" />
           </el-form-item>
-          <el-form-item label="µ¥´ÊID" prop="wordId">
+          <el-form-item label="å•è¯ID" prop="wordId">
             <el-input v-model="form.wordId" style="width: 95%;" />
           </el-form-item>
-          <el-form-item label="ÓÃ»§ID" prop="uid">
+          <el-form-item label="ç”¨æˆ·ID" prop="uid">
             <el-input v-model="form.uid" style="width: 95%;" />
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button type="text" @click="crud.cancelCU">È¡Ïû</el-button>
-          <el-button :loading="crud.status.cu === 2" type="primary" @click="crud.submitCU">È·ÈÏ</el-button>
+          <el-button type="text" @click="crud.cancelCU">å–æ¶ˆ</el-button>
+          <el-button :loading="crud.status.cu === 2" type="primary" @click="crud.submitCU">ç¡®è®¤</el-button>
         </div>
       </el-dialog>
-      <!--±í¸ñäÖÈ¾-->
+      <!--è¡¨æ ¼æ¸²æŸ“-->
       <el-table ref="table" v-loading="crud.loading" :data="crud.data" size="small" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
         <el-table-column type="selection" width="55" />
-        <el-table-column prop="id" label="Ö÷¼ü" />
-        <el-table-column prop="time" label="²Ù×÷Ê±¼ä" />
-        <el-table-column prop="event" label="ÊÂ¼ş" />
-        <el-table-column prop="content" label="ÄÚÈİ" />
-        <el-table-column prop="morphememId" label="´Ê¸ùID" />
-        <el-table-column prop="wordId" label="µ¥´ÊID" />
-        <el-table-column prop="uid" label="ÓÃ»§ID" />
-        <el-table-column v-if="checkPer(['admin','studyEvent:edit','studyEvent:del'])" label="²Ù×÷" width="150px" align="center">
+        <el-table-column prop="id" label="ä¸»é”®" />
+        <el-table-column prop="time" label="æ“ä½œæ—¶é—´" />
+        <el-table-column prop="event" label="äº‹ä»¶" />
+        <el-table-column prop="content" label="å†…å®¹" />
+        <el-table-column prop="morphememId" label="è¯æ ¹ID" />
+        <el-table-column prop="wordId" label="å•è¯ID" />
+        <el-table-column prop="uid" label="ç”¨æˆ·ID" />
+        <el-table-column v-if="checkPer(['admin','studyEvent:edit','studyEvent:del'])" label="æ“ä½œ" width="150px" align="center">
           <template slot-scope="scope">
             <udOperation
               :data="scope.row"
@@ -50,7 +50,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <!--·ÖÒ³×é¼ş-->
+      <!--åˆ†é¡µç»„ä»¶-->
       <pagination />
     </div>
   </div>
@@ -70,7 +70,7 @@ export default {
   components: { pagination, crudOperation, rrOperation, udOperation },
   mixins: [presenter(), header(), form(defaultForm), crud()],
   cruds() {
-    return CRUD({ title: 'Ñ§Ï°¼ÇÂ¼', url: 'api/studyEvent', idField: 'id', sort: 'id,desc', crudMethod: { ...crudStudyEvent }})
+    return CRUD({ title: 'å­¦ä¹ è®°å½•', url: 'api/studyEvent', idField: 'id', sort: 'id,desc', crudMethod: { ...crudStudyEvent }})
   },
   data() {
     return {
@@ -81,31 +81,31 @@ export default {
       },
       rules: {
         id: [
-          { required: true, message: 'Ö÷¼ü²»ÄÜÎª¿Õ', trigger: 'blur' }
+          { required: true, message: 'ä¸»é”®ä¸èƒ½ä¸ºç©º', trigger: 'blur' }
         ],
         time: [
-          { required: true, message: '²Ù×÷Ê±¼ä²»ÄÜÎª¿Õ', trigger: 'blur' }
+          { required: true, message: 'æ“ä½œæ—¶é—´ä¸èƒ½ä¸ºç©º', trigger: 'blur' }
         ],
         event: [
-          { required: true, message: 'ÊÂ¼ş²»ÄÜÎª¿Õ', trigger: 'blur' }
+          { required: true, message: 'äº‹ä»¶ä¸èƒ½ä¸ºç©º', trigger: 'blur' }
         ],
         content: [
-          { required: true, message: 'ÄÚÈİ²»ÄÜÎª¿Õ', trigger: 'blur' }
+          { required: true, message: 'å†…å®¹ä¸èƒ½ä¸ºç©º', trigger: 'blur' }
         ],
         morphememId: [
-          { required: true, message: '´Ê¸ùID²»ÄÜÎª¿Õ', trigger: 'blur' }
+          { required: true, message: 'è¯æ ¹IDä¸èƒ½ä¸ºç©º', trigger: 'blur' }
         ],
         wordId: [
-          { required: true, message: 'µ¥´ÊID²»ÄÜÎª¿Õ', trigger: 'blur' }
+          { required: true, message: 'å•è¯IDä¸èƒ½ä¸ºç©º', trigger: 'blur' }
         ],
         uid: [
-          { required: true, message: 'ÓÃ»§ID²»ÄÜÎª¿Õ', trigger: 'blur' }
+          { required: true, message: 'ç”¨æˆ·IDä¸èƒ½ä¸ºç©º', trigger: 'blur' }
         ]
       }
     }
   },
   methods: {
-    // ¹³×Ó£ºÔÚ»ñÈ¡±í¸ñÊı¾İÖ®Ç°Ö´ĞĞ£¬false Ôò´ú±í²»»ñÈ¡Êı¾İ
+    // é’©å­ï¼šåœ¨è·å–è¡¨æ ¼æ•°æ®ä¹‹å‰æ‰§è¡Œï¼Œfalse åˆ™ä»£è¡¨ä¸è·å–æ•°æ®
     [CRUD.HOOK.beforeRefresh]() {
       return true
     }

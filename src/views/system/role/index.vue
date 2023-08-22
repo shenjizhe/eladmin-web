@@ -344,6 +344,9 @@ export default {
     font-weight: bold;color: #303133;
     font-size: 15px;
   }
+  .el-table {
+    height: 100% !important
+  }
 </style>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
