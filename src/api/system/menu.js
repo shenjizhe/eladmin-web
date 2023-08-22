@@ -1,17 +1,14 @@
 import request from '@/utils/request'
-
-const head = process.env.USE_AGENT ? 'http://zentao.licaiedu.com/apiweb/' : ''
-
 export function getMenusTree(pid) {
   return request({
-    url: head + 'api/menus/lazy?pid=' + pid,
+    url: 'api/menus/lazy?pid=' + pid,
     method: 'get'
   })
 }
 
 export function getMenus(params) {
   return request({
-    url: head + 'api/menus',
+    url: 'api/menus',
     method: 'get',
     params
   })
@@ -20,7 +17,7 @@ export function getMenus(params) {
 export function getMenuSuperior(ids) {
   const data = Array.isArray(ids) || ids.length === 0 ? ids : Array.of(ids)
   return request({
-    url: head + 'api/menus/superior',
+    url: 'api/menus/superior',
     method: 'post',
     data
   })
@@ -28,7 +25,7 @@ export function getMenuSuperior(ids) {
 
 export function getChild(id) {
   return request({
-    url: head + 'api/menus/child?id=' + id,
+    url: 'api/menus/child?id=' + id,
     method: 'get'
   })
 }
@@ -43,7 +40,7 @@ export function buildMenus() {
 export function add(data) {
   console.log(data)
   return request({
-    url: head + 'api/menus',
+    url: 'api/menus',
     method: 'post',
     data
   })
@@ -51,7 +48,7 @@ export function add(data) {
 
 export function del(ids) {
   return request({
-    url: head + 'api/menus',
+    url: 'api/menus',
     method: 'delete',
     data: ids
   })
@@ -59,7 +56,7 @@ export function del(ids) {
 
 export function edit(data) {
   return request({
-    url: head + 'api/menus',
+    url: 'api/menus',
     method: 'put',
     data
   })
