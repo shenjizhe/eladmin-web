@@ -9,6 +9,13 @@ export default {
   data() {
     return {
       mode: 7,
+      meaningIndex: 0,
+      exampleIndex: 0,
+      permission: {
+        add: ['admin', 'morpheme:add'],
+        edit: ['admin', 'morpheme:edit'],
+        del: ['admin', 'morpheme:del']
+      },
       text: '你好，欢迎使用语音合成功能',
       voices: [],
       selectedVoice: null,
@@ -292,6 +299,8 @@ export default {
           this.pair = response
           this.checkLast()
           this.isFirst = false
+          this.meaningIndex = 0
+          this.exampleIndex = 0
         }).catch(error => {
           this.$message({
             message: '取得数据失败: ' + error,
@@ -307,6 +316,8 @@ export default {
           this.pair = response
           this.checkFirst()
           this.isLast = false
+          this.meaningIndex = 0
+          this.exampleIndex = 0
         }).catch(error => {
           this.$message({
             message: '取得数据失败: ' + error,
@@ -352,6 +363,8 @@ export default {
     },
 
     handleArrowKey(event) {
+      console.log(event)
+      const meanings = this.pair.word.meanings
       if (event.key === 'ArrowLeft') {
         if (!this.isFirst) {
           this.showPrevious()
@@ -366,9 +379,29 @@ export default {
         this.mode = this.mode + 1
       } else if (event.key === 'ArrowDown') {
         this.mode = this.mode - 1
-      } else if (parseInt(event.key) !== 'NaN') {
-        const number = parseInt(event.key)
-        this.mode = number
+      } else if (event.key === '-') {
+        if (meanings.length > 0) {
+          this.speakText(meanings[this.meaningIndex].meaningEnglish)
+          if (this.meaningIndex < meanings.length - 1) {
+            this.meaningIndex += 1
+          } else {
+            this.meaningIndex = 0
+          }
+        }
+      } else if (event.key === '+') {
+        if (meanings.length > 0) {
+          this.speakText(meanings[this.exampleIndex].exampleSentenceEnglish)
+          if (this.exampleIndex < meanings.length - 1) {
+            this.exampleIndex += 1
+          } else {
+            this.exampleIndex = 0
+          }
+        }
+      } else {
+        if (parseInt(event.key) !== 'NaN') {
+          const number = parseInt(event.key)
+          this.mode = number
+        }
       }
     }
   }
