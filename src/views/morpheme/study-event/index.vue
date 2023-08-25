@@ -16,14 +16,14 @@
           <el-form-item label="内容" prop="content">
             <el-input v-model="form.content" style="width: 95%;" />
           </el-form-item>
-          <el-form-item label="词根ID" prop="morphememId">
-            <el-input v-model="form.morphememId" style="width: 95%;" />
-          </el-form-item>
           <el-form-item label="单词ID" prop="wordId">
             <el-input v-model="form.wordId" style="width: 95%;" />
           </el-form-item>
           <el-form-item label="用户ID" prop="uid">
             <el-input v-model="form.uid" style="width: 95%;" />
+          </el-form-item>
+          <el-form-item label="词根ID">
+            <el-input v-model="form.morphemeId" style="width: 95%;" />
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -38,9 +38,9 @@
         <el-table-column prop="time" label="操作时间" />
         <el-table-column prop="event" label="事件" />
         <el-table-column prop="content" label="内容" />
-        <el-table-column prop="morphememId" label="词根ID" />
         <el-table-column prop="wordId" label="单词ID" />
         <el-table-column prop="uid" label="用户ID" />
+        <el-table-column prop="morphemeId" label="词根ID" />
         <el-table-column v-if="checkPer(['admin','studyEvent:edit','studyEvent:del'])" label="操作" width="150px" align="center">
           <template slot-scope="scope">
             <udOperation
@@ -64,7 +64,7 @@ import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 
-const defaultForm = { id: null, time: null, event: null, content: null, morphememId: null, wordId: null, uid: null }
+const defaultForm = { id: null, time: null, event: null, content: null, wordId: null, uid: null, morphemeId: null }
 export default {
   name: 'StudyEvent',
   components: { pagination, crudOperation, rrOperation, udOperation },
@@ -89,11 +89,8 @@ export default {
         event: [
           { required: true, message: '事件不能为空', trigger: 'blur' }
         ],
-        // content: [
-        //   { required: false, message: '内容不能为空', trigger: 'blur' }
-        // ],
-        morphememId: [
-          { required: true, message: '词根ID不能为空', trigger: 'blur' }
+        content: [
+          { required: true, message: '内容不能为空', trigger: 'blur' }
         ],
         wordId: [
           { required: true, message: '单词ID不能为空', trigger: 'blur' }
