@@ -89,9 +89,9 @@ export default {
         event: [
           { required: true, message: '事件不能为空', trigger: 'blur' }
         ],
-        content: [
-          { required: true, message: '内容不能为空', trigger: 'blur' }
-        ],
+        // content: [
+        //   { required: false, message: '内容不能为空', trigger: 'blur' }
+        // ],
         morphememId: [
           { required: true, message: '词根ID不能为空', trigger: 'blur' }
         ],

@@ -5,10 +5,12 @@ export default {
   name: 'MorphemeStudyComponent',
   props: {},
   components: { MyForm },
-  helper: {},
   data() {
     return {
       mode: 7,
+      helper: {},
+      todayWords: [],
+      todayMorpheme: [],
       meaningIndex: 0,
       exampleIndex: 0,
       permission: {
@@ -47,6 +49,7 @@ export default {
         label: '最简模式'
       }],
       show: {
+        review: false,
         morpheme: true,
         morphemeMeaning: true,
         morphemeInfo: true,
@@ -69,27 +72,19 @@ export default {
           number: 0,
           index: 0,
           type: 0,
-          description: '测试描述',
-          source: '词源的描述',
-          text: 'test text',
-          meaningEnglish: 'test',
-          meaningChinese: '测试',
+          description: '',
+          source: '',
+          text: '',
+          meaningEnglish: '',
+          meaningChinese: '',
           items: [
             {
               id: 0,
-              description: '测试描述1',
-              source: 'L',
-              text: 'test1',
-              meaningEnglish: 'test1',
-              meaningChinese: '测试1'
-            },
-            {
-              id: 1,
-              description: '测试描述2',
-              source: 'L',
-              text: 'test2',
-              meaningEnglish: 'test2',
-              meaningChinese: '测试2'
+              description: '',
+              source: '',
+              text: '',
+              meaningEnglish: '',
+              meaningChinese: ''
             }
           ]
         },
@@ -233,13 +228,13 @@ export default {
 
   // vue 生命周期
   beforeCreate() {
-    this.helper = new Morpheme()
   },
 
   created() {
   },
 
   beforeMount() {
+    this.helper = new Morpheme()
     this.showCurrent()
   },
 
@@ -292,8 +287,7 @@ export default {
         })
     },
     showNext(row) {
-      const helper = new Morpheme()
-      helper.next()
+      this.helper.next()
         .then(response => {
           this.explain = ''
           this.pair = response
@@ -309,8 +303,7 @@ export default {
         })
     },
     showPrevious(row) {
-      const helper = new Morpheme()
-      helper.previous()
+      this.helper.previous()
         .then(response => {
           this.explain = ''
           this.pair = response
@@ -327,8 +320,7 @@ export default {
     },
 
     checkFirst(row) {
-      const helper = new Morpheme()
-      helper.isFirst()
+      this.helper.isFirst()
         .then(response => {
           this.isFirst = response
         }).catch(error => {

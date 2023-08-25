@@ -59,5 +59,19 @@ export class Morpheme {
       method: 'get'
     })
   }
+
+  getNewMorphemes() {
+    return request({
+      url: this.url + '/api/word/morpheme-today/',
+      method: 'get'
+    })
+  }
+
+  getNewWords() {
+    return request({
+      url: this.url + '/api/word/word-today/',
+      method: 'get'
+    })
+  }
 }
 

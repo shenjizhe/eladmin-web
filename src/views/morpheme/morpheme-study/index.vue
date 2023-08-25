@@ -1,6 +1,14 @@
 <template>
   <el-container class="study-container">
     <el-main class="center-container">
+      <el-dialog title="复习" :visible.sync="show.review" width="600px">
+        <div>
+          <el-input>abc</el-input>
+        </div>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="show.review = false">取 消</el-button>
+        </div>
+      </el-dialog>
       <div v-show="show.morpheme" class="morpheme-panel">
         <el-form ref="form" :model="pair.morphemeStudy" label-width="80px">
           <el-form-item label="词根">
@@ -119,6 +127,7 @@
       <div class="button-panel">
         <el-button type="primary" :disabled="isLast" @click="showNext">下一词</el-button>
         <el-button type="primary" :disabled="isFirst" @click="showPrevious">上一词</el-button>
+        <el-button type="primary" @click="show.review = true">复习</el-button>
       </div>
     </el-footer>
   </el-container>
