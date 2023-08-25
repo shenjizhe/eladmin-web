@@ -8,7 +8,15 @@ export class Morpheme {
   version() {
     console.log('current version')
     return request({
-      url: this.url + '/api/morpheme-study/version',
+      url: this.url + '/api/system/version',
+      method: 'get'
+    })
+  }
+
+  uuid() {
+    console.log('current uuid')
+    return request({
+      url: this.url + '/api/system/uuid',
       method: 'get'
     })
   }
@@ -62,14 +70,21 @@ export class Morpheme {
 
   getNewMorphemes() {
     return request({
-      url: this.url + '/api/word/morpheme-today/',
+      url: this.url + '/api/morpheme-study/morpheme-today/',
       method: 'get'
     })
   }
 
   getNewWords() {
     return request({
-      url: this.url + '/api/word/word-today/',
+      url: this.url + '/api/morpheme-study/word-today/',
+      method: 'get'
+    })
+  }
+
+  getNewDatas() {
+    return request({
+      url: this.url + '/api/morpheme-study/study-today/',
       method: 'get'
     })
   }

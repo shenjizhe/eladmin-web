@@ -1,12 +1,45 @@
 <template>
   <el-container class="study-container">
     <el-main class="center-container">
-      <el-dialog title="复习" :visible.sync="show.review" width="600px">
-        <div>
-          <el-input>abc</el-input>
+      <el-dialog :title="studyTitle" :visible.sync="show.review" width="600px">
+        <div v-if="study.isMorpheme">
+          <el-col :span="10">
+            <el-input v-model="study.morpheme.text" :span="12" />
+          </el-col>
+          <el-col :span="4">
+            <el-button type="success" :span="12" @click="show.morphemeAnswer = !show.morphemeAnswer">显示</el-button>
+          </el-col>
+          <el-col :span="10">
+            <el-input v-if="show.morphemeAnswer" v-model="study.morpheme.meaningChinese" :span="12" />
+          </el-col>
+        </div>
+        <div v-if="!study.isMorpheme">
+          <el-row>
+            <el-col :span="16">
+              <el-input v-model="study.word.text" :span="12" />
+            </el-col>
+            <el-col :span="4">
+              <el-button type="success" :span="12" @click="show.wordAnswer = !show.wordAnswer">显示</el-button>
+            </el-col>
+            <el-col :span="4">
+              <el-button type="info" @click="speakText(study.word.text)">读音</el-button>
+            </el-col>
+          </el-row>
+          <div v-if="show.wordAnswer">
+            <el-row v-for="meaning in study.word.meanings" :key="meaning.id">
+              <el-col :span="12">
+                <el-input v-model="meaning.meaningEnglish" :span="12" />
+              </el-col>
+              <el-col :span="12">
+                <el-input v-model="meaning.meaningChinese" :span="12" />
+              </el-col>
+            </el-row>
+          </div>
         </div>
         <div slot="footer" class="dialog-footer">
-          <el-button @click="show.review = false">取 消</el-button>
+          <el-button type="primary" @click="saveReview(1)">简单</el-button>
+          <el-button type="warning" @click="saveReview(2)">模糊</el-button>
+          <el-button type="danger" @click="saveReview(3)">不记得</el-button>
         </div>
       </el-dialog>
       <div v-show="show.morpheme" class="morpheme-panel">
@@ -127,7 +160,7 @@
       <div class="button-panel">
         <el-button type="primary" :disabled="isLast" @click="showNext">下一词</el-button>
         <el-button type="primary" :disabled="isFirst" @click="showPrevious">上一词</el-button>
-        <el-button type="primary" @click="show.review = true">复习</el-button>
+        <el-button type="primary" @click="review">复习</el-button>
       </div>
     </el-footer>
   </el-container>

@@ -1,5 +1,6 @@
 import MyForm from '@/components/MyForm'
 import { Morpheme } from '@/api/morpheme/Morpheme'
+import { add as eventAdd } from '@/api/studyEvent'
 
 export default {
   name: 'MorphemeStudyComponent',
@@ -7,8 +8,22 @@ export default {
   components: { MyForm },
   data() {
     return {
+      uuid: 0,
       mode: 7,
-      helper: {},
+      helper: null,
+      study: {
+        index: 0,
+        morphemeIndex: 0,
+        wordIndex: 0,
+        isMorpheme: true,
+        word: {},
+        morpheme: {}
+      },
+      todayData: {
+        date: '',
+        morphemes: [],
+        words: []
+      },
       todayWords: [],
       todayMorpheme: [],
       meaningIndex: 0,
@@ -50,6 +65,8 @@ export default {
       }],
       show: {
         review: false,
+        morphemeAnswer: false,
+        wordAnswer: false,
         morpheme: true,
         morphemeMeaning: true,
         morphemeInfo: true,
@@ -116,6 +133,12 @@ export default {
       get() {
         const sound = './sounds/' + this.pair.word.text + '.mpga'
         return sound
+      }
+    },
+    studyTitle: {
+      get() {
+        const title = this.todayData.date + '  词根：(' + (this.study.morphemeIndex + 1) + ' / ' + this.todayData.morphemes.length + ')  单词：(' + (this.study.wordIndex + 1) + ' / ' + this.todayData.words.length + ')'
+        return title
       }
     }
   },
@@ -235,6 +258,15 @@ export default {
 
   beforeMount() {
     this.helper = new Morpheme()
+    this.helper.uuid()
+      .then(response => {
+        this.uuid = response
+      }).catch(error => {
+        this.$message({
+          message: '取得用户ID失败: ' + error,
+          type: 'fail'
+        })
+      })
     this.showCurrent()
   },
 
@@ -317,6 +349,73 @@ export default {
             type: 'fail'
           })
         })
+    },
+
+    review() {
+      this.show.review = true
+      this.helper.getNewDatas()
+        .then(response => {
+          this.todayData = response
+          this.showView()
+        }).catch(error => {
+          this.$message({
+            message: '取得当天数据失败: ' + error,
+            type: 'fail'
+          })
+        })
+    },
+
+    saveReview(type) {
+      let event = {}
+      if (this.study.isMorpheme) {
+        event = {
+          uid: this.uuid,
+          time: new Date(),
+          event: 'review',
+          content: type,
+          morphemeId: this.study.morpheme.id
+        }
+      } else {
+        event = {
+          uid: this.uuid,
+          time: new Date(),
+          event: 'review',
+          content: type,
+          wordId: this.study.word.id
+        }
+      }
+      eventAdd(event)
+
+      this.study.index += 1
+      this.showView()
+    },
+
+    showView() {
+      this.show.morphemeAnswer = false
+      this.show.wordAnswer = false
+      const ml = this.todayData.morphemes.length
+      const wl = this.todayData.words.length
+      const total = ml + wl
+      console.log(ml, wl, total, this.study.index)
+
+      if (this.study.index < ml) {
+        this.study.isMorpheme = true
+        this.study.morphemeIndex = this.study.index
+        this.study.morpheme = this.todayData.morphemes[this.study.morphemeIndex]
+        console.log(this.study.morpheme)
+      } else if (this.study.index < total) {
+        this.study.isMorpheme = false
+        this.study.wordIndex = this.study.index - ml
+        this.study.word = this.todayData.words[this.study.wordIndex]
+        console.log(this.study.word)
+      } else {
+        console.log('out...')
+        this.show.review = false
+        this.study.isMorpheme = true
+        this.study.index = 0
+        this.study.wordIndex = 0
+        this.study.morphemeIndex = 0
+      }
     },
 
     checkFirst(row) {
