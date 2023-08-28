@@ -19,29 +19,29 @@
           <el-form-item label="状态" prop="status">
             <el-input v-model="form.status" style="width: 95%;" />
           </el-form-item>
-          <el-form-item label="学习次数" prop="studyTims">
-            <el-input v-model="form.studyTims" style="width: 95%;" />
-          </el-form-item>
-          <el-form-item label="记得次数" prop="rememberTimes">
-            <el-input v-model="form.rememberTimes" style="width: 95%;" />
-          </el-form-item>
-          <el-form-item label="模糊次数" prop="obscureTimes">
-            <el-input v-model="form.obscureTimes" style="width: 95%;" />
-          </el-form-item>
           <el-form-item label="忘记次数" prop="forgetTimes">
             <el-input v-model="form.forgetTimes" style="width: 95%;" />
-          </el-form-item>
-          <el-form-item label="最后学习日期" prop="lastStudyTime">
-            <el-input v-model="form.lastStudyTime" style="width: 95%;" />
           </el-form-item>
           <el-form-item label="记忆等级" prop="memeryLevel">
             <el-input v-model="form.memeryLevel" style="width: 95%;" />
           </el-form-item>
-          <el-form-item label="学习比例" prop="studyRate">
-            <el-input v-model="form.studyRate" style="width: 95%;" />
+          <el-form-item label="学习次数" prop="studyTimes">
+            <el-input v-model="form.studyTimes" style="width: 95%;" />
           </el-form-item>
-          <el-form-item label="今天是否需要学" prop="needStudyTotday">
-            <el-input v-model="form.needStudyTotday" style="width: 95%;" />
+          <el-form-item label="记得次数" prop="simpleTimes">
+            <el-input v-model="form.simpleTimes" style="width: 95%;" />
+          </el-form-item>
+          <el-form-item label="模糊次数" prop="confuseTimes">
+            <el-input v-model="form.confuseTimes" style="width: 95%;" />
+          </el-form-item>
+          <el-form-item label="最后学习日期" prop="lastReviewTime">
+            <el-input v-model="form.lastReviewTime" style="width: 95%;" />
+          </el-form-item>
+          <el-form-item label="最后一次复习结果" prop="lastReviewResult">
+            <el-input v-model="form.lastReviewResult" style="width: 95%;" />
+          </el-form-item>
+          <el-form-item label="学习比例" prop="reviewRate">
+            <el-input v-model="form.reviewRate" style="width: 95%;" />
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -56,14 +56,14 @@
         <el-table-column prop="uid" label="用户ID" />
         <el-table-column prop="objectId" label="学习知识ID" />
         <el-table-column prop="status" label="状态" />
-        <el-table-column prop="studyTims" label="学习次数" />
-        <el-table-column prop="rememberTimes" label="记得次数" />
-        <el-table-column prop="obscureTimes" label="模糊次数" />
         <el-table-column prop="forgetTimes" label="忘记次数" />
-        <el-table-column prop="lastStudyTime" label="最后学习日期" />
         <el-table-column prop="memeryLevel" label="记忆等级" />
-        <el-table-column prop="studyRate" label="学习比例" />
-        <el-table-column prop="needStudyTotday" label="今天是否需要学" />
+        <el-table-column prop="studyTimes" label="学习次数" />
+        <el-table-column prop="simpleTimes" label="记得次数" />
+        <el-table-column prop="confuseTimes" label="模糊次数" />
+        <el-table-column prop="lastReviewTime" label="最后学习日期" />
+        <el-table-column prop="lastReviewResult" label="最后一次复习结果" />
+        <el-table-column prop="reviewRate" label="学习比例" />
         <el-table-column v-if="checkPer(['admin','studyMorphemeStatics:edit','studyMorphemeStatics:del'])" label="操作" width="150px" align="center">
           <template slot-scope="scope">
             <udOperation
@@ -87,7 +87,7 @@ import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 
-const defaultForm = { id: null, uid: null, objectId: null, status: null, studyTims: null, rememberTimes: null, obscureTimes: null, forgetTimes: null, lastStudyTime: null, memeryLevel: null, studyRate: null, needStudyTotday: null }
+const defaultForm = { id: null, uid: null, objectId: null, status: null, forgetTimes: null, memeryLevel: null, studyTimes: null, simpleTimes: null, confuseTimes: null, lastReviewTime: null, lastReviewResult: null, reviewRate: null }
 export default {
   name: 'StudyMorphemeStatics',
   components: { pagination, crudOperation, rrOperation, udOperation },
@@ -112,29 +112,29 @@ export default {
         status: [
           { required: true, message: '状态不能为空', trigger: 'blur' }
         ],
-        studyTims: [
-          { required: true, message: '学习次数不能为空', trigger: 'blur' }
-        ],
-        rememberTimes: [
-          { required: true, message: '记得次数不能为空', trigger: 'blur' }
-        ],
-        obscureTimes: [
-          { required: true, message: '模糊次数不能为空', trigger: 'blur' }
-        ],
         forgetTimes: [
           { required: true, message: '忘记次数不能为空', trigger: 'blur' }
-        ],
-        lastStudyTime: [
-          { required: true, message: '最后学习日期不能为空', trigger: 'blur' }
         ],
         memeryLevel: [
           { required: true, message: '记忆等级不能为空', trigger: 'blur' }
         ],
-        studyRate: [
-          { required: true, message: '学习比例不能为空', trigger: 'blur' }
+        studyTimes: [
+          { required: true, message: '学习次数不能为空', trigger: 'blur' }
         ],
-        needStudyTotday: [
-          { required: true, message: '今天是否需要学不能为空', trigger: 'blur' }
+        simpleTimes: [
+          { required: true, message: '记得次数不能为空', trigger: 'blur' }
+        ],
+        confuseTimes: [
+          { required: true, message: '模糊次数不能为空', trigger: 'blur' }
+        ],
+        lastReviewTime: [
+          { required: true, message: '最后学习日期不能为空', trigger: 'blur' }
+        ],
+        lastReviewResult: [
+          { required: true, message: '最后一次复习结果不能为空', trigger: 'blur' }
+        ],
+        reviewRate: [
+          { required: true, message: '学习比例不能为空', trigger: 'blur' }
         ]
       }
     }
