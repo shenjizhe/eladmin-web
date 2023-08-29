@@ -73,6 +73,12 @@
         color: #ffffff;
       }
     }
+    //TODO: 手机版本的，可以写多个条件后，分开布局
+    //@media screen and (max-width: 750px ) and (min-width: 650px){
+    //  .center-container{
+    //    padding: 10px;
+    //  }
+    //}
 
     .word-panel{
       width: 60%;

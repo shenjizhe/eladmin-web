@@ -375,6 +375,8 @@ export default {
           content: type,
           morphemeId: this.study.morpheme.id
         }
+        console.log('morpheme:', event.morphemeId, type)
+        this.helper.reviewMorpheme(event.morphemeId, type)
       } else {
         event = {
           uid: this.uuid,
@@ -383,7 +385,10 @@ export default {
           content: type,
           wordId: this.study.word.id
         }
+        this.helper.reviewWord(event.wordId, type)
+        console.log('word:', event.wordId, type)
       }
+
       eventAdd(event)
 
       this.study.index += 1
@@ -402,12 +407,12 @@ export default {
         this.study.isMorpheme = true
         this.study.morphemeIndex = this.study.index
         this.study.morpheme = this.todayData.morphemes[this.study.morphemeIndex]
-        console.log(this.study.morpheme)
+        console.log('morpheme:', this.study.morpheme)
       } else if (this.study.index < total) {
         this.study.isMorpheme = false
         this.study.wordIndex = this.study.index - ml
         this.study.word = this.todayData.words[this.study.wordIndex]
-        console.log(this.study.word)
+        console.log('word:', this.study.word)
       } else {
         console.log('out...')
         this.show.review = false

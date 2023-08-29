@@ -88,5 +88,33 @@ export class Morpheme {
       method: 'get'
     })
   }
+
+  needReviewMorphemes() {
+    return request({
+      url: this.url + '/api/morpheme-study/review-morphemes/',
+      method: 'get'
+    })
+  }
+
+  needReviewWords() {
+    return request({
+      url: this.url + '/api/morpheme-study/review-words/',
+      method: 'get'
+    })
+  }
+
+  reviewMorpheme(morphemeId, eventType) {
+    return request({
+      url: this.url + '/api/morpheme-study/review-morphemes/' + morphemeId + '/' + eventType,
+      method: 'post'
+    })
+  }
+
+  reviewWord(wordId, eventType) {
+    return request({
+      url: this.url + '/api/morpheme-study/review-words/' + wordId + '/' + eventType,
+      method: 'post'
+    })
+  }
 }
 
