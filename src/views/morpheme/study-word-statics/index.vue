@@ -16,9 +16,6 @@
           <el-form-item label="学习知识ID" prop="objectId">
             <el-input v-model="form.objectId" style="width: 95%;" />
           </el-form-item>
-          <el-form-item label="状态" prop="status">
-            <el-input v-model="form.status" style="width: 95%;" />
-          </el-form-item>
           <el-form-item label="忘记次数" prop="forgetTimes">
             <el-input v-model="form.forgetTimes" style="width: 95%;" />
           </el-form-item>
@@ -55,7 +52,6 @@
         <el-table-column prop="id" label="主键" />
         <el-table-column prop="uid" label="用户ID" />
         <el-table-column prop="objectId" label="学习知识ID" />
-        <el-table-column prop="status" label="状态" />
         <el-table-column prop="forgetTimes" label="忘记次数" />
         <el-table-column prop="memeryLevel" label="记忆等级" />
         <el-table-column prop="studyTimes" label="学习次数" />
@@ -87,7 +83,7 @@ import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 
-const defaultForm = { id: null, uid: null, objectId: null, status: null, forgetTimes: null, memeryLevel: null, studyTimes: null, simpleTimes: null, confuseTimes: null, lastReviewTime: null, lastReviewResult: null, reviewRate: null }
+const defaultForm = { id: null, uid: null, objectId: null, forgetTimes: null, memeryLevel: null, studyTimes: null, simpleTimes: null, confuseTimes: null, lastReviewTime: null, lastReviewResult: null, reviewRate: null }
 export default {
   name: 'StudyWordStatics',
   components: { pagination, crudOperation, rrOperation, udOperation },
@@ -108,9 +104,6 @@ export default {
         ],
         objectId: [
           { required: true, message: '学习知识ID不能为空', trigger: 'blur' }
-        ],
-        status: [
-          { required: true, message: '状态不能为空', trigger: 'blur' }
         ],
         forgetTimes: [
           { required: true, message: '忘记次数不能为空', trigger: 'blur' }
