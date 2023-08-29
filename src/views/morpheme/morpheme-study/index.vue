@@ -158,9 +158,11 @@
         <el-checkbox v-model="show.explain">翻译开关</el-checkbox>
       </div>
       <div class="button-panel">
-        <el-button type="primary" :disabled="isLast" @click="showNext">下一词</el-button>
-        <el-button type="primary" :disabled="isFirst" @click="showPrevious">上一词</el-button>
-        <el-button type="primary" @click="review">复习</el-button>
+        <el-button type="primary" :disabled="isLast" @click="showNext">》</el-button>
+        <el-button type="primary" :disabled="isFirst" @click="showPrevious">《</el-button>
+        <el-button type="primary" @click="review">新学</el-button>
+        <el-button type="warning" @click="reviewMorpheme">根</el-button>
+        <el-button type="warning" @click="reviewWord">词</el-button>
       </div>
     </el-footer>
   </el-container>

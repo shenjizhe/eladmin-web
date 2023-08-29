@@ -350,12 +350,37 @@ export default {
           })
         })
     },
-
     review() {
       this.show.review = true
       this.helper.getNewDatas()
         .then(response => {
           this.todayData = response
+          this.showView()
+        }).catch(error => {
+          this.$message({
+            message: '取得当天数据失败: ' + error,
+            type: 'fail'
+          })
+        })
+    },
+    reviewMorpheme() {
+      this.show.review = true
+      this.helper.needReviewMorphemes()
+        .then(response => {
+          this.todayData.morphemes = response
+          this.showView()
+        }).catch(error => {
+          this.$message({
+            message: '取得当天数据失败: ' + error,
+            type: 'fail'
+          })
+        })
+    },
+
+    reviewWord() {
+      this.helper.needReviewWords()
+        .then(response => {
+          this.todayData.words = response
           this.showView()
         }).catch(error => {
           this.$message({
