@@ -37,9 +37,6 @@
           <el-form-item label="最后一次复习结果" prop="lastReviewResult">
             <el-input v-model="form.lastReviewResult" style="width: 95%;" />
           </el-form-item>
-          <el-form-item label="学习比例" prop="reviewRate">
-            <el-input v-model="form.reviewRate" style="width: 95%;" />
-          </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button type="text" @click="crud.cancelCU">取消</el-button>
@@ -59,7 +56,6 @@
         <el-table-column prop="confuseTimes" label="模糊次数" />
         <el-table-column prop="lastReviewTime" label="最后学习日期" />
         <el-table-column prop="lastReviewResult" label="最后一次复习结果" />
-        <el-table-column prop="reviewRate" label="学习比例" />
         <el-table-column v-if="checkPer(['admin','studyMorphemeStatics:edit','studyMorphemeStatics:del'])" label="操作" width="150px" align="center">
           <template slot-scope="scope">
             <udOperation
@@ -83,7 +79,7 @@ import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 
-const defaultForm = { id: null, uid: null, objectId: null, forgetTimes: null, memeryLevel: null, studyTimes: null, simpleTimes: null, confuseTimes: null, lastReviewTime: null, lastReviewResult: null, reviewRate: null }
+const defaultForm = { id: null, uid: null, objectId: null, forgetTimes: null, memeryLevel: null, studyTimes: null, simpleTimes: null, confuseTimes: null, lastReviewTime: null, lastReviewResult: null }
 export default {
   name: 'StudyMorphemeStatics',
   components: { pagination, crudOperation, rrOperation, udOperation },
@@ -125,9 +121,6 @@ export default {
         ],
         lastReviewResult: [
           { required: true, message: '最后一次复习结果不能为空', trigger: 'blur' }
-        ],
-        reviewRate: [
-          { required: true, message: '学习比例不能为空', trigger: 'blur' }
         ]
       }
     }
