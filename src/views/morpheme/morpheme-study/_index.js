@@ -535,19 +535,19 @@ export default {
       const meanings = this.pair.word.meanings
       if (this.show.review) {
         if (!this.study.isMorpheme) {
-          if (event.key === '1') {
-            this.saveReview(1)
-          } else if (event.key === '2') {
-            this.saveReview(2)
-          } else if (event.key === '3') {
-            this.saveReview(3)
-          } else if (event.key === 'Enter') {
+          if (event.key === 'Enter') {
             this.speakText(this.study.word.text)
           } else if (event.key === 'ArrowRight') {
             this.show.deductAnswer = !this.show.deductAnswer
           }
         }
-        if (event.key === 'ArrowLeft') {
+        if (event.key === '1') {
+          this.saveReview(1)
+        } else if (event.key === '2') {
+          this.saveReview(2)
+        } else if (event.key === '3') {
+          this.saveReview(3)
+        } else if (event.key === 'ArrowLeft') {
           this.show.wordAnswer = !this.show.wordAnswer
         }
       } else {
