@@ -440,7 +440,7 @@ export default {
           .then(response => {
             this.$message({
               message: type === 1 ? '简单' : type === 2 ? '模糊' : '不记得',
-              type: type === 1 ? 'success' : type === 2 ? 'warning' : 'fail'
+              type: type === 1 ? 'success' : type === 2 ? 'warning' : 'error'
             })
           })
       } else {
@@ -455,7 +455,7 @@ export default {
           .then(response => {
             this.$message({
               message: type === 1 ? '简单' : type === 2 ? '模糊' : '不记得',
-              type: type === 1 ? 'success' : type === 2 ? 'warning' : 'fail'
+              type: type === 1 ? 'success' : type === 2 ? 'warning' : 'error'
             })
           })
       }
