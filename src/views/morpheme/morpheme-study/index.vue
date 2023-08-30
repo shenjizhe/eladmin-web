@@ -1,7 +1,8 @@
 <template>
   <el-container class="study-container">
     <el-main class="center-container">
-      <el-dialog :title="studyTitle" :visible.sync="show.review" width="600px">
+      <v-touch tag="div" @swipeleft="showNext" @swiperight="showPrevious" />
+      <el-dialog :title="studyTitle" :visible.sync="show.review" class="dialog-class">
         <div v-if="study.isMorpheme">
           <el-col :span="10">
             <el-input v-model="study.morpheme.text" :span="12" />
@@ -158,11 +159,11 @@
         </el-select>
       </div>
       <div class="button-panel">
-        <el-button type="primary" :disabled="isLast" @click="showNext">下一词</el-button>
-        <el-button type="primary" :disabled="isFirst" @click="showPrevious">上一词</el-button>
-        <el-button type="primary" @click="review">新学</el-button>
-        <el-button type="warning" @click="reviewWord">复习单词</el-button>
-        <el-button type="warning" @click="reviewMorpheme">复习词根</el-button>
+        <el-button type="primary" :disabled="isLast" @click="showNext">》</el-button>
+        <el-button type="primary" :disabled="isFirst" @click="showPrevious">《</el-button>
+        <el-button type="primary" @click="review">新</el-button>
+        <el-button type="warning" @click="reviewWord">词</el-button>
+        <el-button type="warning" @click="reviewMorpheme">根</el-button>
       </div>
     </el-footer>
   </el-container>

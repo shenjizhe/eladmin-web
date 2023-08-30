@@ -1,6 +1,5 @@
 @media screen and (min-width: 650px){
   .study-container {
-    height: 85vh;
     .word-panel{
       width: 60%;
     }
@@ -10,15 +9,18 @@
     .center-container {
       height: 50vh;
     }
-    .foot-container{
+    .foot-container {
       height: 15vh;
+    }
+    .dialog-class {
+      width: 500px;
     }
   }
 }
 
 @media screen and (max-width: 650px ){
   .study-container {
-    height: 75vh;
+    padding-bottom: 30px;
     .word-panel{
       width: 100%;
     }
@@ -31,12 +33,16 @@
     .foot-container{
       height: 25vh;
     }
+
+    .dialog-class {
+      width: 80vw;
+    }
   }
 }
 
 .study-container {
   width: 100%;
-  //height: 85vh;
+  height: 85vh;
 
   .class-title .el-input__inner{
     background-color: #00a0e9;

@@ -27,6 +27,8 @@ import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 
+import VueTouch from 'vue-touch'
+Vue.use(VueTouch, { name: 'v-touch' })
 Vue.use(VueQuillEditor)
 Vue.use(VueClipBoard)
 Vue.use(checkPer)
