@@ -350,12 +350,25 @@ export default {
           })
         })
     },
+    reset() {
+      this.study.index = 0
+      this.study.morphemeIndex = 0
+      this.study.wordIndex = 0
+    },
     review() {
-      this.show.review = true
       this.helper.getNewDatas()
         .then(response => {
           this.todayData = response
-          this.showView()
+          if (!this.checkEmpty()) {
+            this.reset()
+            this.showView()
+            this.show.review = true
+          } else {
+            this.$message({
+              message: '不需要复习',
+              type: 'warning'
+            })
+          }
         }).catch(error => {
           this.$message({
             message: '取得当天数据失败: ' + error,
@@ -363,12 +376,24 @@ export default {
           })
         })
     },
+    checkEmpty() {
+      return this.todayData.words.length === 0 && this.todayData.morphemes.length === 0
+    },
     reviewMorpheme() {
-      this.show.review = true
       this.helper.needReviewMorphemes()
         .then(response => {
           this.todayData.morphemes = response
-          this.showView()
+          this.todayData.words = []
+          if (!this.checkEmpty()) {
+            this.reset()
+            this.showView()
+            this.show.review = true
+          } else {
+            this.$message({
+              message: '不需要复习',
+              type: 'warning'
+            })
+          }
         }).catch(error => {
           this.$message({
             message: '取得当天数据失败: ' + error,
@@ -381,7 +406,17 @@ export default {
       this.helper.needReviewWords()
         .then(response => {
           this.todayData.words = response
-          this.showView()
+          this.todayData.morphemes = []
+          if (!this.checkEmpty()) {
+            this.reset()
+            this.showView()
+            this.show.review = true
+          } else {
+            this.$message({
+              message: '不需要复习',
+              type: 'warning'
+            })
+          }
         }).catch(error => {
           this.$message({
             message: '取得当天数据失败: ' + error,
@@ -400,7 +435,6 @@ export default {
           content: type,
           morphemeId: this.study.morpheme.id
         }
-        console.log('morpheme:', event.morphemeId, type)
         this.helper.reviewMorpheme(event.morphemeId, type)
       } else {
         event = {
@@ -411,7 +445,6 @@ export default {
           wordId: this.study.word.id
         }
         this.helper.reviewWord(event.wordId, type)
-        console.log('word:', event.wordId, type)
       }
 
       eventAdd(event)

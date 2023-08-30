@@ -65,6 +65,9 @@
             <el-input v-model="pair.morphemeStudy.description" type="textarea" readonly rows="7" class="class-meaning" @dblclick.native="onDbClick" />
           </el-form-item>
         </el-form>
+        <el-checkbox v-model="show.morpheme">词根</el-checkbox>
+        <el-checkbox v-model="show.morphemeMeaning">词根含义</el-checkbox>
+        <el-checkbox v-model="show.morphemeInfo">词根信息</el-checkbox>
       </div>
       <div class="word-panel">
         <el-form ref="form" :model="pair.word" label-width="60px">
@@ -135,6 +138,12 @@
             <quill-editor v-model="explain" :options="editorOption" class="explainEditor" />
           </el-form-item>
         </el-form>
+        <el-checkbox v-model="show.word">单词</el-checkbox>
+        <el-checkbox v-model="show.sound">声音</el-checkbox>
+        <el-checkbox v-model="show.deduct">推导</el-checkbox>
+        <el-checkbox v-model="show.deductInfo">推导信息</el-checkbox>
+        <el-checkbox v-model="show.meaning">单词含义</el-checkbox>
+        <el-checkbox v-model="show.explain">翻译开关</el-checkbox>
       </div>
     </el-main>
     <el-footer class="foot-container">
@@ -147,22 +156,13 @@
             :value="item.value"
           />
         </el-select>
-        <el-checkbox v-model="show.morpheme">词根</el-checkbox>
-        <el-checkbox v-model="show.morphemeMeaning">词根含义</el-checkbox>
-        <el-checkbox v-model="show.morphemeInfo">词根信息</el-checkbox>
-        <el-checkbox v-model="show.word">单词</el-checkbox>
-        <el-checkbox v-model="show.sound">声音</el-checkbox>
-        <el-checkbox v-model="show.deduct">推导</el-checkbox>
-        <el-checkbox v-model="show.deductInfo">推导信息</el-checkbox>
-        <el-checkbox v-model="show.meaning">单词含义</el-checkbox>
-        <el-checkbox v-model="show.explain">翻译开关</el-checkbox>
       </div>
       <div class="button-panel">
-        <el-button type="primary" :disabled="isLast" @click="showNext">》</el-button>
-        <el-button type="primary" :disabled="isFirst" @click="showPrevious">《</el-button>
+        <el-button type="primary" :disabled="isLast" @click="showNext">下一词</el-button>
+        <el-button type="primary" :disabled="isFirst" @click="showPrevious">上一词</el-button>
         <el-button type="primary" @click="review">新学</el-button>
-        <el-button type="warning" @click="reviewMorpheme">根</el-button>
-        <el-button type="warning" @click="reviewWord">词</el-button>
+        <el-button type="warning" @click="reviewWord">复习单词</el-button>
+        <el-button type="warning" @click="reviewMorpheme">复习词根</el-button>
       </div>
     </el-footer>
   </el-container>
