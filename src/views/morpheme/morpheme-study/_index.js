@@ -535,7 +535,7 @@ export default {
       const meanings = this.pair.word.meanings
       if (this.show.review) {
         if (!this.study.isMorpheme) {
-          if (event.key === 'Enter') {
+          if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
             this.speakText(this.study.word.text)
           } else if (event.key === 'ArrowRight') {
             this.show.deductAnswer = !this.show.deductAnswer
