@@ -437,6 +437,12 @@ export default {
           morphemeId: this.study.morpheme.id
         }
         this.helper.reviewMorpheme(event.morphemeId, type)
+          .then(response => {
+            this.$message({
+              message: type === 1 ? '简单' : type === 2 ? '模糊' : '不记得',
+              type: type === 1 ? 'success' : type === 2 ? 'warning' : 'fail'
+            })
+          })
       } else {
         event = {
           uid: this.uuid,
@@ -446,6 +452,12 @@ export default {
           wordId: this.study.word.id
         }
         this.helper.reviewWord(event.wordId, type)
+          .then(response => {
+            this.$message({
+              message: type === 1 ? '简单' : type === 2 ? '模糊' : '不记得',
+              type: type === 1 ? 'success' : type === 2 ? 'warning' : 'fail'
+            })
+          })
       }
 
       eventAdd(event)
@@ -521,42 +533,61 @@ export default {
     handleArrowKey(event) {
       console.log(event)
       const meanings = this.pair.word.meanings
-      if (event.key === 'ArrowLeft') {
-        if (!this.isFirst) {
-          this.showPrevious()
-        }
-      } else if (event.key === 'ArrowRight') {
-        if (!this.isLast) {
-          this.showNext()
-        }
-      } else if (event.key === 'Enter') {
-        this.speakText(this.pair.word.text)
-      } else if (event.key === 'ArrowUp') {
-        this.mode = this.mode + 1
-      } else if (event.key === 'ArrowDown') {
-        this.mode = this.mode - 1
-      } else if (event.key === '-') {
-        if (meanings.length > 0) {
-          this.speakText(meanings[this.meaningIndex].meaningEnglish)
-          if (this.meaningIndex < meanings.length - 1) {
-            this.meaningIndex += 1
-          } else {
-            this.meaningIndex = 0
+      if (this.show.review) {
+        if (!this.study.isMorpheme) {
+          if (event.key === '1') {
+            this.saveReview(1)
+          } else if (event.key === '2') {
+            this.saveReview(2)
+          } else if (event.key === '3') {
+            this.saveReview(3)
+          } else if (event.key === 'Enter') {
+            this.speakText(this.study.word.text)
+          } else if (event.key === 'ArrowRight') {
+            this.show.deductAnswer = !this.show.deductAnswer
           }
         }
-      } else if (event.key === '+') {
-        if (meanings.length > 0) {
-          this.speakText(meanings[this.exampleIndex].exampleSentenceEnglish)
-          if (this.exampleIndex < meanings.length - 1) {
-            this.exampleIndex += 1
-          } else {
-            this.exampleIndex = 0
-          }
+        if (event.key === 'ArrowLeft') {
+          this.show.wordAnswer = !this.show.wordAnswer
         }
       } else {
-        if (parseInt(event.key) !== 'NaN') {
-          const number = parseInt(event.key)
-          this.mode = number
+        if (event.key === 'ArrowLeft') {
+          if (!this.isFirst) {
+            this.showPrevious()
+          }
+        } else if (event.key === 'ArrowRight') {
+          if (!this.isLast) {
+            this.showNext()
+          }
+        } else if (event.key === 'Enter') {
+          this.speakText(this.pair.word.text)
+        } else if (event.key === 'ArrowUp') {
+          this.mode = this.mode + 1
+        } else if (event.key === 'ArrowDown') {
+          this.mode = this.mode - 1
+        } else if (event.key === '-') {
+          if (meanings.length > 0) {
+            this.speakText(meanings[this.meaningIndex].meaningEnglish)
+            if (this.meaningIndex < meanings.length - 1) {
+              this.meaningIndex += 1
+            } else {
+              this.meaningIndex = 0
+            }
+          }
+        } else if (event.key === '+') {
+          if (meanings.length > 0) {
+            this.speakText(meanings[this.exampleIndex].exampleSentenceEnglish)
+            if (this.exampleIndex < meanings.length - 1) {
+              this.exampleIndex += 1
+            } else {
+              this.exampleIndex = 0
+            }
+          }
+        } else {
+          if (parseInt(event.key) !== 'NaN') {
+            const number = parseInt(event.key)
+            this.mode = number
+          }
         }
       }
     }

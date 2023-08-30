@@ -18,13 +18,13 @@
             <el-input v-model="study.word.text" :span="12" />
           </el-col>
           <el-col :span="3">
-            <el-button type="success" :span="12" @click="show.wordAnswer = !show.wordAnswer">显示</el-button>
+            <el-button type="success" :span="12" @click="show.wordAnswer = !show.wordAnswer">&lt;显示</el-button>
           </el-col>
           <el-col :span="3">
             <el-button type="info" @click="speakText(study.word.text)">读音</el-button>
           </el-col>
           <el-col :span="3">
-            <el-button type="primary" @click="show.deductAnswer = !show.deductAnswer">推导</el-button>
+            <el-button type="primary" @click="show.deductAnswer = !show.deductAnswer">推导&gt;</el-button>
           </el-col>
         </el-row>
         <div v-if="show.wordAnswer">
@@ -50,9 +50,9 @@
         </div>
       </div>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="saveReview(1)">简单</el-button>
-        <el-button type="warning" @click="saveReview(2)">模糊</el-button>
-        <el-button type="danger" @click="saveReview(3)">不记得</el-button>
+        <el-button type="primary" @click="saveReview(1)">简单(1)</el-button>
+        <el-button type="warning" @click="saveReview(2)">模糊(2)</el-button>
+        <el-button type="danger" @click="saveReview(3)">不记得(3)</el-button>
       </div>
     </el-dialog>
     <el-main class="center-container">
