@@ -67,6 +67,7 @@ export default {
         review: false,
         morphemeAnswer: false,
         wordAnswer: false,
+        deductAnswer: false,
         morpheme: true,
         morphemeMeaning: true,
         morphemeInfo: true,
@@ -456,6 +457,7 @@ export default {
     showView() {
       this.show.morphemeAnswer = false
       this.show.wordAnswer = false
+      this.show.deductAnswer = false
       const ml = this.todayData.morphemes.length
       const wl = this.todayData.words.length
       const total = ml + wl

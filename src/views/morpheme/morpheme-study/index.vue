@@ -14,23 +14,37 @@
       </div>
       <div v-if="!study.isMorpheme">
         <el-row>
-          <el-col :span="16">
+          <el-col :span="15">
             <el-input v-model="study.word.text" :span="12" />
           </el-col>
-          <el-col :span="4">
+          <el-col :span="3">
             <el-button type="success" :span="12" @click="show.wordAnswer = !show.wordAnswer">显示</el-button>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="3">
             <el-button type="info" @click="speakText(study.word.text)">读音</el-button>
+          </el-col>
+          <el-col :span="3">
+            <el-button type="primary" @click="show.deductAnswer = !show.deductAnswer">推导</el-button>
           </el-col>
         </el-row>
         <div v-if="show.wordAnswer">
           <el-row v-for="meaning in study.word.meanings" :key="meaning.id">
+            <el-row>
+              <el-input v-model="meaning.meaningEnglish" class="class-tool" />
+            </el-row>
+            <el-row>
+              <el-input v-model="meaning.meaningChinese" :span="12" />
+            </el-row>
+          </el-row>
+        </div>
+        <div v-if="show.deductAnswer">
+          <el-input v-model="study.word.deduction" type="textarea" :span="12" class="class-info" />
+          <el-row v-for="(deduct) in study.word.deductions" :key="deduct.id">
             <el-col :span="12">
-              <el-input v-model="meaning.meaningEnglish" :span="12" />
+              <el-input v-model="deduct.fullText" :span="12" class="class-source" />
             </el-col>
             <el-col :span="12">
-              <el-input v-model="meaning.meaningChinese" :span="12" />
+              <el-input v-model="deduct.meaningChinese" :span="12" />
             </el-col>
           </el-row>
         </div>
