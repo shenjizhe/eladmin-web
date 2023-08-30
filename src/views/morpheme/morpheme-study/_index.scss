@@ -13,7 +13,7 @@
       height: 15vh;
     }
     .dialog-class {
-      width: 500px;
+      width: 80%;
     }
   }
 }
@@ -35,13 +35,14 @@
     }
 
     .dialog-class {
-      width: 80vw;
+      width: 100%;
+      min-width: 700px;
     }
   }
 }
 
 .study-container {
-  width: 100%;
+  width: 100vw;
   height: 85vh;
 
   .class-title .el-input__inner{

@@ -1,48 +1,47 @@
 <template>
   <el-container class="study-container">
-    <el-main class="center-container">
-      <v-touch tag="div" @swipeleft="showNext" @swiperight="showPrevious" />
-      <el-dialog :title="studyTitle" :visible.sync="show.review" class="dialog-class">
-        <div v-if="study.isMorpheme">
-          <el-col :span="10">
-            <el-input v-model="study.morpheme.text" :span="12" />
+    <el-dialog :title="studyTitle" :visible.sync="show.review" class="dialog-class">
+      <div v-if="study.isMorpheme">
+        <el-col :span="10">
+          <el-input v-model="study.morpheme.text" :span="12" />
+        </el-col>
+        <el-col :span="4">
+          <el-button type="success" :span="12" @click="show.morphemeAnswer = !show.morphemeAnswer">显示</el-button>
+        </el-col>
+        <el-col :span="10">
+          <el-input v-if="show.morphemeAnswer" v-model="study.morpheme.meaningChinese" :span="12" />
+        </el-col>
+      </div>
+      <div v-if="!study.isMorpheme">
+        <el-row>
+          <el-col :span="16">
+            <el-input v-model="study.word.text" :span="12" />
           </el-col>
           <el-col :span="4">
-            <el-button type="success" :span="12" @click="show.morphemeAnswer = !show.morphemeAnswer">显示</el-button>
+            <el-button type="success" :span="12" @click="show.wordAnswer = !show.wordAnswer">显示</el-button>
           </el-col>
-          <el-col :span="10">
-            <el-input v-if="show.morphemeAnswer" v-model="study.morpheme.meaningChinese" :span="12" />
+          <el-col :span="4">
+            <el-button type="info" @click="speakText(study.word.text)">读音</el-button>
           </el-col>
-        </div>
-        <div v-if="!study.isMorpheme">
-          <el-row>
-            <el-col :span="16">
-              <el-input v-model="study.word.text" :span="12" />
+        </el-row>
+        <div v-if="show.wordAnswer">
+          <el-row v-for="meaning in study.word.meanings" :key="meaning.id">
+            <el-col :span="12">
+              <el-input v-model="meaning.meaningEnglish" :span="12" />
             </el-col>
-            <el-col :span="4">
-              <el-button type="success" :span="12" @click="show.wordAnswer = !show.wordAnswer">显示</el-button>
-            </el-col>
-            <el-col :span="4">
-              <el-button type="info" @click="speakText(study.word.text)">读音</el-button>
+            <el-col :span="12">
+              <el-input v-model="meaning.meaningChinese" :span="12" />
             </el-col>
           </el-row>
-          <div v-if="show.wordAnswer">
-            <el-row v-for="meaning in study.word.meanings" :key="meaning.id">
-              <el-col :span="12">
-                <el-input v-model="meaning.meaningEnglish" :span="12" />
-              </el-col>
-              <el-col :span="12">
-                <el-input v-model="meaning.meaningChinese" :span="12" />
-              </el-col>
-            </el-row>
-          </div>
         </div>
-        <div slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="saveReview(1)">简单</el-button>
-          <el-button type="warning" @click="saveReview(2)">模糊</el-button>
-          <el-button type="danger" @click="saveReview(3)">不记得</el-button>
-        </div>
-      </el-dialog>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="saveReview(1)">简单</el-button>
+        <el-button type="warning" @click="saveReview(2)">模糊</el-button>
+        <el-button type="danger" @click="saveReview(3)">不记得</el-button>
+      </div>
+    </el-dialog>
+    <el-main class="center-container">
       <div v-show="show.morpheme" class="morpheme-panel">
         <el-form ref="form" :model="pair.morphemeStudy" label-width="80px">
           <el-form-item label="词根">
@@ -70,7 +69,14 @@
         <el-checkbox v-model="show.morphemeMeaning">词根含义</el-checkbox>
         <el-checkbox v-model="show.morphemeInfo">词根信息</el-checkbox>
       </div>
-      <div class="word-panel">
+      <v-touch
+        tag="div"
+        class="word-panel"
+        @swipeleft="showNext"
+        @swiperight="showPrevious"
+        @swipeup="mode += 1"
+        @swipedown="mode -= 1"
+      >
         <el-form ref="form" :model="pair.word" label-width="60px">
           <el-form-item label="单词">
             <el-col :span="8">
@@ -145,7 +151,7 @@
         <el-checkbox v-model="show.deductInfo">推导信息</el-checkbox>
         <el-checkbox v-model="show.meaning">单词含义</el-checkbox>
         <el-checkbox v-model="show.explain">翻译开关</el-checkbox>
-      </div>
+      </v-touch>
     </el-main>
     <el-footer class="foot-container">
       <div class="log-panel">
