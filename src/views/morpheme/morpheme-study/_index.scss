@@ -1,6 +1,42 @@
+@media screen and (min-width: 650px){
+  .study-container {
+    height: 85vh;
+    .word-panel{
+      width: 60%;
+    }
+    .morpheme-panel {
+      width: 40%;
+    }
+    .center-container {
+      height: 50vh;
+    }
+    .foot-container{
+      height: 15vh;
+    }
+  }
+}
+
+@media screen and (max-width: 650px ){
+  .study-container {
+    height: 75vh;
+    .word-panel{
+      width: 100%;
+    }
+    .morpheme-panel {
+      width: 0%;
+    }
+    .center-container {
+      height: 40vh;
+    }
+    .foot-container{
+      height: 25vh;
+    }
+  }
+}
+
 .study-container {
   width: 100%;
-  height: 85vh;
+  //height: 85vh;
 
   .class-title .el-input__inner{
     background-color: #00a0e9;
@@ -72,24 +108,6 @@
         color: #ffffff;
       }
     }
-    //TODO: 手机版本的，可以写多个条件后，分开布局
-    @media screen and (max-width: 750px ) and (min-width: 650px){
-      .word-panel{
-        width: 60%;
-      }
-      .morpheme-panel {
-        width: 40%;
-      }
-    }
-
-    @media screen and (max-width: 650px ) and (min-width: 200px){
-      .word-panel{
-        width: 100%;
-      }
-      .morpheme-panel {
-        width: 0%;
-      }
-    }
 
     .word-panel{
       height: 100%;
@@ -106,7 +124,7 @@
     background-color: #bfcbd9;
   }
   .foot-container{
-    height: 35vh;
+    height: 15vh;
     background-color: #5a5c5d;
 
     display: flex;

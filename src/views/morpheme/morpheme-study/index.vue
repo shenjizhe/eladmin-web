@@ -148,7 +148,7 @@
     </el-main>
     <el-footer class="foot-container">
       <div class="log-panel">
-        <el-select v-model="mode" placeholder="模式" style="width: 100px">
+        <el-select v-model="mode" placeholder="模式">
           <el-option
             v-for="item in options"
             :key="item.value"
