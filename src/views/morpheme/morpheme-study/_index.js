@@ -539,6 +539,12 @@ export default {
             this.speakText(this.study.word.text)
           } else if (event.key === 'ArrowRight') {
             this.show.deductAnswer = !this.show.deductAnswer
+          } else if (event.key === 'ArrowLeft') {
+            this.show.wordAnswer = !this.show.wordAnswer
+          }
+        } else {
+          if (event.key === 'ArrowLeft') {
+            this.show.morphemeAnswer = !this.show.morphemeAnswer
           }
         }
         if (event.key === '1') {
@@ -547,8 +553,6 @@ export default {
           this.saveReview(2)
         } else if (event.key === '3') {
           this.saveReview(3)
-        } else if (event.key === 'ArrowLeft') {
-          this.show.wordAnswer = !this.show.wordAnswer
         }
       } else {
         if (event.key === 'ArrowLeft') {

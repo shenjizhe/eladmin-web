@@ -6,7 +6,7 @@
           <el-input v-model="study.morpheme.text" :span="12" />
         </el-col>
         <el-col :span="4">
-          <el-button type="success" :span="12" @click="show.morphemeAnswer = !show.morphemeAnswer">显示</el-button>
+          <el-button type="success" :span="12" @click="show.morphemeAnswer = !show.morphemeAnswer">&lt;显示</el-button>
         </el-col>
         <el-col :span="10">
           <el-input v-if="show.morphemeAnswer" v-model="study.morpheme.meaningChinese" :span="12" />
@@ -21,7 +21,7 @@
             <el-button type="success" :span="12" @click="show.wordAnswer = !show.wordAnswer">&lt;显示</el-button>
           </el-col>
           <el-col :span="3">
-            <el-button type="info" @click="speakText(study.word.text)">读音</el-button>
+            <el-button type="info" @click="speakText(study.word.text)">↑读音</el-button>
           </el-col>
           <el-col :span="3">
             <el-button type="primary" @click="show.deductAnswer = !show.deductAnswer">推导&gt;</el-button>
@@ -35,6 +35,12 @@
             <el-row>
               <el-input v-model="meaning.meaningChinese" :span="12" />
             </el-row>
+            <el-col :span="24">
+              <el-input v-model="meaning.exampleSentenceChinese" readonly type="textarea" :autosize="{ minRows: 1, maxRows: 4}" class="class-info" />
+            </el-col>
+            <el-col :span="24">
+              <el-input v-model="meaning.exampleSentenceEnglish" readonly type="textarea" :autosize="{ minRows: 1, maxRows: 4}" class="class-example" @dblclick.native="onDbClick" />
+            </el-col>
           </el-row>
         </div>
         <div v-if="show.deductAnswer">
@@ -181,9 +187,9 @@
       <div class="button-panel">
         <el-button type="primary" :disabled="isLast" @click="showNext">》</el-button>
         <el-button type="primary" :disabled="isFirst" @click="showPrevious">《</el-button>
-        <el-button type="primary" @click="review">新</el-button>
-        <el-button type="warning" @click="reviewWord">词</el-button>
-        <el-button type="warning" @click="reviewMorpheme">根</el-button>
+        <el-button type="primary" @click="review">新学</el-button>
+        <el-button type="warning" @click="reviewWord">单词</el-button>
+        <el-button type="warning" @click="reviewMorpheme">词根</el-button>
       </div>
     </el-footer>
   </el-container>
