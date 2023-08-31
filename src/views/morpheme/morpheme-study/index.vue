@@ -185,11 +185,11 @@
         </el-select>
       </div>
       <div class="button-panel">
-        <el-button type="primary" :disabled="isLast" @click="showNext">》</el-button>
-        <el-button type="primary" :disabled="isFirst" @click="showPrevious">《</el-button>
-        <el-button type="primary" @click="review">新学</el-button>
-        <el-button type="warning" @click="reviewWord">单词</el-button>
-        <el-button type="warning" @click="reviewMorpheme">词根</el-button>
+        <el-button type="success" @click="reviewMorpheme">词根(M)</el-button>
+        <el-button type="warning" @click="reviewWord">单词(W</el-button>
+        <el-button type="primary" @click="review">新学(N)</el-button>
+        <el-button type="info" :disabled="isFirst" @click="showPrevious">←</el-button>
+        <el-button type="info" :disabled="isLast" @click="showNext">→</el-button>
       </div>
     </el-footer>
   </el-container>

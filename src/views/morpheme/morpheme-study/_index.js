@@ -587,6 +587,12 @@ export default {
               this.exampleIndex = 0
             }
           }
+        } else if (event.altKey && event.key === 'n') {
+          this.review()
+        } else if (event.altKey && event.key === 'w') {
+          this.reviewWord()
+        } else if (event.altKey && event.key === 'm') {
+          this.reviewMorpheme()
         } else {
           if (parseInt(event.key) !== 'NaN') {
             const number = parseInt(event.key)
