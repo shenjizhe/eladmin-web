@@ -1,6 +1,7 @@
 import MyForm from '@/components/MyForm'
 import { Morpheme } from '@/api/morpheme/Morpheme'
 import { add as eventAdd } from '@/api/studyEvent'
+import screenfull from 'screenfull'
 
 export default {
   name: 'MorphemeStudyComponent',
@@ -593,6 +594,8 @@ export default {
           this.reviewWord()
         } else if (event.altKey && event.key === 'm') {
           this.reviewMorpheme()
+        } else if (event.key === 'F8') {
+          screenfull.toggle()
         } else {
           if (parseInt(event.key) !== 'NaN') {
             const number = parseInt(event.key)
