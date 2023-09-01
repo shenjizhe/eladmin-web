@@ -116,5 +116,19 @@ export class Morpheme {
       method: 'post'
     })
   }
+
+  searchWors(text) {
+    return request({
+      url: this.url + '/api/morpheme-study/search-words?text=' + text,
+      method: 'get'
+    })
+  }
+
+  searchMorphemes(text) {
+    return request({
+      url: this.url + '/api/morpheme-study/search-morphemes?text=' + text,
+      method: 'get'
+    })
+  }
 }
 
