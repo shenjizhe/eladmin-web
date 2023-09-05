@@ -494,11 +494,11 @@ export default {
         }
         this.helper.reviewMorpheme(event.morphemeId, type)
           .then(response => {
-            this.getTodayStatics()
             this.$message({
               message: type === 1 ? '简单' : type === 2 ? '模糊' : '不记得',
               type: type === 1 ? 'success' : type === 2 ? 'warning' : 'error'
             })
+            this.getTodayStatics()
           })
       } else {
         event = {
@@ -510,19 +510,17 @@ export default {
         }
         this.helper.reviewWord(event.wordId, type)
           .then(response => {
-            this.getTodayStatics()
             this.$message({
               message: type === 1 ? '简单' : type === 2 ? '模糊' : '不记得',
               type: type === 1 ? 'success' : type === 2 ? 'warning' : 'error'
             })
+            this.getTodayStatics()
           })
       }
 
       eventAdd(event)
-
       this.study.index += 1
       this.showView()
-      this.getTodayStatics()
     },
 
     showView() {
