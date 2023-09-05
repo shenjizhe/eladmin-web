@@ -66,9 +66,21 @@
         <el-input v-model="morphemeStatics" readonly class="class-back" />
         <el-form ref="form" :model="pair.morphemeStudy" label-width="80px">
           <el-form-item v-if="search.mode" label="查询">
-            <el-input v-model="search.morphemeText" class="white-label">
-              <el-button slot="append" icon="el-icon-search" @click="searchMorpheme(search.morphemeText)" />
-            </el-input>
+            <el-col :span="12">
+              <el-input v-model="search.morphemeText" class="white-label">
+                <el-button slot="append" icon="el-icon-search" @click="searchMorpheme(search.morphemeText)" />
+              </el-input>
+            </el-col>
+            <el-col :span="12">
+              <el-select v-model="search.morphemeId" placeholder="请选择">
+                <el-option
+                  v-for="m in search.morphemes"
+                  :key="m.id"
+                  :label="m.text"
+                  :value="m.id"
+                />
+              </el-select>
+            </el-col>
           </el-form-item>
           <el-form-item label="词根">
             <el-input v-model="pair.morphemeStudy.text" readonly class="class-title" @dblclick.native="onDbClick" />

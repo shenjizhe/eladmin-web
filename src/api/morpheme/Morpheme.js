@@ -44,7 +44,7 @@ export class Morpheme {
   isFirst() {
     console.log('check is first')
     return request({
-      url: this.url + '/api/morpheme-study/is-first',
+      url: '/api/morpheme-study/is-first',
       method: 'get'
     })
   }
@@ -123,6 +123,12 @@ export class Morpheme {
   searchMorphemes(text) {
     return request({
       url: '/api/morpheme-study/search-morphemes/?text=' + text,
+      method: 'get'
+    })
+  }
+  getTodayStatics() {
+    return request({
+      url: '/api/morpheme-study/user-statics-today/',
       method: 'get'
     })
   }

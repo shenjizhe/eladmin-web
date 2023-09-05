@@ -24,9 +24,11 @@ export default {
       search: {
         mode: false,
         morphemeText: '',
-        morpheme: {},
+        morphemes: [],
+        morphemeId: null,
         wordText: '',
-        word: {}
+        words: [],
+        wordId: null
       },
       uuid: 0,
       mode: 7,
@@ -577,10 +579,14 @@ export default {
         })
     },
 
+    handleSelect(item) {
+      console.log(item)
+    },
+
     searchMorpheme(morpheme) {
       this.helper.searchMorphemes(morpheme)
         .then(response => {
-          console.log(response)
+          this.search.morphemes = response
         }).catch(error => {
           this.$message({
             message: '查询词根失败: ' + error,
@@ -592,7 +598,7 @@ export default {
     searchWord(word) {
       this.helper.searchWords(word)
         .then(response => {
-          console.log(response)
+          this.search.words = response
         }).catch(error => {
           this.$message({
             message: '查询单词失败: ' + error,
