@@ -63,7 +63,11 @@
     </el-dialog>
     <el-main class="center-container">
       <div v-show="show.morpheme" class="morpheme-panel">
+        <el-input v-model="morphemeStatics" readonly class="class-back" />
         <el-form ref="form" :model="pair.morphemeStudy" label-width="80px">
+          <el-form-item v-if="search.mode" label="查询">
+            <el-input v-model="search.morphemeText" class="white-label" />
+          </el-form-item>
           <el-form-item label="词根">
             <el-input v-model="pair.morphemeStudy.text" readonly class="class-title" @dblclick.native="onDbClick" />
           </el-form-item>
@@ -97,7 +101,11 @@
         @swipeup="mode += 1"
         @swipedown="mode -= 1"
       >
+        <el-input v-model="wordStatics" readonly class="class-back" />
         <el-form ref="form" :model="pair.word" label-width="60px">
+          <el-form-item v-if="search.mode" label="查询">
+            <el-input v-model="search.wordText" class="white-label" />
+          </el-form-item>
           <el-form-item label="单词">
             <el-col :span="8">
               <el-input v-show="show.word" v-model="pair.word.text" readonly class="class-title" @dblclick.native="onDbClick" />
@@ -185,8 +193,13 @@
         </el-select>
       </div>
       <div class="button-panel">
+        <el-switch
+          v-model="search.mode"
+          active-text="查询模式"
+          inactive-text="学习模式"
+        />
         <el-button type="success" @click="reviewMorpheme">词根(M)</el-button>
-        <el-button type="warning" @click="reviewWord">单词(W</el-button>
+        <el-button type="warning" @click="reviewWord">单词(W)</el-button>
         <el-button type="primary" @click="review">新学(N)</el-button>
         <el-button type="info" :disabled="isFirst" @click="showPrevious">←</el-button>
         <el-button type="info" :disabled="isLast" @click="showNext">→</el-button>

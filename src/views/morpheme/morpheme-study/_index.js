@@ -9,6 +9,25 @@ export default {
   components: { MyForm },
   data() {
     return {
+      statics: {
+        morphemeNew: 0,
+        morphemeOld: 0,
+        morphemeSimple: 0,
+        morphemeConfuse: 0,
+        morphemeForget: 0,
+        wordNew: 0,
+        wordOld: 0,
+        wordSimple: 0,
+        wordConfuse: 0,
+        wordForget: 0
+      },
+      search: {
+        mode: false,
+        morphemeText: '',
+        morpheme: {},
+        wordText: '',
+        word: {}
+      },
       uuid: 0,
       mode: 7,
       helper: null,
@@ -142,6 +161,26 @@ export default {
         const title = this.todayData.date + '  词根：(' + (this.study.morphemeIndex + 1) + ' / ' + this.todayData.morphemes.length + ')  单词：(' + (this.study.wordIndex + 1) + ' / ' + this.todayData.words.length + ')'
         return title
       }
+    },
+    morphemeStatics: {
+      get() {
+        const text = '新学(' + this.statics.morphemeNew +
+          ') 复习(' + this.statics.morphemeOld + ')' +
+          ') - 简单(' + this.statics.morphemeSimple + ')' +
+          ') 混淆(' + this.statics.morphemeConfuse + ')' +
+          ') 忘记(' + this.statics.morphemeForget + ')'
+        return text
+      }
+    },
+    wordStatics: {
+      get() {
+        const text = '新学(' + this.statics.wordNew +
+          ') 复习(' + this.statics.wordOld + ')' +
+          ') - 简单(' + this.statics.wordSimple + ')' +
+          ') 混淆(' + this.statics.wordConfuse + ')' +
+          ') 忘记(' + this.statics.wordForget + ')'
+        return text
+      }
     }
   },
 
@@ -262,13 +301,14 @@ export default {
     this.helper = new Morpheme()
     this.helper.uuid()
       .then(response => {
-        this.uuid = response
+        this.statics = response
       }).catch(error => {
         this.$message({
-          message: '取得用户ID失败: ' + error,
+          message: '取得用户统计: ' + error,
           type: 'fail'
         })
       })
+    this.getTodayStatics()
     this.showCurrent()
   },
 
@@ -298,6 +338,18 @@ export default {
           console.error(error)
         })
     },
+    getTodayStatics() {
+      this.helper.getTodayStatics()
+        .then(response => {
+          this.statics = response
+          console.log(this.statics)
+        }).catch(error => {
+          this.$message({
+            message: '取得用户日统计失败: ' + error,
+            type: 'fail'
+          })
+        })
+    },
     getVoices() {
       this.voices = speechSynthesis.getVoices()
     },
@@ -313,6 +365,7 @@ export default {
       this.helper.current()
         .then(response => {
           this.pair = response
+          this.getTodayStatics()
         }).catch(error => {
           this.$message({
             message: '取得数据失败: ' + error,
@@ -329,6 +382,7 @@ export default {
           this.isFirst = false
           this.meaningIndex = 0
           this.exampleIndex = 0
+          this.getTodayStatics()
         }).catch(error => {
           this.$message({
             message: '取得数据失败: ' + error,
@@ -345,6 +399,7 @@ export default {
           this.isLast = false
           this.meaningIndex = 0
           this.exampleIndex = 0
+          this.getTodayStatics()
         }).catch(error => {
           this.$message({
             message: '取得数据失败: ' + error,
@@ -439,6 +494,7 @@ export default {
         }
         this.helper.reviewMorpheme(event.morphemeId, type)
           .then(response => {
+            this.getTodayStatics()
             this.$message({
               message: type === 1 ? '简单' : type === 2 ? '模糊' : '不记得',
               type: type === 1 ? 'success' : type === 2 ? 'warning' : 'error'
@@ -454,6 +510,7 @@ export default {
         }
         this.helper.reviewWord(event.wordId, type)
           .then(response => {
+            this.getTodayStatics()
             this.$message({
               message: type === 1 ? '简单' : type === 2 ? '模糊' : '不记得',
               type: type === 1 ? 'success' : type === 2 ? 'warning' : 'error'
@@ -465,6 +522,7 @@ export default {
 
       this.study.index += 1
       this.showView()
+      this.getTodayStatics()
     },
 
     showView() {

@@ -130,5 +130,12 @@ export class Morpheme {
       method: 'get'
     })
   }
+
+  getTodayStatics() {
+    return request({
+      url: this.url + '/api/morpheme-study/user-statics-today/',
+      method: 'get'
+    })
+  }
 }
 
