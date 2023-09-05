@@ -59,14 +59,14 @@ export class Morpheme {
 
   transferWord(word) {
     return request({
-      url: this.url + '/api/word/transfer-words/' + word,
+      url: '/api/word/transfer-words/' + word,
       method: 'get'
     })
   }
 
   getNewMorphemes() {
     return request({
-      url: this.url + '/api/morpheme-study/morpheme-today/',
+      url: '/api/morpheme-study/morpheme-today/',
       method: 'get'
     })
   }
