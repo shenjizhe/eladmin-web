@@ -577,6 +577,30 @@ export default {
         })
     },
 
+    searchMorpheme(morpheme) {
+      this.helper.searchMorphemes(morpheme)
+        .then(response => {
+          console.log(response)
+        }).catch(error => {
+          this.$message({
+            message: '查询词根失败: ' + error,
+            type: 'fail'
+          })
+        })
+    },
+
+    searchWord(word) {
+      this.helper.searchWords(word)
+        .then(response => {
+          console.log(response)
+        }).catch(error => {
+          this.$message({
+            message: '查询单词失败: ' + error,
+            type: 'fail'
+          })
+        })
+    },
+
     getDetectionType(index) {
       switch (index) {
         case 0: return ''

@@ -1,14 +1,10 @@
 import request from '@/utils/request'
 
 export class Morpheme {
-  constructor() {
-    this.url = ''
-  }
-
   version() {
     console.log('current version')
     return request({
-      url: this.url + '/api/system/version',
+      url: '/api/system/version',
       method: 'get'
     })
   }
@@ -16,7 +12,7 @@ export class Morpheme {
   uuid() {
     console.log('current uuid')
     return request({
-      url: this.url + '/api/system/uuid',
+      url: '/api/system/uuid',
       method: 'get'
     })
   }
@@ -24,7 +20,7 @@ export class Morpheme {
   current() {
     console.log('current morpheme')
     return request({
-      url: this.url + '/api/morpheme-study/morpheme-current',
+      url: '/api/morpheme-study/morpheme-current',
       method: 'get'
     })
   }
@@ -32,7 +28,7 @@ export class Morpheme {
   next() {
     console.log('next morpheme')
     return request({
-      url: this.url + '/api/morpheme-study/morpheme-next',
+      url: '/api/morpheme-study/morpheme-next',
       method: 'get'
     })
   }
@@ -40,7 +36,7 @@ export class Morpheme {
   previous() {
     console.log('previous morpheme')
     return request({
-      url: this.url + '/api/morpheme-study/morpheme-previous',
+      url: '/api/morpheme-study/morpheme-previous',
       method: 'get'
     })
   }
@@ -56,7 +52,7 @@ export class Morpheme {
   isLast() {
     console.log('check is last')
     return request({
-      url: this.url + '/api/morpheme-study/is-last',
+      url: '/api/morpheme-study/is-last',
       method: 'get'
     })
   }
@@ -77,63 +73,56 @@ export class Morpheme {
 
   getNewWords() {
     return request({
-      url: this.url + '/api/morpheme-study/word-today/',
+      url: '/api/morpheme-study/word-today/',
       method: 'get'
     })
   }
 
   getNewDatas() {
     return request({
-      url: this.url + '/api/morpheme-study/study-today/',
+      url: '/api/morpheme-study/study-today/',
       method: 'get'
     })
   }
 
   needReviewMorphemes() {
     return request({
-      url: this.url + '/api/morpheme-study/review-morphemes/',
+      url: '/api/morpheme-study/review-morphemes/',
       method: 'get'
     })
   }
 
   needReviewWords() {
     return request({
-      url: this.url + '/api/morpheme-study/review-words/',
+      url: '/api/morpheme-study/review-words/',
       method: 'get'
     })
   }
 
   reviewMorpheme(morphemeId, eventType) {
     return request({
-      url: this.url + '/api/morpheme-study/review-morphemes/' + morphemeId + '/' + eventType,
+      url: '/api/morpheme-study/review-morphemes/' + morphemeId + '/' + eventType,
       method: 'post'
     })
   }
 
   reviewWord(wordId, eventType) {
     return request({
-      url: this.url + '/api/morpheme-study/review-words/' + wordId + '/' + eventType,
+      url: '/api/morpheme-study/review-words/' + wordId + '/' + eventType,
       method: 'post'
     })
   }
 
-  searchWors(text) {
+  searchWords(text) {
     return request({
-      url: this.url + '/api/morpheme-study/search-words?text=' + text,
+      url: '/api/morpheme-study/search-words/?text=' + text,
       method: 'get'
     })
   }
 
   searchMorphemes(text) {
     return request({
-      url: this.url + '/api/morpheme-study/search-morphemes?text=' + text,
-      method: 'get'
-    })
-  }
-
-  getTodayStatics() {
-    return request({
-      url: this.url + '/api/morpheme-study/user-statics-today/',
+      url: '/api/morpheme-study/search-morphemes/?text=' + text,
       method: 'get'
     })
   }
