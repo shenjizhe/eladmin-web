@@ -87,20 +87,20 @@
           </el-form-item>
           <el-form-item v-show="show.morphemeMeaning" label="含义" label-class="white-label">
             <el-col :span="12">
-              <el-input v-model="pair.morphemeStudy.meaningEnglish" readonly class="class-main" @dblclick.native="onDbClick" />
+              <el-input v-model="modeMorpheme.meaningEnglish" readonly class="class-main" @dblclick.native="onDbClick" />
             </el-col>
             <el-col :span="12">
-              <el-input v-model="pair.morphemeStudy.meaningChinese" readonly class="class-info" />
+              <el-input v-model="modeMorpheme.meaningChinese" readonly class="class-info" />
             </el-col>
           </el-form-item>
-          <el-form-item v-for="item in pair.morphemeStudy.items" v-show="show.morphemeInfo" :key="item.id">
+          <el-form-item v-for="item in modeMorpheme.items" v-show="show.morphemeInfo" :key="item.id">
             <span slot="label">
               <span style="color: rgb(241,96,238)">{{ item.text }}</span>
             </span>
             <el-input v-model="item.source" readonly class="class-info" />
           </el-form-item>
           <el-form-item v-show="show.morphemeInfo" label="词源" label-class="white-label">
-            <el-input v-model="pair.morphemeStudy.description" type="textarea" readonly rows="7" class="class-meaning" @dblclick.native="onDbClick" />
+            <el-input v-model="modeMorpheme.description" type="textarea" readonly rows="7" class="class-meaning" @dblclick.native="onDbClick" />
           </el-form-item>
         </el-form>
         <el-checkbox v-model="show.morpheme">词根</el-checkbox>
@@ -136,19 +136,19 @@
           </el-form-item>
           <el-form-item label="单词">
             <el-col :span="8">
-              <el-input v-show="show.word" v-model="pair.word.text" readonly class="class-title" @dblclick.native="onDbClick" />
+              <el-input v-show="show.word" v-model="modeWord.text" readonly class="class-title" @dblclick.native="onDbClick" />
             </el-col>
             <el-col :span="6">
-              <el-input v-show="show.sound" v-model="pair.word.phonetic" readonly class="class-tool" />
+              <el-input v-show="show.sound" v-model="modeWord.phonetic" readonly class="class-tool" />
             </el-col>
             <el-col :span="4">
-              <el-input v-show="show.sound" v-model="pair.word.nature" readonly class="class-info" />
+              <el-input v-show="show.sound" v-model="modeWord.nature" readonly class="class-info" />
             </el-col>
             <el-col :span="6">
-              <el-button type="success" icon="el-icon-video-play" @click="speakText(pair.word.text)">开始朗读(Enter)</el-button>
+              <el-button type="success" icon="el-icon-video-play" @click="speakText(modeWord.text)">开始朗读(Enter)</el-button>
             </el-col>
           </el-form-item>
-          <el-form-item v-for="(item,index) in pair.word.deductions" v-show="show.deduct" :key="item.id">
+          <el-form-item v-for="(item,index) in modeWord.deductions" v-show="show.deduct" :key="item.id">
             <span slot="label">
               <span>
                 <el-tag :type="getDetectionType(index)">{{ index }}</el-tag>
@@ -169,10 +169,10 @@
           </el-form-item>
           <el-form-item v-show="show.deductInfo" label="推导">
             <el-col :span="24">
-              <el-input v-model="pair.word.deduction" type="textarea" readonly class="class-example" @dblclick.native="onDbClick" />
+              <el-input v-model="modeWord.deduction" type="textarea" readonly class="class-example" @dblclick.native="onDbClick" />
             </el-col>
           </el-form-item>
-          <el-form-item v-for="(item,index) in pair.word.meanings" v-show="show.meaning" :key="item.id">
+          <el-form-item v-for="(item,index) in modeWord.meanings" v-show="show.meaning" :key="item.id">
             <span slot="label">
               <span>
                 <el-tag :type="getDetectionType(index)">{{ item.nature }}</el-tag>

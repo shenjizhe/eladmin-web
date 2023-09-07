@@ -166,7 +166,11 @@ export default {
     },
     modeWord: {
       get() {
-        return this.pair.word
+        if (this.search.mode) {
+          return this.search.word.current
+        } else {
+          return this.pair.word
+        }
       }
     },
     wordSound: {
