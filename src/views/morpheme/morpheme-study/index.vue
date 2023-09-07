@@ -72,18 +72,18 @@
               </el-input>
             </el-col>
             <el-col :span="12">
-              <el-select v-model="search.morphemeId" placeholder="请选择">
+              <el-select v-model="search.morpheme.current" placeholder="请选择">
                 <el-option
-                  v-for="m in search.morphemes"
-                  :key="m.id"
-                  :label="m.text"
-                  :value="m.id"
+                  v-for="item in search.morpheme.items"
+                  :key="item.id"
+                  :label="item.text"
+                  :value="item"
                 />
               </el-select>
             </el-col>
           </el-form-item>
           <el-form-item label="词根">
-            <el-input v-model="pair.morphemeStudy.text" readonly class="class-title" @dblclick.native="onDbClick" />
+            <el-input v-model="modeMorpheme.text" readonly class="class-title" @dblclick.native="onDbClick" />
           </el-form-item>
           <el-form-item v-show="show.morphemeMeaning" label="含义" label-class="white-label">
             <el-col :span="12">
@@ -118,9 +118,21 @@
         <el-input v-model="wordStatics" readonly class="class-back" />
         <el-form ref="form" :model="pair.word" label-width="60px">
           <el-form-item v-if="search.mode" label="查询">
-            <el-input v-model="search.wordText" class="white-label">
-              <el-button slot="append" icon="el-icon-search" @click="searchWord(search.wordText)" />
-            </el-input>
+            <el-col :span="12">
+              <el-input v-model="search.word.text" class="white-label">
+                <el-button slot="append" icon="el-icon-search" @click="searchWord(search.word.text)" />
+              </el-input>
+            </el-col>
+            <el-col :span="12">
+              <el-select v-model="search.word.current" placeholder="请选择">
+                <el-option
+                  v-for="item in search.word.items"
+                  :key="item.id"
+                  :label="item.text"
+                  :value="item"
+                />
+              </el-select>
+            </el-col>
           </el-form-item>
           <el-form-item label="单词">
             <el-col :span="8">

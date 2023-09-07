@@ -1,4 +1,3 @@
-import MyForm from '@/components/MyForm'
 import { Morpheme } from '@/api/morpheme/Morpheme'
 import { add as eventAdd } from '@/api/studyEvent'
 import screenfull from 'screenfull'
@@ -6,7 +5,7 @@ import screenfull from 'screenfull'
 export default {
   name: 'MorphemeStudyComponent',
   props: {},
-  components: { MyForm },
+  components: { },
   data() {
     return {
       statics: {
@@ -23,12 +22,16 @@ export default {
       },
       search: {
         mode: false,
-        morphemeText: '',
-        morphemes: [],
-        morphemeId: null,
-        wordText: '',
-        words: [],
-        wordId: null
+        word: {
+          items: [],
+          text: '',
+          current: {}
+        },
+        morpheme: {
+          items: [],
+          text: '',
+          current: {}
+        }
       },
       uuid: 0,
       mode: 7,
@@ -152,6 +155,20 @@ export default {
   },
 
   computed: {
+    modeMorpheme: {
+      get() {
+        if (this.search.mode) {
+          return this.search.morpheme.current
+        } else {
+          return this.pair.morphemeStudy
+        }
+      }
+    },
+    modeWord: {
+      get() {
+        return this.pair.word
+      }
+    },
     wordSound: {
       get() {
         const sound = './sounds/' + this.pair.word.text + '.mpga'
@@ -584,9 +601,11 @@ export default {
     },
 
     searchMorpheme(morpheme) {
+      console.log('search:', morpheme)
       this.helper.searchMorphemes(morpheme)
         .then(response => {
-          this.search.morphemes = response
+          console.log(response)
+          this.search.morpheme.items = response
         }).catch(error => {
           this.$message({
             message: '查询词根失败: ' + error,
@@ -598,7 +617,7 @@ export default {
     searchWord(word) {
       this.helper.searchWords(word)
         .then(response => {
-          this.search.words = response
+          this.search.word.items = response
         }).catch(error => {
           this.$message({
             message: '查询单词失败: ' + error,
@@ -609,11 +628,16 @@ export default {
 
     getDetectionType(index) {
       switch (index) {
-        case 0: return ''
-        case 1: return 'success'
-        case 2: return 'danger'
-        case 3: return 'info'
-        default: return 'warning'
+        case 0:
+          return ''
+        case 1:
+          return 'success'
+        case 2:
+          return 'danger'
+        case 3:
+          return 'info'
+        default:
+          return 'warning'
       }
     },
 
