@@ -118,10 +118,13 @@
         <el-input v-model="wordStatics" readonly class="class-back" />
         <el-form ref="form" :model="pair.word" label-width="60px">
           <el-form-item v-if="search.mode" label="查询">
-            <el-col :span="12">
+            <el-col :span="9">
               <el-input v-model="search.word.text" class="white-label">
                 <el-button slot="append" icon="el-icon-search" @click="searchWord(search.word.text)" />
               </el-input>
+            </el-col>
+            <el-col :span="3">
+              <el-button type="info" @click="searchWordByMorphemeId(search.morpheme.current.id)">词根查询</el-button>
             </el-col>
             <el-col :span="12">
               <el-select v-model="search.word.current" placeholder="请选择">
@@ -223,8 +226,8 @@
       <div class="button-panel">
         <el-switch
           v-model="search.mode"
-          active-text="查询模式"
-          inactive-text="学习模式"
+          active-text="查询模式(S)"
+          inactive-text="学习模式(S)"
         />
         <el-button type="success" @click="reviewMorpheme">词根(M)</el-button>
         <el-button type="warning" @click="reviewWord">单词(W)</el-button>

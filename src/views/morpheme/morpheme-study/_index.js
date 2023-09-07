@@ -1,11 +1,10 @@
 import { Morpheme } from '@/api/morpheme/Morpheme'
 import { add as eventAdd } from '@/api/studyEvent'
-import screenfull from 'screenfull'
 
 export default {
   name: 'MorphemeStudyComponent',
   props: {},
-  components: { },
+  components: {},
   data() {
     return {
       statics: {
@@ -630,6 +629,18 @@ export default {
         })
     },
 
+    searchWordByMorphemeId(morphemeId) {
+      this.helper.searchWordByMorphemeId(morphemeId)
+        .then(response => {
+          this.search.word.items = response
+        }).catch(error => {
+          this.$message({
+            message: '查询单词失败: ' + error,
+            type: 'fail'
+          })
+        })
+    },
+
     getDetectionType(index) {
       switch (index) {
         case 0:
@@ -708,8 +719,8 @@ export default {
           this.reviewWord()
         } else if (event.altKey && event.key === 'm') {
           this.reviewMorpheme()
-        } else if (event.key === 'F8') {
-          screenfull.toggle()
+        } else if (event.altKey && event.key === 's') {
+          this.search.mode = !this.search.mode
         } else {
           if (parseInt(event.key) !== 'NaN') {
             const number = parseInt(event.key)

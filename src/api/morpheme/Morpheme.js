@@ -119,6 +119,12 @@ export class Morpheme {
       method: 'get'
     })
   }
+  searchWordByMorphemeId(morphemeId) {
+    return request({
+      url: '/api/morpheme-study/search-word-by-morpheme/' + morphemeId,
+      method: 'get'
+    })
+  }
 
   searchMorphemes(text) {
     return request({
