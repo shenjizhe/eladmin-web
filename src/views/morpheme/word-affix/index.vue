@@ -13,15 +13,6 @@
           <el-form-item label="类型(1前缀,2后缀)" prop="affix">
             <el-input v-model="form.affix" style="width: 95%;" />
           </el-form-item>
-          <el-form-item label="变形类型（0-原型，1-异形,2-省略）" prop="shape">
-            <el-input v-model="form.shape" style="width: 95%;" />
-          </el-form-item>
-          <el-form-item label="词性" prop="nature">
-            <el-input v-model="form.nature" style="width: 95%;" />
-          </el-form-item>
-          <el-form-item label="是否是派生词素(0-不是派生词 1-是派生词)">
-            <el-input v-model="form.isDerive" style="width: 95%;" />
-          </el-form-item>
           <el-form-item label="中文含义" prop="meaningChinese">
             <el-input v-model="form.meaningChinese" style="width: 95%;" />
           </el-form-item>
@@ -40,9 +31,6 @@
         <el-table-column prop="id" label="主键" />
         <el-table-column prop="text" label="词缀文本" />
         <el-table-column prop="affix" label="类型(1前缀,2后缀)" />
-        <el-table-column prop="shape" label="变形类型（0-原型，1-异形,2-省略）" />
-        <el-table-column prop="nature" label="词性" />
-        <el-table-column prop="isDerive" label="是否是派生词素(0-不是派生词 1-是派生词)" />
         <el-table-column prop="meaningChinese" label="中文含义" />
         <el-table-column prop="meaningEnglish" label="英文含义（to lean）" />
         <el-table-column v-if="checkPer(['admin','wordAffix:edit','wordAffix:del'])" label="操作" width="150px" align="center">
@@ -68,7 +56,7 @@ import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 
-const defaultForm = { id: null, text: null, affix: null, shape: null, nature: null, isDerive: null, meaningChinese: null, meaningEnglish: null }
+const defaultForm = { id: null, text: null, affix: null, meaningChinese: null, meaningEnglish: null }
 export default {
   name: 'WordAffix',
   components: { pagination, crudOperation, rrOperation, udOperation },
@@ -92,12 +80,6 @@ export default {
         ],
         affix: [
           { required: true, message: '类型(1前缀,2后缀)不能为空', trigger: 'blur' }
-        ],
-        shape: [
-          { required: true, message: '变形类型（0-原型，1-异形,2-省略）不能为空', trigger: 'blur' }
-        ],
-        nature: [
-          { required: true, message: '词性不能为空', trigger: 'blur' }
         ],
         meaningChinese: [
           { required: true, message: '中文含义不能为空', trigger: 'blur' }

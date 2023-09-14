@@ -164,7 +164,7 @@
               <el-input v-show="show.deductInfo" v-model="item.meaningChinese" readonly class="class-info" />
             </el-col>
             <el-col :span="6">
-              <el-input v-show="show.deductInfo" v-model="item.sourceText" readonly class="class-tip" @dblclick.native="onDbClick" />
+              <el-input v-show="show.deductInfo" v-model="item.meaningEnglish" readonly class="class-tip" @dblclick.native="onDbClick" />
             </el-col>
             <el-col :span="4">
               <el-button type="info" icon="el-icon-video-play" @click="speakText(item.sourceText)">读音</el-button>
@@ -234,6 +234,7 @@
         <el-button type="primary" @click="review">新学(N)</el-button>
         <el-button type="info" :disabled="isFirst" @click="showPrevious">←</el-button>
         <el-button type="info" :disabled="isLast" @click="showNext">→</el-button>
+        <a href="https://www.quword.com/root/" target="_blank" style="color: #00a0e9">词根字典</a>
       </div>
     </el-footer>
   </el-container>

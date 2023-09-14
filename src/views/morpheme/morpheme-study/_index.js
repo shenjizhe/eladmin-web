@@ -7,6 +7,7 @@ export default {
   components: {},
   data() {
     return {
+      url: 'https://www.quword.com/root/',
       statics: {
         morphemeNew: 0,
         morphemeOld: 0,
