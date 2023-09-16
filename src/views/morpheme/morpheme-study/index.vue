@@ -1,18 +1,29 @@
 <template>
   <el-container class="study-container">
     <el-dialog :title="studyTitle" :visible.sync="show.review" class="dialog-class">
-      <div v-if="study.isMorpheme">
+      <div v-if="study.type === 1">
         <el-col :span="10">
           <el-input v-model="study.morpheme.text" :span="12" />
         </el-col>
         <el-col :span="4">
           <el-button type="success" :span="12" @click="show.morphemeAnswer = !show.morphemeAnswer">&lt;显示</el-button>
         </el-col>
-        <el-col :span="10">
-          <el-input v-if="show.morphemeAnswer" v-model="study.morpheme.meaningChinese" :span="12" />
-        </el-col>
+        <el-input v-if="show.morphemeAnswer" v-model="study.morpheme.meaningChinese" class="class-info" />
+        <el-input v-if="show.morphemeAnswer" v-model="study.morpheme.meaningEnglish" />
       </div>
-      <div v-if="!study.isMorpheme">
+      <div v-if="study.type === 2">
+        <el-row>
+          <el-col :span="4">
+            <el-input v-model="study.affix.text" :span="12" />
+          </el-col>
+          <el-col :span="4">
+            <el-button type="success" :span="12" @click="show.affixAnswer = !show.affixAnswer">&lt;显示</el-button>
+          </el-col>
+        </el-row>
+        <el-input v-if="show.affixAnswer" v-model="study.affix.meaningChinese" class="class-info" />
+        <el-input v-if="show.affixAnswer" v-model="study.affix.meaningEnglish" />
+      </div>
+      <div v-if="study.type === 3">
         <el-row>
           <el-col :span="15">
             <el-input v-model="study.word.text" :span="12" />

@@ -18,7 +18,12 @@ export default {
         wordOld: 0,
         wordSimple: 0,
         wordConfuse: 0,
-        wordForget: 0
+        wordForget: 0,
+        affixNew: 0,
+        affixOld: 0,
+        affixSimple: 0,
+        affixConfuse: 0,
+        affixForget: 0
       },
       search: {
         mode: false,
@@ -31,6 +36,11 @@ export default {
           items: [],
           text: '',
           current: {}
+        },
+        affix: {
+          items: [],
+          text: '',
+          current: {}
         }
       },
       uuid: 0,
@@ -39,9 +49,11 @@ export default {
       study: {
         index: 0,
         morphemeIndex: 0,
+        affixIndex: 0,
         wordIndex: 0,
-        isMorpheme: true,
+        type: 0, // 0-unknown ,1-morpheme 2-affix 3-word
         word: {},
+        affix: {},
         morpheme: {}
       },
       todayData: {
@@ -52,6 +64,7 @@ export default {
       },
       todayWords: [],
       todayMorpheme: [],
+      todayAffix: [],
       meaningIndex: 0,
       exampleIndex: 0,
       permission: {
@@ -92,6 +105,7 @@ export default {
       show: {
         review: false,
         morphemeAnswer: false,
+        affixAnswer: false,
         wordAnswer: false,
         deductAnswer: false,
         morpheme: true,
@@ -182,7 +196,10 @@ export default {
     },
     studyTitle: {
       get() {
-        const title = this.todayData.date + '  词根：(' + (this.study.morphemeIndex + 1) + ' / ' + this.todayData.morphemes.length + ')  单词：(' + (this.study.wordIndex + 1) + ' / ' + this.todayData.words.length + ')'
+        const title = this.todayData.date +
+          '  词根：(' + (this.study.morphemeIndex + 1) + ' / ' + this.todayData.morphemes.length +
+          ')  词缀：(' + (this.study.affixIndex + 1) + ' / ' + (this.todayData.affixes != null ? this.todayData.affixes.length : 0) +
+          ')  单词：(' + (this.study.wordIndex + 1) + ' / ' + this.todayData.words.length + ')'
         return title
       }
     },
@@ -203,6 +220,16 @@ export default {
           ') - 简单(' + this.statics.wordSimple + ')' +
           ') 混淆(' + this.statics.wordConfuse + ')' +
           ') 忘记(' + this.statics.wordForget + ')'
+        return text
+      }
+    },
+    affixStatics: {
+      get() {
+        const text = '新学(' + this.statics.affixNew +
+          ') 复习(' + this.statics.affixOld + ')' +
+          ') - 简单(' + this.statics.affixSimple + ')' +
+          ') 混淆(' + this.statics.affixConfuse + ')' +
+          ') 忘记(' + this.statics.affixForget + ')'
         return text
       }
     }
@@ -434,6 +461,7 @@ export default {
     reset() {
       this.study.index = 0
       this.study.morphemeIndex = 0
+      this.study.affixIndex = 0
       this.study.wordIndex = 0
     },
     review() {
@@ -458,12 +486,17 @@ export default {
         })
     },
     checkEmpty() {
-      return this.todayData.words.length === 0 && this.todayData.morphemes.length === 0 && this.todayData.affixes.length === 0
+      let affixLength = 0
+      if (this.todayData.affixes != null) {
+        affixLength = this.todayData.affixes.length
+      }
+      return this.todayData.words.length === 0 && this.todayData.morphemes.length === 0 && affixLength === 0
     },
     reviewMorpheme() {
       this.helper.needReviewMorphemes()
         .then(response => {
           this.todayData.morphemes = response
+          console.log(response)
           this.todayData.affixes = []
           this.todayData.words = []
           if (!this.checkEmpty()) {
@@ -513,6 +546,7 @@ export default {
       this.helper.needReviewWords()
         .then(response => {
           this.todayData.words = response
+          console.log(response)
           this.todayData.affixes = []
           this.todayData.morphemes = []
           if (!this.checkEmpty()) {
@@ -535,7 +569,7 @@ export default {
 
     saveReview(type) {
       let event = {}
-      if (this.study.isMorpheme) {
+      if (this.study.type === 1) {
         event = {
           uid: this.uuid,
           time: new Date(),
@@ -551,7 +585,23 @@ export default {
             })
             this.getTodayStatics()
           })
-      } else {
+      } else if (this.study.type === 2) {
+        event = {
+          uid: this.uuid,
+          time: new Date(),
+          event: 'review',
+          content: type,
+          affixId: this.study.affix.id
+        }
+        this.helper.reviewAffix(event.affixId, type)
+          .then(response => {
+            this.$message({
+              message: type === 1 ? '简单' : type === 2 ? '模糊' : '不记得',
+              type: type === 1 ? 'success' : type === 2 ? 'warning' : 'error'
+            })
+            this.getTodayStatics()
+          })
+      } else if (this.study.type === 3) {
         event = {
           uid: this.uuid,
           time: new Date(),
@@ -577,29 +627,39 @@ export default {
     showView() {
       this.show.morphemeAnswer = false
       this.show.wordAnswer = false
+      this.show.affixAnswer = false
       this.show.deductAnswer = false
       const ml = this.todayData.morphemes.length
       const wl = this.todayData.words.length
+      const al = this.todayData.affixes.length
       const total = ml + wl
-      console.log(ml, wl, total, this.study.index)
 
-      if (this.study.index < ml) {
-        this.study.isMorpheme = true
-        this.study.morphemeIndex = this.study.index
-        this.study.morpheme = this.todayData.morphemes[this.study.morphemeIndex]
-        console.log('morpheme:', this.study.morpheme)
-      } else if (this.study.index < total) {
-        this.study.isMorpheme = false
-        this.study.wordIndex = this.study.index - ml
-        this.study.word = this.todayData.words[this.study.wordIndex]
-        console.log('word:', this.study.word)
+      console.log(al, ml, wl)
+
+      if (al > 0) {
+        this.study.type = 2
+        this.study.affixIndex = this.study.index
+        this.study.affix = this.todayData.affixes[this.study.affixIndex]
+        console.log('affix:', this.study.affix)
       } else {
-        console.log('out...')
-        this.show.review = false
-        this.study.isMorpheme = true
-        this.study.index = 0
-        this.study.wordIndex = 0
-        this.study.morphemeIndex = 0
+        if (this.study.index < ml) {
+          this.study.type = 1
+          this.study.morphemeIndex = this.study.index
+          this.study.morpheme = this.todayData.morphemes[this.study.morphemeIndex]
+          console.log('morpheme:', this.study.morpheme)
+        } else if (this.study.index < total) {
+          this.study.type = 3
+          this.study.wordIndex = this.study.index - ml
+          this.study.word = this.todayData.words[this.study.wordIndex]
+          console.log('word:', this.study.word)
+        } else {
+          console.log('out...')
+          this.show.review = false
+          this.study.index = 0
+          this.study.wordIndex = 0
+          this.study.morphemeIndex = 0
+          this.study.affixIndex = 0
+        }
       }
     },
 
@@ -689,7 +749,7 @@ export default {
       console.log(event)
       const meanings = this.pair.word.meanings
       if (this.show.review) {
-        if (!this.study.isMorpheme) {
+        if (!this.study.type === 1) {
           if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
             this.speakText(this.study.word.text)
           } else if (event.key === 'ArrowRight') {
