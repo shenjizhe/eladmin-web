@@ -138,5 +138,19 @@ export class Morpheme {
       method: 'get'
     })
   }
+
+  needReviewAffixes() {
+    return request({
+      url: '/api/morpheme-study/review-affixes/',
+      method: 'get'
+    })
+  }
+
+  reviewAffix(affixId, eventType) {
+    return request({
+      url: '/api/morpheme-study/review-affixes/' + affixId + '/' + eventType,
+      method: 'post'
+    })
+  }
 }
 
