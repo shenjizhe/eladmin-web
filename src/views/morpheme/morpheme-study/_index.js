@@ -47,6 +47,7 @@ export default {
       todayData: {
         date: '',
         morphemes: [],
+        affixes: [],
         words: []
       },
       todayWords: [],
@@ -457,12 +458,13 @@ export default {
         })
     },
     checkEmpty() {
-      return this.todayData.words.length === 0 && this.todayData.morphemes.length === 0
+      return this.todayData.words.length === 0 && this.todayData.morphemes.length === 0 && this.todayData.affixes.length === 0
     },
     reviewMorpheme() {
       this.helper.needReviewMorphemes()
         .then(response => {
           this.todayData.morphemes = response
+          this.todayData.affixes = []
           this.todayData.words = []
           if (!this.checkEmpty()) {
             this.reset()
@@ -482,10 +484,36 @@ export default {
         })
     },
 
+    reviewAffix() {
+      this.helper.needReviewAffixes()
+        .then(response => {
+          this.todayData.affixes = response
+          console.log(response)
+          this.todayData.morphemes = []
+          this.todayData.words = []
+          if (!this.checkEmpty()) {
+            this.reset()
+            this.showView()
+            this.show.review = true
+          } else {
+            this.$message({
+              message: '不需要复习',
+              type: 'warning'
+            })
+          }
+        }).catch(error => {
+          this.$message({
+            message: '取得当天词缀失败: ' + error,
+            type: 'fail'
+          })
+        })
+    },
+
     reviewWord() {
       this.helper.needReviewWords()
         .then(response => {
           this.todayData.words = response
+          this.todayData.affixes = []
           this.todayData.morphemes = []
           if (!this.checkEmpty()) {
             this.reset()
