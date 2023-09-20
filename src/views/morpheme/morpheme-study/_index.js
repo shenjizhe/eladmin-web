@@ -850,6 +850,8 @@ export default {
           this.reviewMorpheme()
         } else if (event.altKey && event.key === 's') {
           this.search.mode = !this.search.mode
+        } else if (event.altKey && event.key === 'f') {
+          this.reviewAffix()
         } else {
           if (parseInt(event.key) !== 'NaN') {
             const number = parseInt(event.key)

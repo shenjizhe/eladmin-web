@@ -258,7 +258,7 @@
           inactive-text="学习模式(S)"
         />
         <el-button type="success" @click="reviewMorpheme">词根(M)</el-button>
-        <el-button type="warning" @click="reviewAffix">词缀(A)</el-button>
+        <el-button type="warning" @click="reviewAffix">词缀(F)</el-button>
         <el-button type="primary" @click="reviewWord">单词(W)</el-button>
         <el-button type="danger" @click="review">新学(N)</el-button>
         <el-button type="info" :disabled="isFirst" @click="showPrevious">←</el-button>
