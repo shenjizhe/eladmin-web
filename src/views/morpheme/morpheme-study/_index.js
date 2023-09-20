@@ -779,7 +779,7 @@ export default {
       console.log(event)
       const meanings = this.pair.word.meanings
       if (this.show.review) {
-        if (!this.study.type === 1) {
+        if (this.study.type === 3) {
           if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
             this.speakText(this.study.word.text)
           } else if (event.key === 'ArrowRight') {
@@ -787,9 +787,19 @@ export default {
           } else if (event.key === 'ArrowLeft') {
             this.show.wordAnswer = !this.show.wordAnswer
           }
-        } else {
+        } else if (this.study.type === 1) {
           if (event.key === 'ArrowLeft') {
             this.show.morphemeAnswer = !this.show.morphemeAnswer
+          }
+        } else if (this.study.type === 2) {
+          if (event.key === 'ArrowUp') {
+            this.speakText(this.study.affix.text)
+          } else if (event.key === 'ArrowLeft') {
+            this.show.affixAnswer = !this.show.affixAnswer
+          } else if (event.key === 'ArrowRight') {
+            this.getExample(this.study.affix.id)
+          } else if (event.key === 'ArrowDown') {
+            this.speakText(this.study.affixExample.text)
           }
         }
         if (event.key === '1') {
