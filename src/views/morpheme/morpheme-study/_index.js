@@ -54,7 +54,10 @@ export default {
         type: 0, // 0-unknown ,1-morpheme 2-affix 3-word
         word: {},
         affix: {},
-        morpheme: {}
+        morpheme: {},
+        affixExamples: [],
+        affixExample: {},
+        exampleIndex: 0
       },
       todayData: {
         date: '',
@@ -106,6 +109,7 @@ export default {
         review: false,
         morphemeAnswer: false,
         affixAnswer: false,
+        affixExample: false,
         wordAnswer: false,
         deductAnswer: false,
         morpheme: true,
@@ -424,6 +428,17 @@ export default {
           })
         })
     },
+    getExample(affixId) {
+      this.show.affixExample = true
+      this.study.affixExample = this.study.affixExamples[this.study.exampleIndex]
+
+      if (this.study.exampleIndex < this.study.affixExamples.length - 1) {
+        this.study.exampleIndex += 1
+      } else {
+        this.study.exampleIndex = 0
+      }
+    //  TODO:
+    },
     showNext(row) {
       this.helper.next()
         .then(response => {
@@ -463,6 +478,20 @@ export default {
       this.study.morphemeIndex = 0
       this.study.affixIndex = 0
       this.study.wordIndex = 0
+    },
+
+    resetAffix(affixId) {
+      this.show.affixExample = false
+      this.helper.findWordsByAffixId(affixId)
+        .then(response => {
+          this.study.affixExamples = response
+          this.study.exampleIndex = 0
+        }).catch(error => {
+          this.$message({
+            message: '取得所有的例词失败: ' + error,
+            type: 'fail'
+          })
+        })
     },
     review() {
       this.helper.getNewDatas()
@@ -640,6 +669,7 @@ export default {
         this.study.type = 2
         this.study.affixIndex = this.study.index
         this.study.affix = this.todayData.affixes[this.study.affixIndex]
+        this.resetAffix(this.study.affix.id)
         console.log('affix:', this.study.affix)
       } else {
         if (this.study.index < ml) {

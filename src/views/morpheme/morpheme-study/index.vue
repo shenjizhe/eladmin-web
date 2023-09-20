@@ -19,9 +19,14 @@
           <el-col :span="4">
             <el-button type="success" :span="12" @click="show.affixAnswer = !show.affixAnswer">&lt;显示</el-button>
           </el-col>
+          <el-col :span="4">
+            <el-button type="primary" :span="12" @click="getExample(study.affix.id)">例子</el-button>
+          </el-col>
         </el-row>
         <el-input v-if="show.affixAnswer" v-model="study.affix.meaningChinese" class="class-info" />
         <el-input v-if="show.affixAnswer" v-model="study.affix.meaningEnglish" />
+        <el-input v-if="show.affixExample" v-model="study.affixExample.text" class="class-source" />
+        <el-input v-if="show.affixExample" v-model="study.affixExample.meanings[0].meaningChinese" />
       </div>
       <div v-if="study.type === 3">
         <el-row>

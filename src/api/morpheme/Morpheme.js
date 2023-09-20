@@ -152,5 +152,12 @@ export class Morpheme {
       method: 'post'
     })
   }
+
+  findWordsByAffixId(affixId) {
+    return request({
+      url: '/api/morpheme-study/affixes/' + affixId + '/words',
+      method: 'get'
+    })
+  }
 }
 
