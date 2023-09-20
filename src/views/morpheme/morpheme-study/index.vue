@@ -13,20 +13,32 @@
       </div>
       <div v-if="study.type === 2">
         <el-row>
-          <el-col :span="4">
+          <el-col :span="12">
             <el-input v-model="study.affix.text" :span="12" />
           </el-col>
           <el-col :span="4">
-            <el-button type="success" :span="12" @click="show.affixAnswer = !show.affixAnswer">&lt;显示</el-button>
+            <el-button type="success" @click="show.affixAnswer = !show.affixAnswer">&lt;显示</el-button>
           </el-col>
           <el-col :span="4">
-            <el-button type="primary" :span="12" @click="getExample(study.affix.id)">例子</el-button>
+            <el-button type="primary" @click="getExample(study.affix.id)">例子</el-button>
+          </el-col>
+          <el-col :span="4">
+            <el-button type="warning" @click="speakText(study.affix.text)">读音</el-button>
           </el-col>
         </el-row>
         <el-input v-if="show.affixAnswer" v-model="study.affix.meaningChinese" class="class-info" />
         <el-input v-if="show.affixAnswer" v-model="study.affix.meaningEnglish" />
-        <el-input v-if="show.affixExample" v-model="study.affixExample.text" class="class-source" />
-        <el-input v-if="show.affixExample" v-model="study.affixExample.meanings[0].meaningChinese" />
+        <el-row v-if="show.affixExample">
+          <el-col :span="8">
+            <el-input v-model="study.affixExample.text" class="class-source" />
+          </el-col>
+          <el-col :span="8">
+            <el-input v-model="study.affixExample.meanings[0].meaningChinese" />
+          </el-col>
+          <el-col :span="8">
+            <el-button type="warning" @click="speakText(study.affixExample.text)">读音</el-button>
+          </el-col>
+        </el-row>
       </div>
       <div v-if="study.type === 3">
         <el-row>
