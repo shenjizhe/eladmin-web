@@ -2,6 +2,16 @@
   <div class="app-container">
     <!--工具栏-->
     <div class="head-container">
+      <div v-if="crud.props.searchToggle">
+        <!-- 搜索 -->
+        <label class="el-form-item-label">名称</label>
+        <el-input v-model="query.name" clearable placeholder="名称" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
+        <label class="el-form-item-label">标题</label>
+        <el-input v-model="query.title" clearable placeholder="标题" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
+        <label class="el-form-item-label">内容</label>
+        <el-input v-model="query.content" clearable placeholder="内容" style="width: 185px;" class="filter-item" @keyup.enter.native="crud.toQuery" />
+        <rrOperation :crud="crud" />
+      </div>
       <!--如果想在工具栏加入更多按钮，可以使用插槽方式， slot = 'left' or 'right'-->
       <crudOperation :permission="permission" />
       <!--表单组件-->
@@ -36,10 +46,10 @@
           <el-form-item label="口诀" prop="mnemonic">
             <el-input v-model="form.mnemonic" :rows="3" type="textarea" style="width: 95%;;" />
           </el-form-item>
-          <el-form-item label="条件(每行一个条件)" prop="conditions">
+          <el-form-item label="条件" prop="conditions">
             <el-input v-model="form.conditions" :rows="3" type="textarea" style="width: 95%;;" />
           </el-form-item>
-          <el-form-item label="步骤（每行一个步骤）" prop="steps">
+          <el-form-item label="步骤" prop="steps">
             <el-input v-model="form.steps" :rows="3" type="textarea" style="width: 95%;;" />
           </el-form-item>
           <el-form-item label="内容" prop="content">
@@ -74,8 +84,8 @@
           </template>
         </el-table-column>
         <el-table-column prop="mnemonic" label="口诀" />
-        <el-table-column prop="conditions" label="条件(每行一个条件)" />
-        <el-table-column prop="steps" label="步骤（每行一个步骤）" />
+        <el-table-column prop="conditions" label="条件" />
+        <el-table-column prop="steps" label="步骤" />
         <el-table-column prop="content" label="内容" />
         <el-table-column prop="chapterNum" label="章节顺序" />
         <el-table-column prop="chapterName" label="章节名称" />
@@ -152,7 +162,13 @@ export default {
         chapterName: [
           { required: true, message: '章节名称不能为空', trigger: 'blur' }
         ]
-      }
+      },
+      queryTypeOptions: [
+        { key: 'name', display_name: '名称' },
+        { key: 'title', display_name: '标题' },
+        { key: 'content', display_name: '内容' }
+      ]
+
     }
   },
   methods: {
