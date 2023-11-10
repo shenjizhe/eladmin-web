@@ -46,10 +46,10 @@
           <el-form-item label="口诀" prop="mnemonic">
             <el-input v-model="form.mnemonic" :rows="3" type="textarea" style="width: 95%;;" />
           </el-form-item>
-          <el-form-item label="条件(每行一个条件)" prop="conditions">
+          <el-form-item label="条件" prop="conditions">
             <el-input v-model="form.conditions" :rows="3" type="textarea" style="width: 95%;;" />
           </el-form-item>
-          <el-form-item label="步骤（每行一个步骤）" prop="steps">
+          <el-form-item label="步骤" prop="steps">
             <el-input v-model="form.steps" :rows="3" type="textarea" style="width: 95%;;" />
           </el-form-item>
           <el-form-item label="内容" prop="content">
@@ -148,10 +148,10 @@ export default {
           { required: true, message: '口诀不能为空', trigger: 'blur' }
         ],
         conditions: [
-          { required: true, message: '条件(每行一个条件)不能为空', trigger: 'blur' }
+          { required: true, message: '条件不能为空', trigger: 'blur' }
         ],
         steps: [
-          { required: true, message: '步骤（每行一个步骤）不能为空', trigger: 'blur' }
+          { required: true, message: '步骤不能为空', trigger: 'blur' }
         ],
         content: [
           { required: true, message: '内容不能为空', trigger: 'blur' }
