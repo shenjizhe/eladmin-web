@@ -15,7 +15,7 @@
       <!--如果想在工具栏加入更多按钮，可以使用插槽方式， slot = 'left' or 'right'-->
       <crudOperation :permission="permission" />
       <!--表单组件-->
-      <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="100%">
+      <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="100%" top="0px">
         <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
           <el-form-item label="名称" prop="name">
             <el-input v-model="form.name" style="width: 95%;" />
@@ -46,14 +46,13 @@
           <el-form-item label="口诀" prop="mnemonic">
             <el-input v-model="form.mnemonic" :rows="3" type="textarea" style="width: 95%;;" />
           </el-form-item>
-          <el-form-item label="条件" prop="conditions">
+          <el-form-item label="条件(每行一个条件)" prop="conditions">
             <el-input v-model="form.conditions" :rows="3" type="textarea" style="width: 95%;;" />
           </el-form-item>
-          <el-form-item label="步骤" prop="steps">
+          <el-form-item label="步骤（每行一个步骤）" prop="steps">
             <el-input v-model="form.steps" :rows="3" type="textarea" style="width: 95%;;" />
           </el-form-item>
           <el-form-item label="内容" prop="content">
-            <!--/*            <el-input v-model="form.content" :rows="3" type="textarea" style="width: 95%;;" />*/-->
             <quill-editor ref="myQuillEditor" v-model="form.content" class="ql-editor" />
           </el-form-item>
           <el-form-item label="章节顺序" prop="chapterNum">
