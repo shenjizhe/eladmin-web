@@ -15,7 +15,7 @@
       <!--如果想在工具栏加入更多按钮，可以使用插槽方式， slot = 'left' or 'right'-->
       <crudOperation :permission="permission" />
       <!--表单组件-->
-      <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="600px">
+      <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="100%">
         <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
           <el-form-item label="名称" prop="name">
             <el-input v-model="form.name" style="width: 95%;" />
@@ -53,7 +53,8 @@
             <el-input v-model="form.steps" :rows="3" type="textarea" style="width: 95%;;" />
           </el-form-item>
           <el-form-item label="内容" prop="content">
-            <el-input v-model="form.content" :rows="3" type="textarea" style="width: 95%;;" />
+            <!--/*            <el-input v-model="form.content" :rows="3" type="textarea" style="width: 95%;;" />*/-->
+            <quill-editor ref="myQuillEditor" v-model="form.content" class="ql-editor" />
           </el-form-item>
           <el-form-item label="章节顺序" prop="chapterNum">
             <el-input-number v-model="form.chapterNum" />
@@ -86,7 +87,7 @@
         <el-table-column prop="mnemonic" label="口诀" />
         <el-table-column prop="conditions" label="条件" />
         <el-table-column prop="steps" label="步骤" />
-        <el-table-column prop="content" label="内容" />
+        <!--        <el-table-column prop="content" label="内容" />-->
         <el-table-column prop="chapterNum" label="章节顺序" />
         <el-table-column prop="chapterName" label="章节名称" />
         <el-table-column v-if="checkPer(['admin','knowledge:edit','knowledge:del'])" label="操作" width="150px" align="center">

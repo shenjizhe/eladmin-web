@@ -88,6 +88,10 @@
                       value="Select"
                     />
                     <el-option
+                      label="网页"
+                      value="Html"
+                    />
+                    <el-option
                       label="日期框"
                       value="Date"
                     />
