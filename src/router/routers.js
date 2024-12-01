@@ -61,8 +61,9 @@ export const constantRouterMap = [
 ]
 
 export default new Router({
-  // mode: 'hash',
-  mode: 'history',
+  // TODO: [TIP] config when switch agent
+  mode: 'hash',
+  // mode: 'history',
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRouterMap
 })

@@ -8,7 +8,6 @@ import { buildMenus } from '@/api/system/menu'
 import { filterAsyncRouter } from '@/store/modules/permission'
 
 NProgress.configure({ showSpinner: false })// NProgress Configuration
-
 const whiteList = ['/login']// no redirect whitelist
 
 router.beforeEach((to, from, next) => {
@@ -57,6 +56,7 @@ export const loadMenus = (next, to) => {
     const rdata = JSON.parse(JSON.stringify(res))
     const sidebarRoutes = filterAsyncRouter(sdata)
     const rewriteRoutes = filterAsyncRouter(rdata, false, true)
+
     rewriteRoutes.push({ path: '*', redirect: '/404', hidden: true })
 
     store.dispatch('GenerateRoutes', rewriteRoutes).then(() => { // 存储路由

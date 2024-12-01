@@ -44,7 +44,7 @@
                 v-for="item in dict.morpheme_source"
                 :key="item.id"
                 :label="item.label"
-                :value="item.value*1"
+                :value="item.value"
               />
             </el-select>
           </el-form-item>

@@ -7,23 +7,11 @@
       <!--表单组件-->
       <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="600px">
         <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
-          <el-form-item label="操作时间" prop="time">
-            <el-input v-model="form.time" style="width: 95%;" />
+          <el-form-item label="词缀ID" prop="affixId">
+            <el-input v-model="form.affixId" style="width: 95%;" />
           </el-form-item>
-          <el-form-item label="事件" prop="event">
-            <el-input v-model="form.event" style="width: 95%;" />
-          </el-form-item>
-          <el-form-item label="内容" prop="content">
-            <el-input v-model="form.content" style="width: 95%;" />
-          </el-form-item>
-          <el-form-item label="单词ID" prop="wordId">
-            <el-input v-model="form.wordId" style="width: 95%;" />
-          </el-form-item>
-          <el-form-item label="用户ID" prop="uid">
-            <el-input v-model="form.uid" style="width: 95%;" />
-          </el-form-item>
-          <el-form-item label="词根ID">
-            <el-input v-model="form.morphemeId" style="width: 95%;" />
+          <el-form-item label="推导ID" prop="deductionId">
+            <el-input v-model="form.deductionId" style="width: 95%;" />
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -35,13 +23,9 @@
       <el-table ref="table" v-loading="crud.loading" :data="crud.data" size="small" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
         <el-table-column type="selection" width="55" />
         <el-table-column prop="id" label="主键" />
-        <el-table-column prop="time" label="操作时间" />
-        <el-table-column prop="event" label="事件" />
-        <el-table-column prop="content" label="内容" />
-        <el-table-column prop="wordId" label="单词ID" />
-        <el-table-column prop="uid" label="用户ID" />
-        <el-table-column prop="morphemeId" label="词根ID" />
-        <el-table-column v-if="checkPer(['admin','studyEvent:edit','studyEvent:del'])" label="操作" width="150px" align="center">
+        <el-table-column prop="affixId" label="词缀ID" />
+        <el-table-column prop="deductionId" label="推导ID" />
+        <el-table-column v-if="checkPer(['admin','affixDeductionRelation:edit','affixDeductionRelation:del'])" label="操作" width="150px" align="center">
           <template slot-scope="scope">
             <udOperation
               :data="scope.row"
@@ -57,46 +41,37 @@
 </template>
 
 <script>
-import crudStudyEvent from '@/api/studyEvent'
+import crudAffixDeductionRelation from '@/api/affixDeductionRelation'
 import CRUD, { presenter, header, form, crud } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 
-const defaultForm = { id: null, time: null, event: null, content: null, wordId: null, uid: null, morphemeId: null }
+const defaultForm = { id: null, affixId: null, deductionId: null }
 export default {
-  name: 'StudyEvent',
+  name: 'AffixDeductionRelation',
   components: { pagination, crudOperation, rrOperation, udOperation },
   mixins: [presenter(), header(), form(defaultForm), crud()],
   cruds() {
-    return CRUD({ title: '学习记录', url: 'api/studyEvent', idField: 'id', sort: 'id,desc', crudMethod: { ...crudStudyEvent }})
+    return CRUD({ title: '词缀推导关系', url: 'api/affixDeductionRelation', idField: 'id', sort: 'id,desc', crudMethod: { ...crudAffixDeductionRelation }})
   },
   data() {
     return {
       permission: {
-        add: ['admin', 'studyEvent:add'],
-        edit: ['admin', 'studyEvent:edit'],
-        del: ['admin', 'studyEvent:del']
+        add: ['admin', 'affixDeductionRelation:add'],
+        edit: ['admin', 'affixDeductionRelation:edit'],
+        del: ['admin', 'affixDeductionRelation:del']
       },
       rules: {
         id: [
           { required: true, message: '主键不能为空', trigger: 'blur' }
         ],
-        time: [
-          { required: true, message: '操作时间不能为空', trigger: 'blur' }
+        affixId: [
+          { required: true, message: '词缀ID不能为空', trigger: 'blur' }
         ],
-        event: [
-          { required: true, message: '事件不能为空', trigger: 'blur' }
-        ],
-        content: [
-          { required: true, message: '内容不能为空', trigger: 'blur' }
-        ],
-        wordId: [
-          { required: true, message: '单词ID不能为空', trigger: 'blur' }
-        ],
-        uid: [
-          { required: true, message: '用户ID不能为空', trigger: 'blur' }
+        deductionId: [
+          { required: true, message: '推导ID不能为空', trigger: 'blur' }
         ]
       }
     }

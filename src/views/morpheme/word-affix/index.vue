@@ -7,23 +7,17 @@
       <!--表单组件-->
       <el-dialog :close-on-click-modal="false" :before-close="crud.cancelCU" :visible.sync="crud.status.cu > 0" :title="crud.status.title" width="600px">
         <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
-          <el-form-item label="操作时间" prop="time">
-            <el-input v-model="form.time" style="width: 95%;" />
+          <el-form-item label="词缀文本" prop="text">
+            <el-input v-model="form.text" style="width: 95%;" />
           </el-form-item>
-          <el-form-item label="事件" prop="event">
-            <el-input v-model="form.event" style="width: 95%;" />
+          <el-form-item label="类型(1前缀,2后缀)" prop="affix">
+            <el-input v-model="form.affix" style="width: 95%;" />
           </el-form-item>
-          <el-form-item label="内容" prop="content">
-            <el-input v-model="form.content" style="width: 95%;" />
+          <el-form-item label="中文含义" prop="meaningChinese">
+            <el-input v-model="form.meaningChinese" style="width: 95%;" />
           </el-form-item>
-          <el-form-item label="单词ID" prop="wordId">
-            <el-input v-model="form.wordId" style="width: 95%;" />
-          </el-form-item>
-          <el-form-item label="用户ID" prop="uid">
-            <el-input v-model="form.uid" style="width: 95%;" />
-          </el-form-item>
-          <el-form-item label="词根ID">
-            <el-input v-model="form.morphemeId" style="width: 95%;" />
+          <el-form-item label="英文含义（to lean）" prop="meaningEnglish">
+            <el-input v-model="form.meaningEnglish" style="width: 95%;" />
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -35,13 +29,11 @@
       <el-table ref="table" v-loading="crud.loading" :data="crud.data" size="small" style="width: 100%;" @selection-change="crud.selectionChangeHandler">
         <el-table-column type="selection" width="55" />
         <el-table-column prop="id" label="主键" />
-        <el-table-column prop="time" label="操作时间" />
-        <el-table-column prop="event" label="事件" />
-        <el-table-column prop="content" label="内容" />
-        <el-table-column prop="wordId" label="单词ID" />
-        <el-table-column prop="uid" label="用户ID" />
-        <el-table-column prop="morphemeId" label="词根ID" />
-        <el-table-column v-if="checkPer(['admin','studyEvent:edit','studyEvent:del'])" label="操作" width="150px" align="center">
+        <el-table-column prop="text" label="词缀文本" />
+        <el-table-column prop="affix" label="类型(1前缀,2后缀)" />
+        <el-table-column prop="meaningChinese" label="中文含义" />
+        <el-table-column prop="meaningEnglish" label="英文含义（to lean）" />
+        <el-table-column v-if="checkPer(['admin','wordAffix:edit','wordAffix:del'])" label="操作" width="150px" align="center">
           <template slot-scope="scope">
             <udOperation
               :data="scope.row"
@@ -57,46 +49,43 @@
 </template>
 
 <script>
-import crudStudyEvent from '@/api/studyEvent'
+import crudWordAffix from '@/api/wordAffix'
 import CRUD, { presenter, header, form, crud } from '@crud/crud'
 import rrOperation from '@crud/RR.operation'
 import crudOperation from '@crud/CRUD.operation'
 import udOperation from '@crud/UD.operation'
 import pagination from '@crud/Pagination'
 
-const defaultForm = { id: null, time: null, event: null, content: null, wordId: null, uid: null, morphemeId: null }
+const defaultForm = { id: null, text: null, affix: null, meaningChinese: null, meaningEnglish: null }
 export default {
-  name: 'StudyEvent',
+  name: 'WordAffix',
   components: { pagination, crudOperation, rrOperation, udOperation },
   mixins: [presenter(), header(), form(defaultForm), crud()],
   cruds() {
-    return CRUD({ title: '学习记录', url: 'api/studyEvent', idField: 'id', sort: 'id,desc', crudMethod: { ...crudStudyEvent }})
+    return CRUD({ title: '词缀', url: 'api/wordAffix', idField: 'id', sort: 'id,desc', crudMethod: { ...crudWordAffix }})
   },
   data() {
     return {
       permission: {
-        add: ['admin', 'studyEvent:add'],
-        edit: ['admin', 'studyEvent:edit'],
-        del: ['admin', 'studyEvent:del']
+        add: ['admin', 'wordAffix:add'],
+        edit: ['admin', 'wordAffix:edit'],
+        del: ['admin', 'wordAffix:del']
       },
       rules: {
         id: [
           { required: true, message: '主键不能为空', trigger: 'blur' }
         ],
-        time: [
-          { required: true, message: '操作时间不能为空', trigger: 'blur' }
+        text: [
+          { required: true, message: '词缀文本不能为空', trigger: 'blur' }
         ],
-        event: [
-          { required: true, message: '事件不能为空', trigger: 'blur' }
+        affix: [
+          { required: true, message: '类型(1前缀,2后缀)不能为空', trigger: 'blur' }
         ],
-        content: [
-          { required: true, message: '内容不能为空', trigger: 'blur' }
+        meaningChinese: [
+          { required: true, message: '中文含义不能为空', trigger: 'blur' }
         ],
-        wordId: [
-          { required: true, message: '单词ID不能为空', trigger: 'blur' }
-        ],
-        uid: [
-          { required: true, message: '用户ID不能为空', trigger: 'blur' }
+        meaningEnglish: [
+          { required: true, message: '英文含义（to lean）不能为空', trigger: 'blur' }
         ]
       }
     }
